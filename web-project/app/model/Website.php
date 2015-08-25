@@ -17,9 +17,9 @@ use Kdyby\Doctrine\Entities\BaseEntity;
 class Website extends BaseEntity {
 
     /**
-     * @ORM\Id
+     * @ORM\Id()
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue()
      */
     public $id_website;
 
