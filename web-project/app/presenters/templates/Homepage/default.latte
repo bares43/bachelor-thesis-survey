@@ -1,3 +1,8 @@
 {block content}
+{foreach $websites as $website}
+
+    {$website->name}<br>
+
+{/foreach}
 <h1>Dotazník</h1>
 {control surveyForm}

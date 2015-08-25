@@ -20,3 +20,23 @@ session:
 
 services:
 	router: App\RouterFactory::createRouter
+	websites: App\Service\Websites()
+	categories: App\Service\Categories()
+	pages: App\Service\Pages()
+	questions: App\Service\Questions()
+	respondents: App\Service\Respondents()
+	subquestions: App\Service\Subquestions()
+	wireframes: App\Service\Wireframes()
+
+extensions:
+	console: Kdyby\Console\DI\ConsoleExtension
+	events: Kdyby\Events\DI\EventsExtension
+	annotations: Kdyby\Annotations\DI\AnnotationsExtension
+	doctrine: Kdyby\Doctrine\DI\OrmExtension
+
+doctrine:
+	user: root
+	password: ''
+	dbname: bt_survey
+	metadata:
+		App: %appDir%
