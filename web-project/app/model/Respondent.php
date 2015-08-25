@@ -26,7 +26,6 @@ class Respondent extends BaseEntity {
      * @ORM\Id()
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue()
-     * @var int $id_repondent
      */
     public $id_respondent;
 
