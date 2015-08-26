@@ -87,11 +87,18 @@ footer {
   width: 600px;
   h2 {
     display: inline-block;
+    cursor: pointer;
   }
   .btn {
     position: relative;
     left: 5px;
     top: -5px;
+  }
+  img {
+    cursor: pointer;
+  }
+  #original {
+    display: none;
   }
 }
 .homepage-text {

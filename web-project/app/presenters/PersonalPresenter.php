@@ -8,6 +8,7 @@
 
 namespace App\Presenters;
 
+use App\Model\EntityCategory;
 use Nette;
 use App\Model\Respondent;
 use Nette\Application\UI\Form;
@@ -34,7 +35,7 @@ class PersonalPresenter extends Nette\Application\UI\Presenter {
             ->setType("number")
             ->addRule(Form::INTEGER,$validaton_message,"svůj věk");
 
-        $form->addCheckbox("english", "Navštěvuji i anglické webové stránky");
+        $form->addCheckbox("english", "Navštěvuji i anglické webové stránky")->setDefaultValue(true);
 
         $devices = array(Respondent::DEVICE_COMPUTER=>"Počítač nebo notebook", Respondent::DEVICE_PHONE=>"Smartphone", Respondent::DEVICE_TABLET=>"Tablet");
         $form->addCheckboxList('devices', 'K přístupu na internet používám:', $devices)
@@ -44,11 +45,10 @@ class PersonalPresenter extends Nette\Application\UI\Presenter {
           ->addRule(Form::REQUIRED,$validaton_message,"které zařízení nejčastěji používáte pro přístup k internetu");
 
         $period = array(
-            "vůbec",
-            "denně",
-            "několikrát týdně",
-            "několikrát měsíčně",
-            "několikrát ročně"
+            EntityCategory::PERIOD_NEVER=>"vůbec",
+            EntityCategory::PERIOD_DAILY=>"denně",
+            EntityCategory::PERIOD_FEW_TIMES_A_WEEK=>"několikrát týdně",
+            EntityCategory::PERIOD_FEW_TIMES_A_MONTH=>"několikrát měsíčně"
         );
 
         $form->addGroup("Komunikace (Sociální sítě, e-mail)");
@@ -68,7 +68,7 @@ class PersonalPresenter extends Nette\Application\UI\Presenter {
         $form->addTextArea("note","Vzkaz");
         $form->addTextArea("pages","Jaké stránky často navštěvuji");
 
-        $form->addSubmit("validate","Odeslat")->setAttribute("class","btn btn-default");
+        $form->addSubmit("validate","Pokračovat")->setAttribute("class","btn btn-default");
         $form->addSubmit("nonvalidate","Nechci o sobě sdělovat údaje")->setValidationScope(FALSE)->setAttribute("class","btn btn-default");
 
 

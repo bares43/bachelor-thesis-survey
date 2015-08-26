@@ -15,6 +15,11 @@ use Kdyby\Doctrine\Entities\BaseEntity;
  */
 class EntityCategory extends BaseEntity {
 
+    const PERIOD_NEVER = 0;
+    const PERIOD_DAILY = 1;
+    const PERIOD_FEW_TIMES_A_WEEK = 2;
+    const PERIOD_FEW_TIMES_A_MONTH = 3;
+
     /**
      * @ORM\Column(type="integer")
      */

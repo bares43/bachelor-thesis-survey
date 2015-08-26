@@ -74,11 +74,16 @@ footer {
 .homepage-image {
   width: 600px; }
   .homepage-image h2 {
-    display: inline-block; }
+    display: inline-block;
+    cursor: pointer; }
   .homepage-image .btn {
     position: relative;
     left: 5px;
     top: -5px; }
+  .homepage-image img {
+    cursor: pointer; }
+  .homepage-image #original {
+    display: none; }
 
 .homepage-text {
   width: 300px;

@@ -12,4 +12,8 @@ $(document).ready(function(){
             $(this).val("Opravdu nechci sdělovat svoje údaje");
         }
     });
+
+    $(".homepage-image img, .homepage-image h2").on("click", function(){
+       $("img").toggle();
+    });
 });
