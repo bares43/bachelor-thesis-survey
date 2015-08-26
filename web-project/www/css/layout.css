@@ -42,6 +42,9 @@ h1 {
   font-size: 50px;
   letter-spacing: 5px; }
 
+h2 {
+  color: #3397C7; }
+
 img.border {
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.3); }
 
@@ -67,5 +70,32 @@ footer {
   text-align: center; }
   footer a {
     color: white; }
+
+.homepage-image {
+  width: 600px; }
+  .homepage-image h2 {
+    display: inline-block; }
+  .homepage-image .btn {
+    position: relative;
+    left: 5px;
+    top: -5px; }
+
+.homepage-text {
+  width: 300px;
+  text-align: center; }
+
+.navbar-main {
+  border: none;
+  background: none;
+  text-align: center; }
+  .navbar-main li {
+    margin-right: 5px; }
+  .navbar-main li.active a, .navbar-main li:hover a {
+    background: none;
+    color: #3397C7;
+    border-radius: 5px; }
+  .navbar-main a {
+    color: #000;
+    font-size: 16px; }
 
 /*# sourceMappingURL=layout.css.map */

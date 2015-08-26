@@ -32,6 +32,21 @@
 
 <div class="container main">
   <h1>Poznej web</h1>
+<nav class="navbar navbar-main">
+  <div class="container-fluid">
+
+  <ul class="nav navbar-nav">
+    <li {ifCurrent Homepage:}class="active"{/ifCurrent}><a n:href="Homepage:">Úvod</a></li>
+    <li {ifCurrent Personal:}class="active"{/ifCurrent}><a n:href="Personal:">Vyplnit dotazník</a></li>
+    <li {ifCurrent WhatIsWireframe:}class="active"{/ifCurrent}><a n:href="WhatIsWireframe:">Co je wireframe</a></li>
+    <li {ifCurrent Help:}class="active"{/ifCurrent}><a n:href="Help:">Nápověda</a></li>
+    <li {ifCurrent About:}class="active"{/ifCurrent}><a n:href="About:">O projektu</a></li>
+    <li {ifCurrent Contact:}class="active"{/ifCurrent}><a n:href="Contact:">Kontakt</a></li>
+  </ul>
+
+
+  </div>
+</nav>
   {include content}
 </div>
 
