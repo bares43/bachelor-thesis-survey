@@ -1,8 +1,7 @@
 {block content}
-{foreach $websites as $website}
-
-    {$website->name}<br>
-
-{/foreach}
-<h1>Dotazník</h1>
-{control surveyForm}
+<div class="pull-left">
+    <img src="{$basePath}/images/wireframe.png" width="700" height="693" class="border" />
+</div>
+<div class="pull-right">
+    <a n:href="Personal:default" class="btn btn-default">Osobní údaje</a>
+</div>

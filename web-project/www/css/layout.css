@@ -1,0 +1,71 @@
+@font-face {
+  font-family: 'Roboto Light';
+  font-style: normal;
+  font-weight: 300;
+  src: local("Roboto Light"), local("Roboto-Light"), url(http://fonts.gstatic.com/s/roboto/v15/Pru33qjShpZSmG3z6VYwnVtXRa8TVwTICgirnJhmVJw.woff2) format("woff2"), url(http://fonts.gstatic.com/s/roboto/v15/Pru33qjShpZSmG3z6VYwnT8E0i7KZn-EPnyo3HZu7kw.woff) format("woff"); }
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local("Roboto"), local("Roboto-Regular"), url(http://fonts.gstatic.com/s/roboto/v15/fIKu7GwZTy_12XzG_jt8eA.woff2) format("woff2"), url(http://fonts.gstatic.com/s/roboto/v15/Xyjz-jNkfiYuJf8UC3Lizw.woff) format("woff"); }
+@font-face {
+  font-family: 'Roboto Bold';
+  font-style: normal;
+  font-weight: 700;
+  src: local("Roboto Bold"), local("Roboto-Bold"), url(http://fonts.gstatic.com/s/roboto/v15/97uahxiqZRoncBaCEI3aW1tXRa8TVwTICgirnJhmVJw.woff2) format("woff2"), url(http://fonts.gstatic.com/s/roboto/v15/97uahxiqZRoncBaCEI3aWz8E0i7KZn-EPnyo3HZu7kw.woff) format("woff"); }
+html {
+  overflow-x: auto; }
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #7db9e8;
+  background-image: -webkit-linear-gradient(-350deg, #7db9e8, #3397C7);
+  background-image: linear-gradient(80deg,#7db9e8, #3397C7);
+  background-color: #3397C7;
+  font-family: "Roboto", serif;
+  font-size: 14px; }
+
+.container {
+  width: 970px;
+  margin-bottom: 20px; }
+  .container.main {
+    padding-bottom: 100px;
+    margin-top: 50px;
+    border-radius: 10px;
+    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.3);
+    background-color: #fff; }
+
+h1 {
+  color: #3397C7;
+  text-align: center;
+  font-size: 50px;
+  letter-spacing: 5px; }
+
+img.border {
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.3); }
+
+input[type=text], input[type=email], input[type=number], textarea {
+  border: 1px solid #ccc;
+  border-radius: 4px; }
+
+label {
+  font-weight: normal; }
+
+.control-label label {
+  font-weight: bold; }
+
+#validation-appeal {
+  width: 600px;
+  margin: auto;
+  display: none; }
+
+input[type=radio], input[type=checkbox] {
+  margin-right: 5px; }
+
+footer {
+  text-align: center; }
+  footer a {
+    color: white; }
+
+/*# sourceMappingURL=layout.css.map */
