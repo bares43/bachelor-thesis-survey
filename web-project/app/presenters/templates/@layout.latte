@@ -17,6 +17,7 @@
     <![endif]-->
 
     <link rel="stylesheet" href="{$basePath}/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{$basePath}/css/fancySelect.css">
     <link rel="stylesheet" href="{$basePath}/css/layout.css">
 
 
@@ -24,6 +25,10 @@
     	<script src="//nette.github.io/resources/js/netteForms.min.js"></script>
 		<script src="{$basePath}/js/jquery-2.1.4.min.js"></script>
     	<script src="{$basePath}/js/bootstrap.min.js"></script>
+    	<script src="{$basePath}/js/jquery-ui.min.js"></script>
+    	<script src="{$basePath}/js/jquery.beforeafter-1.4.min.js"></script>
+    	<script src="{$basePath}/js/fancySelect.js"></script>
+    	<script src="{$basePath}/js/jquery.elevateZoom-3.0.8.min.js"></script>
     	<script src="{$basePath}/js/survey.js"></script>
 	{/block}
   </head>
@@ -31,13 +36,13 @@
 
 
 <div class="container main">
-  <h1>Poznej web</h1>
+  <h1><a n:href="Homepage:">Poznám webovou stránku</a></h1>
 <nav class="navbar navbar-main">
   <div class="container-fluid">
 
   <ul class="nav navbar-nav">
     <li {ifCurrent Homepage:}class="active"{/ifCurrent}><a n:href="Homepage:">Úvod</a></li>
-    <li {ifCurrent Personal:}class="active"{/ifCurrent}><a n:href="Personal:">Vyplnit dotazník</a></li>
+    <li {ifCurrent Survey:}class="active"{/ifCurrent}><a n:href="Survey:">Vyplnit dotazník</a></li>
     <li {ifCurrent WhatIsWireframe:}class="active"{/ifCurrent}><a n:href="WhatIsWireframe:">Co je wireframe</a></li>
     <li {ifCurrent Help:}class="active"{/ifCurrent}><a n:href="Help:">Nápověda</a></li>
     <li {ifCurrent About:}class="active"{/ifCurrent}><a n:href="About:">O projektu</a></li>

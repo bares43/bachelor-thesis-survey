@@ -1,0 +1,15 @@
+{layout '@layout.latte'}
+{define type}color-select{/define}
+{define name}Asociace barvy s webem{/define}
+{define task}Na jedné ze stránek, kterou jste již v tomto dotazníku viděli, je nejvíce zastoupená <strong>barva textu</strong> tato. Poznáte o jakou stránku jde?{/define}
+{define question}
+<div class="clearfix">
+    <div class="pull-left">
+        <div id="color" style="background-color: #{$color};"></div>
+    </div>
+    <div class="pull-right" style="color: #{$color};">
+        <p id="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus nec sapien et tellus posuere commodo. Suspendisse potenti. Donec scelerisque volutpat lacus et tincidunt. Mauris eu urna et diam lacinia suscipit. Praesent quis finibus metus. Etiam eget turpis in ligula cursus scelerisque. Nulla facilisi.</p>
+    </div>
+</div>
+{/define}
+{define form}{control colorSelectForm}{/define}

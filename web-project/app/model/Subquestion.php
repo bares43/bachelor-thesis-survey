@@ -15,6 +15,8 @@ use Kdyby\Doctrine\Entities\BaseEntity;
  */
 class Subqestion extends BaseEntity {
 
+
+
     /**
      * @ORM\Id()
      * @ORM\Column(type="integer")

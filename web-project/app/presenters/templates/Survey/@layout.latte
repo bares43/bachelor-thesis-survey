@@ -1,0 +1,15 @@
+{layout "../@layout.latte"}
+{define content}
+<div class="survey survey-{block type}{/block}">
+    <h2>{block name}{/block}</h2>
+    <div id="task">{block task}{/block}{ifset $answer_btn}<a class="btn btn-primary btn-sm" data-focus="{$answer_btn}">Odpovědět</a>{/ifset}</div>
+    {block question}{/block}
+    {if isset($help_lorem) || isset($help_gray) || isset($help_blur)}
+        {include 'help.latte'}
+    {/if}
+    <div id="form-wrapper">
+        {block form}{/block}
+        <p>Zkuste se prosím zamyslet, ale pokud opravdu nevíte, nemusíte nic vyplňovat a jen klikněte na tlačítko <strong>Pokračovat v dotazníku</strong>.</p>
+    </div>
+</div>
+{/define}

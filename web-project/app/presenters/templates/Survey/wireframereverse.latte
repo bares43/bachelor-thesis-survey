@@ -1,0 +1,25 @@
+{layout '@layout.latte'}
+{define type}wireframe-reverse{/define}
+{define name}Přiřazení wireframu k webu{/define}
+{define task}
+<strong>Hlavní stránka</strong> na webu <strong>www.novinky.cz</strong> vypadá jako jeden z těchto wireframů. Jaký vyberete?
+{/define}
+{define question}
+<div class="clearfix">
+        <div class="pull-left">
+            <div class="wireframe">
+                <img src="{$basePath}/images/wireframe2.png" width="450" data-select-image="0" class="border elevate-zoom" data-zoom-image="{$basePath}/images/wireframe2_large.png" />
+                <a class="btn btn-default btn-sm" data-select-image="0">Tento wireframe</a>
+                <a href="{$basePath}/images/wireframe2_large.png" target="_blank" class="btn btn-default btn-sm">Zobrazit plnou velikost</a>
+            </div>
+        </div>
+        <div class="pull-right">
+            <div class="wireframe">
+                <img src="{$basePath}/images/test.png" width="450" data-select-image="1" class="border elevate-zoom" data-zoom-image="{$basePath}/images/test.png" />
+                <a class="btn btn-default btn-sm" data-select-image="1">Tento wireframe</a>
+                <a href="{$basePath}/images/test.png" target="_blank" class="btn btn-default btn-sm">Zobrazit plnou velikost</a>
+            </div>
+        </div>
+    </div>
+{/define}
+{define form}{control wireframeReverseForm}{/define}
