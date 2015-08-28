@@ -13,14 +13,16 @@ $(document).ready(function(){
         }
     });
 
-    $(".homepage-image #image-container").beforeAfter({
+    $("#homepage-image #image-container").beforeAfter({
         afterLinkText : "Zobrazit wireframe",
         beforeLinkText : "Zobrazit původní stránku"
     });
-    $("img[alt=handle]").attr("width",70);
-    $("img[alt=handle]").attr("height",32);
-    $("img[alt=handle]").attr("src","images/handle.png");
-    $("img[alt=handle]").css("left","-35px");
+    var image_handle = $("img[alt=handle]");
+    image_handle.attr("width",70);
+    image_handle.attr("height",32);
+    image_handle.attr("src","images/handle.png");
+    image_handle.css("left","-35px");
+    image_handle.css("top","179px");
     $(".balinks a").addClass("btn btn-default");
 
     $("select.fancy").fancySelect({
@@ -61,7 +63,7 @@ $(document).ready(function(){
         if($(this).is(":checked")){
             var current = $(this).val();
             wireframeReverseSetOption(current);
-        };
+        }
     });
 
     $("[data-focus]").on("click", function(){
@@ -70,16 +72,4 @@ $(document).ready(function(){
     });
 
     $(".buttons-group").parent().addClass("btn btn-default").parent().addClass("btn-group").attr("data-toggle","buttons").find("br").remove();
-
-    //$('[data-toggle="tooltip"]').tooltip()
-
-    //var submit_parent = $("input:submit").parent();
-    //if(submit_parent.is("td")){
-    //    var count_previous = submit_parent.prevAll().length;
-    //    if(count_previous > 0) {
-    //        submit_parent.prevAll().remove();
-    //        submit_parent.attr("colspan", (count_previous + 1));
-    //        submit_parent.addClass("submit-wrapper");
-    //    }
-    //}
 });

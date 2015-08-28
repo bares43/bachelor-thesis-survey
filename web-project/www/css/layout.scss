@@ -21,23 +21,24 @@
 
 $primary-color : #3397C7;
 $seconadry-color : #7db9e8;
+$page-width : 970px;
 
+/**
+Base layout
+**/
 html {
   overflow-x: auto;
 }
-
 body {
   margin: 0;
   padding: 0;
-
   @include linear-gradient(90deg, $seconadry-color , $primary-color);
   background-color: $primary-color;
   font-family: "Roboto", serif;
   font-size: 14px;
 }
-
 .container {
-  width: 970px;
+  width: $page-width;
   margin-bottom: 20px;
   &.main {
     padding-bottom: 50px;
@@ -45,6 +46,12 @@ body {
     border-radius: 10px;
     box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.3);
     background-color: #fff;
+  }
+}
+footer {
+  text-align: center;
+  a {
+    color: white;
   }
 }
 h1 {
@@ -66,32 +73,37 @@ img.border {
     box-shadow: 0 0 6px 0 $primary-color;
   }
 }
-
 #validation-appeal {
   width: 600px;
   margin: auto;
   display: none;
 }
-input[type=radio], input[type=checkbox] {
-  margin-right: 5px;
-}
-footer {
-  text-align: center;
-  a {
-    color: white;
+
+/**
+Homepage
+**/
+#homepage {
+  #homepage-image {
+    width: 600px;
+    #image-container {
+      > img {
+        display: none;
+      }
+    }
+    .balinks a {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+  }
+  #homepage-text {
+    width: 300px;
+    text-align: center;
   }
 }
-.homepage-image {
-  width: 600px;
-  .balinks a {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-  }
-}
-.homepage-text {
-  width: 300px;
-  text-align: center;
-}
+
+/**
+Main navigation
+**/
 .navbar-main {
   border: none;
   background: none;
@@ -111,6 +123,10 @@ footer {
     font-size: 16px;
   }
 }
+
+/**
+Survey
+**/
 .survey {
   h2 {
     text-align: center;
@@ -125,20 +141,14 @@ footer {
   }
   #form-wrapper {
     margin-top: 20px;
-  }
-  .pull-left {
-    text-align: center;
-  }
-  .pull-right {
+    p {
+      text-align: center;
+    }
   }
   #help {
     text-align: center;
     margin-top: 20px;
     margin-bottom: 20px;
-  }
-  .wireframe {
-    text-align: center;
-    margin-top: 20px;
   }
   &.survey-color, &.survey-color-select {
     .pull-left {
@@ -158,6 +168,11 @@ footer {
       margin-top: 20px;
     }
   }
+  &.survey-wireframe, &.survey-wireframe-select {
+    .wireframe {
+      text-align: center;
+    }
+  }
   &.survey-wireframe-reverse {
     .pull-left {
       width: 450px;
@@ -168,6 +183,9 @@ footer {
   }
 }
 
+/**
+Fancy Select
+**/
 $fancy-width : 300px;
 $item-height : 40px;
 $transition-width : 30px;
@@ -221,6 +239,10 @@ $border-radius : 5px;
     }
   }
 }
+
+/**
+Buttons
+**/
 .btn-primary {
   background-color: $primary-color;
   border-color: $primary-color;
@@ -235,14 +257,9 @@ $border-radius : 5px;
     color: #ffffff;
   }
 }
-#form-wrapper {
-  p {
-    text-align: center;
-  }
-}
 
 /**
-FORMS
+Forms
 **/
 form {
   &.center {
@@ -264,15 +281,18 @@ form {
       label {
         font-weight: normal;
       }
-      input[type=text], input[type=email], input[type=number], textarea {
+      input[type=text], input[type=email], textarea {
         box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.3);
         border: none;
         border-radius: 4px;
         padding: 5px;
       }
-      input[type=text], input[type=email], input[type=number] {
+      input[type=text], input[type=email] {
         height: 40px;
         line-height: 40px;
+      }
+      input[type=radio], input[type=checkbox] {
+        margin-right: 5px;
       }
       textarea {
         resize: vertical;

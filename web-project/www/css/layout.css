@@ -13,6 +13,9 @@
   font-style: normal;
   font-weight: 700;
   src: local("Roboto Bold"), local("Roboto-Bold"), url(http://fonts.gstatic.com/s/roboto/v15/97uahxiqZRoncBaCEI3aW1tXRa8TVwTICgirnJhmVJw.woff2) format("woff2"), url(http://fonts.gstatic.com/s/roboto/v15/97uahxiqZRoncBaCEI3aWz8E0i7KZn-EPnyo3HZu7kw.woff) format("woff"); }
+/**
+Base layout
+**/
 html {
   overflow-x: auto; }
 
@@ -36,6 +39,11 @@ body {
     box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.3);
     background-color: #fff; }
 
+footer {
+  text-align: center; }
+  footer a {
+    color: white; }
+
 h1 {
   color: #3397C7;
   text-align: center;
@@ -58,24 +66,23 @@ img.border {
   margin: auto;
   display: none; }
 
-input[type=radio], input[type=checkbox] {
-  margin-right: 5px; }
-
-footer {
-  text-align: center; }
-  footer a {
-    color: white; }
-
-.homepage-image {
+/**
+Homepage
+**/
+#homepage #homepage-image {
   width: 600px; }
-  .homepage-image .balinks a {
+  #homepage #homepage-image #image-container > img {
+    display: none; }
+  #homepage #homepage-image .balinks a {
     border-top-left-radius: 0;
     border-top-right-radius: 0; }
-
-.homepage-text {
+#homepage #homepage-text {
   width: 300px;
   text-align: center; }
 
+/**
+Main navigation
+**/
 .navbar-main {
   border: none;
   background: none;
@@ -90,6 +97,9 @@ footer {
     color: #000;
     font-size: 16px; }
 
+/**
+Survey
+**/
 .survey h2 {
   text-align: center; }
 .survey #task {
@@ -100,15 +110,12 @@ footer {
     margin-left: 5px; }
 .survey #form-wrapper {
   margin-top: 20px; }
-.survey .pull-left {
-  text-align: center; }
+  .survey #form-wrapper p {
+    text-align: center; }
 .survey #help {
   text-align: center;
   margin-top: 20px;
   margin-bottom: 20px; }
-.survey .wireframe {
-  text-align: center;
-  margin-top: 20px; }
 .survey.survey-color .pull-left, .survey.survey-color-select .pull-left {
   width: 500px; }
 .survey.survey-color .pull-right, .survey.survey-color-select .pull-right {
@@ -121,11 +128,16 @@ footer {
   height: 100px; }
 .survey.survey-color #lorem, .survey.survey-color-select #lorem {
   margin-top: 20px; }
+.survey.survey-wireframe .wireframe, .survey.survey-wireframe-select .wireframe {
+  text-align: center; }
 .survey.survey-wireframe-reverse .pull-left {
   width: 450px; }
 .survey.survey-wireframe-reverse .pull-right {
   width: 450px; }
 
+/**
+Fancy Select
+**/
 .fancy-select {
   width: 300px;
   height: 40px; }
@@ -166,6 +178,9 @@ footer {
         line-height: 36px;
         height: 36px; }
 
+/**
+Buttons
+**/
 .btn-primary {
   background-color: #3397C7;
   border-color: #3397C7; }
@@ -177,11 +192,8 @@ footer {
   background-color: #3397C7;
   color: #ffffff; }
 
-#form-wrapper p {
-  text-align: center; }
-
 /**
-FORMS
+Forms
 **/
 form.center table {
   margin: auto; }
@@ -193,14 +205,16 @@ form table td.submit-wrapper {
   text-align: left; }
 form table td label {
   font-weight: normal; }
-form table td input[type=text], form table td input[type=email], form table td input[type=number], form table td textarea {
+form table td input[type=text], form table td input[type=email], form table td textarea {
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.3);
   border: none;
   border-radius: 4px;
   padding: 5px; }
-form table td input[type=text], form table td input[type=email], form table td input[type=number] {
+form table td input[type=text], form table td input[type=email] {
   height: 40px;
   line-height: 40px; }
+form table td input[type=radio], form table td input[type=checkbox] {
+  margin-right: 5px; }
 form table td textarea {
   resize: vertical;
   width: 300px;

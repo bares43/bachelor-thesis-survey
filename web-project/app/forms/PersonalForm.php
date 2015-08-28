@@ -31,11 +31,20 @@ class PersonalForm {
         $form->addRadioList('gender', 'Pohlaví:', $sex)->setAttribute("class","buttons-group")
             ->addRule(Form::REQUIRED,$validaton_message,"svoje pohlaví");
 
-        $form->addText("age", "Věk:")
-            ->setType("number")
-            ->addRule(Form::INTEGER,$validaton_message,"svůj věk");
+        $age = array(
+            Respondent::AGE_15=>'méne něž 15',
+            Respondent::AGE_15_20=>'15-20',
+            Respondent::AGE_21_30=>'21-30',
+            Respondent::AGE_31_45=>'31-45',
+            Respondent::AGE_46_60=>'46-60',
+            Respondent::AGE_60=>'více než 60'
+        );
+        $form->addRadioList('age','Věk',$age)->setAttribute('class','buttons-group');
 
-        $form->addCheckbox("english", "Navštěvuji i anglické webové stránky")->setDefaultValue(true);
+        $english = array("Ano","Ne");
+        $form->addRadioList("english","Navštěvuji Anglické webové stránky",$english)->setAttribute('class','buttons-group');
+
+//        $form->addCheckbox("english", "Navštěvuji i anglické webové stránky")->setDefaultValue(true);
         $form->addTextArea("pages","Jaké stránky často navštěvuji");
 
         $devices = array(Respondent::DEVICE_COMPUTER=>"Počítač nebo notebook", Respondent::DEVICE_PHONE=>"Smartphone", Respondent::DEVICE_TABLET=>"Tablet");

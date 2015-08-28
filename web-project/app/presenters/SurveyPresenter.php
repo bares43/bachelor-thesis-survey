@@ -10,6 +10,7 @@ namespace App\Presenters;
 
 use App\Forms\ColorForm;
 use App\Forms\ColorSelectForm;
+use App\Forms\FinalForm;
 use App\Forms\PersonalForm;
 use App\Forms\WireframeForm;
 use App\Forms\WireframeReverse;
@@ -64,6 +65,13 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
         return (new WireframeReverse())->create();
     }
 
+    /**
+     * @return Form
+     */
+    public function createComponentFinalForm(){
+        return (new FinalForm())->create($this->websites->getAll());
+    }
+
     public function actionDefault(){
         $this->setView("personal");
     }
@@ -105,6 +113,10 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
         $this->template->help_lorem = true;
         $this->template->help_gray = true;
 //        $this->template->help_blur = true;
+    }
+
+    public function renderFinal(){
+
     }
 
 }

@@ -22,6 +22,13 @@ class Respondent extends BaseEntity {
     const GENDER_MALE = "m";
     const GENDER_FEMALE = "f";
 
+    const AGE_15 = '15';
+    const AGE_15_20 = '15_20';
+    const AGE_21_30 = '21_30';
+    const AGE_31_45 = '31_45';
+    const AGE_46_60 = '46_60';
+    const AGE_60 = '60';
+
     /**
      * @ORM\Id()
      * @ORM\Column(type="integer")
