@@ -17,7 +17,8 @@ class WireframeReverse {
     public function create(){
         $form = new BaseSurveyForm();
 
-        $form->addRadioList('wf','Který obrázek?',array('první','druhý','nevím'))->setAttribute("class","buttons-group");
+        $form->addRadioList('id_page','Který obrázek?')->setAttribute("class","buttons-group");
+
         $form->addNavigation();
 
         return $form;

@@ -9,22 +9,18 @@
 namespace App\Forms;
 
 
+use App\Model\Website;
+
 class WireframeSelectForm {
 
     /**
-     * @param Website[] $websites
      * @return BaseSurveyForm
      */
-    public function create($websites){
-
-        $websites_select = array();
-        foreach($websites as $website){
-            $websites_select[$website->id_website] = $website->name;
-        }
+    public function create(){
 
         $form = new BaseSurveyForm();
 
-        $form->addRadioList("page","Název stránky",$websites_select)->setAttribute("class","buttons-group");
+        $form->addRadioList("id_page","Název stránky")->setAttribute("class","buttons-group");
 
         $form->addNavigation();
 

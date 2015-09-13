@@ -37,7 +37,7 @@ class Respondent extends BaseEntity {
     public $id_respondent;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
     public $age;
 
@@ -45,6 +45,11 @@ class Respondent extends BaseEntity {
      * @ORM\Column(type="string")
      */
     public $gender;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    public $english;
 
     /**
      * @ORM\Column(type="boolean")
@@ -66,6 +71,19 @@ class Respondent extends BaseEntity {
      */
     public $device_most;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    public $email;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    public $message;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    public $sites;
 
 }

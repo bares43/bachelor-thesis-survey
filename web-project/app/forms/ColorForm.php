@@ -20,7 +20,6 @@ class ColorForm {
 
         $form->addNavigation();
 
-
         return $form;
     }
 }

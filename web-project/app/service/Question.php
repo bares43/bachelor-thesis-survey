@@ -46,4 +46,18 @@ class Questions extends BaseService {
     {
         $this->_save($question);
     }
+
+    /**
+     * @param $id_respondent
+     * @param $id_page
+     * @return Model\Question
+     */
+    public function create($id_respondent, $id_page)
+    {
+        $question = new Model\Question();
+        $question->id_respondent = $id_respondent;
+        $question->id_page = $id_page;
+        $this->save($question);
+        return $question;
+    }
 }

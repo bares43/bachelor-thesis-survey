@@ -19,11 +19,11 @@ class Subquestions extends BaseService {
      */
     public function __construct(EntityManager $entityManager)
     {
-        parent::__construct($entityManager, Model\Subqestion::class);
+        parent::__construct($entityManager, Model\Subquestion::class);
     }
 
     /**
-     * @return Model\Subqestion[]
+     * @return Model\Subquestion[]
      */
     public function getAll()
     {
@@ -32,7 +32,7 @@ class Subquestions extends BaseService {
 
     /**
      * @param int $id
-     * @return Model\Subqestion|null
+     * @return Model\Subquestion|null
      */
     public function get($id)
     {
@@ -40,10 +40,11 @@ class Subquestions extends BaseService {
     }
 
     /**
-     * @param Model\Subqestion $subquestion
+     * @param Model\Subquestion $subquestion
      */
-    public function save(Model\Subqestion $subquestion)
+    public function save(Model\Subquestion $subquestion)
     {
         $this->_save($subquestion);
     }
+
 }

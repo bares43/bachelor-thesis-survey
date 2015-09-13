@@ -13,9 +13,13 @@ use Kdyby\Doctrine\Entities\BaseEntity;
 /**
  * @ORM\Entity
  */
-class Subqestion extends BaseEntity {
+class Subquestion extends BaseEntity {
 
-
+    const QUESTION_TYPE_WIREFRAME = 1;
+    const QUESTION_TYPE_WIREFRAME_SELECT = 2;
+    const QUESTION_TYPE_WIREFRAME_REVERSE = 3;
+    const QUESTION_TYPE_COLOR = 4;
+    const QUESTION_TYPE_COLOR_SELECT = 5;
 
     /**
      * @ORM\Id()
@@ -48,4 +52,9 @@ class Subqestion extends BaseEntity {
      * @ORM\Column(type="boolean")
      */
     public $correct;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    public $reason;
 }

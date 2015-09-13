@@ -39,20 +39,21 @@ class PersonalForm {
             Respondent::AGE_46_60=>'46-60',
             Respondent::AGE_60=>'více než 60'
         );
-        $form->addRadioList('age','Věk',$age)->setAttribute('class','buttons-group');
+        $form->addRadioList('age','Věk',$age)->setAttribute('class','buttons-group')
+            ->addRule(Form::REQUIRED,$validaton_message,"svůk věk");
 
-        $english = array("Ano","Ne");
-        $form->addRadioList("english","Navštěvuji Anglické webové stránky",$english)->setAttribute('class','buttons-group');
+        $english = array(1=>"Ano",0=>"Ne");
+        $form->addRadioList("english","Navštěvuji Anglické webové stránky",$english)->setAttribute('class','buttons-group')
+            ->addRule(Form::REQUIRED,$validaton_message,"zda navštěvujete i anglické webové stránky");
 
-//        $form->addCheckbox("english", "Navštěvuji i anglické webové stránky")->setDefaultValue(true);
-        $form->addTextArea("pages","Jaké stránky často navštěvuji");
+        $form->addTextArea("sites","Jaké stránky často navštěvuji");
 
         $devices = array(Respondent::DEVICE_COMPUTER=>"Počítač nebo notebook", Respondent::DEVICE_PHONE=>"Smartphone", Respondent::DEVICE_TABLET=>"Tablet");
-        $form->addCheckboxList('devices', 'K přístupu na internet používám:', $devices)
+        $form->addCheckboxList('device', 'K přístupu na internet používám:', $devices)
             ->setAttribute("class","buttons-group")
             ->addRule(Form::REQUIRED,$validaton_message,"které zařízení používáte pro přístup k internetu");
 
-        $form->addRadioList("devices_most", "A z toho nejčastěji", $devices)
+        $form->addRadioList("device_most", "A z toho nejčastěji", $devices)
             ->setAttribute("class","buttons-group")
             ->addRule(Form::REQUIRED,$validaton_message,"které zařízení nejčastěji používáte pro přístup k internetu");
 
@@ -81,7 +82,7 @@ class PersonalForm {
 
         $form->addGroup("Zajímá mě to");
         $form->addText("email","E-mail")->setType("email");
-        $form->addTextArea("note","Vzkaz");
+        $form->addTextArea("message","Vzkaz");
 
         $form->addSubmit("validate","Pokračovat")->setAttribute("class","btn btn-primary");
         $form->addSubmit("nonvalidate","Nechci o sobě sdělovat údaje")->setValidationScope(FALSE)->setAttribute("class","btn btn-default");
