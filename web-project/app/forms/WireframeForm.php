@@ -12,14 +12,16 @@ namespace App\Forms;
 class WireframeForm {
 
     /**
+     * @param int $id_wireframe
+     * @param int|null $id_question
      * @return BaseSurveyForm
      */
-    public function create() {
+    public function create($id_wireframe, $id_question) {
         $form = new BaseSurveyForm();
 
         $form->addTextArea("answer","Název stránky");
 
-        $form->addNavigation();
+        $form->addNavigation($id_wireframe, $id_question);
 
         return $form;
     }

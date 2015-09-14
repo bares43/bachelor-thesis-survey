@@ -8,19 +8,27 @@
 
 namespace App\Forms;
 
-use App\Model\Website;
+use App\Model\Page;
 
 class ColorSelectForm {
 
     /**
+     * @param int $id_wireframe
+     * @param intwnull $id_question
+     * @param Page[] $pages
      * @return BaseSurveyForm
      */
-    public function create(){
+    public function create($id_wireframe, $id_question, $pages){
+        $pages_select = array();
+        foreach($pages as $page){
+            $pages_select[$page->id_page] = $page->name;
+        }
+
         $form = new BaseSurveyForm();
 
-        $form->addRadioList("id_page","Název stránky")->setAttribute("class","buttons-group");
+        $form->addRadioList("id_page","Název stránky",$pages_select)->setAttribute("class","buttons-group");
 
-        $form->addNavigation();
+        $form->addNavigation($id_wireframe, $id_question);
 
         return $form;
     }

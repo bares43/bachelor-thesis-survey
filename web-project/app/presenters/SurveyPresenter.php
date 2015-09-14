@@ -16,6 +16,7 @@ use App\Forms\PersonalForm;
 use App\Forms\WireframeForm;
 use App\Forms\WireframeReverse;
 use App\Forms\WireframeSelectForm;
+use App\Model\Page;
 use App\Model\Respondent;
 use App\Model\Subquestion;
 use App\Service\Pages;
@@ -99,12 +100,7 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
         $this->template->help_lorem = true;
         $this->template->help_gray = true;
         $this->template->help_blur = true;
-        $this->template->form_params = array(
-          "defaults" => array(
-              "id_wireframe"=>1,
-              "id_question"=>null
-          )
-        );
+        $this->template->form = $this->createComponentWireframeForm(1,null);
     }
 
     public function renderWireframeselect(){
@@ -112,66 +108,30 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
         $this->template->help_lorem = true;
         $this->template->help_gray = true;
         $this->template->help_blur = true;
-
-        $pages_select = array();
-        foreach($this->pages->getAll() as $page){
-            $pages_select[$page->id_page] = $page->name;
-        }
-        $this->template->pages = $pages_select;
-
-
-        $this->template->form_params = array(
-            "defaults" => array(
-                "id_wireframe"=>1,
-                "id_question"=>null
-            ),
-            "items" => array(
-                "id_page"=>$pages_select
-            )
-        );
+        $this->template->form = $this->createComponentWireframeSelectForm(1,null,$this->pages->getAll());
     }
 
     public function renderWireframereverse(){
         $this->template->help_lorem = true;
         $this->template->help_gray = true;
-        $this->template->form_params = array(
-            "defaults" => array(
-                "id_wireframe"=>1,
-                "id_question"=>null
-            )
-        );
+        $this->template->form = $this->createComponentWireframeReverseForm(1,null,$this->pages->getAll());
     }
 
     public function renderColor(){
         $this->template->color = "3397C7";
         $this->template->answer_btn = "#frm-colorForm-answer";
         $this->template->help_lorem = true;
-        $this->template->form_params = array(
-            "defaults" => array(
-                "id_wireframe"=>1,
-                "id_question"=>null
-            )
-        );
+        $this->template->form = $this->createComponentColorForm(1,null);
     }
 
     public function renderColorselect(){
         $this->template->color = "3397C7";
         $this->template->help_lorem = true;
+        $this->template->form = $this->createComponentColorSelectForm(1,null,$this->pages->getAll());
+    }
 
-        $pages_select = array();
-        foreach($this->pages->getAll() as $page){
-            $pages_select[$page->id_page] = $page->name;
-        }
-
-        $this->template->form_params = array(
-            "defaults" => array(
-                "id_wireframe"=>1,
-                "id_question"=>null
-            ),
-            "items" => array(
-                "id_page" => $pages_select
-            )
-        );
+    public function renderFinal(){
+        $this->template->form = $this->createComponentFinalForm();
     }
 
 
@@ -343,45 +303,58 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
     }
 
     /**
+     * @param int $id_wireframe
+     * @param int|null $id_question
      * @return Form
      */
-    public function createComponentColorForm() {
-        $form = (new ColorForm())->create();
+    public function createComponentColorForm($id_wireframe, $id_question = null) {
+        $form = (new ColorForm())->create($id_wireframe, $id_question);
         $form->onSuccess[] = $this->colorFormSubmitted;
         return $form;
     }
     /**
+     * @param int $id_wireframe
+     * @param int|null $id_question
+     * @param Page[] $pages
      * @return Form
      */
-    public function createComponentColorSelectForm() {
-        $form = (new ColorSelectForm())->create($this->websites->getAll());
+    public function createComponentColorSelectForm($id_wireframe, $id_question, $pages) {
+        $form = (new ColorSelectForm())->create($id_wireframe, $id_question, $pages);
         $form->onSuccess[] = $this->colorSelectFormSubmitted;
         return $form;
     }
 
     /**
+     * @param int $id_wireframe
+     * @param int|null $id_question
      * @return \App\Forms\BaseSurveyForm
      */
-    public function createComponentWireframeForm(){
-        $form = (new WireframeForm())->create();
+    public function createComponentWireframeForm($id_wireframe, $id_question = null){
+        $form = (new WireframeForm())->create($id_wireframe, $id_question);
         $form->onSuccess[] = $this->wireframeFormSubmitted;
         return $form;
     }
 
     /**
+     * @param int $id_wireframe
+     * @param int|null $id_question
+     * @param Page[] $pages
      * @return \App\Forms\BaseSurveyForm
      */
-    public function createComponentWireframeSelectForm(){
-        $form = (new WireframeSelectForm())->create();
+    public function createComponentWireframeSelectForm($id_wireframe, $id_question, $pages){
+        $form = (new WireframeSelectForm())->create($id_wireframe, $id_question, $pages);
         $form->onSuccess[] = $this->wireframeSelectFormSubmitted;
         return $form;
     }
 
     /**
+     * @param int $id_wireframe
+     * @param int|null $id_question
+     * @param Page[] $pages
      * @return \App\Forms\BaseSurveyForm
      */
-    public function createComponentWireframeReverseForm(){
-        $form = (new WireframeReverse())->create();
+    public function createComponentWireframeReverseForm($id_wireframe, $id_question, $pages){
+        $form = (new WireframeReverse())->create($id_wireframe, $id_question, $pages);
         $form->onSuccess[] = $this->wireframeReverseFormSubmitted;
         return $form;
     }
