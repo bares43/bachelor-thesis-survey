@@ -6,13 +6,15 @@
  * Time: 16:51
  */
 
-namespace App\Service;
+namespace App\Base;
 
+use Doctrine\ORM\AbstractQuery;
 use Kdyby\Doctrine\Entities\BaseEntity;
 use Kdyby\Doctrine\EntityManager;
+use Kdyby\Doctrine\QueryBuilder;
 use Nette;
 
-class BaseService extends Nette\Object {
+class Database extends Nette\Object {
 
     /** @var EntityManager $entityManager */
     protected $entityManager;
@@ -55,4 +57,43 @@ class BaseService extends Nette\Object {
         $this->entityManager->persist($entity);
         $this->entityManager->flush();
     }
+
+    /**
+     * @param QueryBuilder $query
+     * @param IMapper $mapper
+     * @return IMapper[]
+     */
+    protected function populateMapper($query, $mapper){
+        $rows = $query->getQuery()->getResult(AbstractQuery::HYDRATE_SCALAR);
+        $result = array();
+        foreach($rows as $row){
+            $result[] = $mapper->populate($row);
+        }
+        return $result;
+    }
+
+    /**
+     * @param QueryBuilder $query
+     * @param IMapper $mapper
+     * @return IHolder
+     */
+    public function getHolder($query, $mapper) {
+        $holders = $this->getHolders($query, $mapper);
+        if(count($holders) === 1){
+            return $holders[0];
+        }else{
+            return null;
+        }
+    }
+
+    /**
+     * @param QueryBuilder $query
+     * @param IMapper $mapper
+     * @return IHolder[]
+     */
+    public function getHolders($query, $mapper) {
+        return $this->populateMapper($query, $mapper);
+    }
+
+
 }

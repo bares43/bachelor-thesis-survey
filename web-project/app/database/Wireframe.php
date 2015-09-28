@@ -5,21 +5,22 @@
  * Date: 25. 8. 2015
  * Time: 17:09
  */
-namespace App\Service;
+namespace App\Database;
 
+use App\Base\Database;
 use Kdyby\Doctrine\EntityManager;
 use Nette;
 use App\Model;
 use Kdyby\Doctrine;
 
-class Wireframes extends BaseService {
+class Wireframe extends Database {
 
     /**
      * @param EntityManager $entityManager
      */
     public function __construct(EntityManager $entityManager)
     {
-        parent::__construct($entityManager, Model\Wireframe::class);
+        parent::__construct($entityManager, Model\Wireframe::getClassName());
     }
 
     /**
@@ -46,4 +47,5 @@ class Wireframes extends BaseService {
     {
         $this->_save($wireframe);
     }
+
 }

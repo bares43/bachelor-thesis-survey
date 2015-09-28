@@ -3,27 +3,28 @@
  * Created by PhpStorm.
  * User: janba_000
  * Date: 25. 8. 2015
- * Time: 17:06
+ * Time: 17:07
  */
-namespace App\Service;
+namespace App\Database;
 
+use App\Base\Database;
 use Kdyby\Doctrine\EntityManager;
 use Nette;
 use App\Model;
 use Kdyby\Doctrine;
 
-class Pages extends BaseService {
+class Respondent extends Database {
 
     /**
      * @param EntityManager $entityManager
      */
     public function __construct(EntityManager $entityManager)
     {
-        parent::__construct($entityManager, Model\Page::class);
+        parent::__construct($entityManager, Model\Respondent::getClassName());
     }
 
     /**
-     * @return Model\Page[]
+     * @return Model\Respondent[]
      */
     public function getAll()
     {
@@ -32,7 +33,7 @@ class Pages extends BaseService {
 
     /**
      * @param int $id
-     * @return Model\Page|null
+     * @return Model\Respondent|null
      */
     public function get($id)
     {
@@ -40,10 +41,10 @@ class Pages extends BaseService {
     }
 
     /**
-     * @param Model\Page $page
+     * @param Model\Respondent $respondent
      */
-    public function save(Model\Page $page)
+    public function save(Model\Respondent $respondent)
     {
-        $this->_save($page);
+        $this->_save($respondent);
     }
 }

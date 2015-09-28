@@ -20,13 +20,21 @@ session:
 
 services:
 	router: App\RouterFactory::createRouter
-	websites: App\Service\Websites()
-	categories: App\Service\Categories()
-	pages: App\Service\Pages()
-	questions: App\Service\Questions()
-	respondents: App\Service\Respondents()
-	subquestions: App\Service\Subquestions()
-	wireframes: App\Service\Wireframes()
+	websites: App\Service\Website()
+	categories: App\Service\Category()
+	pages: App\Service\Page()
+	questions: App\Service\Question()
+	respondents: App\Service\Respondent()
+	subquestions: App\Service\Subquestion()
+	wireframes: App\Service\Wireframe()
+	db_websites: App\Database\Website()
+	db_categories: App\Database\Category()
+	db_pages: App\Database\Page()
+	db_questions: App\Database\Question()
+	db_respondents: App\Database\Respondent()
+	db_subquestions: App\Database\Subquestion()
+	db_wireframes: App\Database\Wireframe()
+	db_pages_related: App\Database\PageRelated()
 
 extensions:
 	console: Kdyby\Console\DI\ConsoleExtension
@@ -35,6 +43,10 @@ extensions:
 	doctrine: Kdyby\Doctrine\DI\OrmExtension
 
 doctrine:
+	orm:
+		dql:
+			numeric_functions:
+				Rand: App\Doctrine\Rand
 	user: root
 	password: ''
 	dbname: bt_survey

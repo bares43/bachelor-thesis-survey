@@ -16,6 +16,9 @@ use Kdyby\Doctrine\Entities\BaseEntity;
  */
 class Website extends BaseEntity {
 
+    const LANGUAGE_CZECH = "cz";
+    const LANGUAGE_ENGLISH = "en";
+
     /**
      * @ORM\Id()
      * @ORM\Column(type="integer")

@@ -2,57 +2,48 @@
 /**
  * Created by PhpStorm.
  * User: janba_000
- * Date: 25. 8. 2015
- * Time: 17:07
+ * Date: 27. 9. 2015
+ * Time: 17:29
  */
+
 namespace App\Service;
 
-use Kdyby\Doctrine\EntityManager;
-use Nette;
-use App\Model;
-use Kdyby\Doctrine;
 
-class Respondents extends BaseService {
+use App\Base\Service;
+
+class Respondent extends Service {
+
+    /** @var \App\Database\Respondent */
+    private $database;
 
     /**
-     * @param EntityManager $entityManager
+     * Respondent constructor.
+     * @param \App\Database\Respondent $database
      */
-    public function __construct(EntityManager $entityManager)
-    {
-        parent::__construct($entityManager, Model\Respondent::class);
+    public function __construct(\App\Database\Respondent $database) {
+        $this->database = $database;
     }
 
     /**
-     * @return Model\Respondent[]
+     * @param $id_respondent
+     * @return \App\Model\Respondent|null
      */
-    public function getAll()
-    {
-        return $this->_getAll();
+    public function get($id_respondent) {
+        return $this->database->get($id_respondent);
     }
 
     /**
-     * @param int $age
-     * @return Model\Respondent[]
+     * @return \App\Model\Respondent[]
      */
-    public function getAllByAge($age = 20)
-    {
-        return $this->entityManager->getRepository($this->repositoryName)->findBy(array("age"=>$age));
+    public function getAll() {
+        return $this->database->getAll();
     }
 
     /**
-     * @param int $id
-     * @return Model\Respondent|null
+     * @param \App\Model\Respondent $respondent
      */
-    public function get($id)
-    {
-        return $this->_get($id);
+    public function save($respondent) {
+        $this->database->save($respondent);
     }
 
-    /**
-     * @param Model\Respondent $respondent
-     */
-    public function save(Model\Respondent $respondent)
-    {
-        $this->_save($respondent);
-    }
 }

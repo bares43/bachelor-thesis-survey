@@ -19,4 +19,7 @@ $configurator->addConfig(__DIR__ . '/config/config.local.neon');
 
 $container = $configurator->createContainer();
 
+$config = new \Doctrine\ORM\Configuration();
+$config->addCustomNumericFunction('RAND', 'App\Doctrine\Rand');
+
 return $container;

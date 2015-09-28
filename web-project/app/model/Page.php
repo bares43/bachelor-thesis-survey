@@ -47,4 +47,9 @@ class Page extends BaseEntity {
      * @ORM\Column(type="string")
      */
     public $dominant_text_color;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    public $priority;
 }

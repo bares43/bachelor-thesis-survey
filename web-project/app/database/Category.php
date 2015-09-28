@@ -3,27 +3,29 @@
  * Created by PhpStorm.
  * User: janba_000
  * Date: 25. 8. 2015
- * Time: 17:08
+ * Time: 16:05
  */
-namespace App\Service;
 
+namespace App\Database;
+
+use App\Base\Database;
 use Kdyby\Doctrine\EntityManager;
 use Nette;
 use App\Model;
 use Kdyby\Doctrine;
 
-class Subquestions extends BaseService {
+class Category extends Database {
 
     /**
      * @param EntityManager $entityManager
      */
     public function __construct(EntityManager $entityManager)
     {
-        parent::__construct($entityManager, Model\Subquestion::class);
+        parent::__construct($entityManager, Model\Category::getClassName());
     }
 
     /**
-     * @return Model\Subquestion[]
+     * @return Model\Category[]
      */
     public function getAll()
     {
@@ -32,7 +34,7 @@ class Subquestions extends BaseService {
 
     /**
      * @param int $id
-     * @return Model\Subquestion|null
+     * @return Model\Category|null
      */
     public function get($id)
     {
@@ -40,11 +42,10 @@ class Subquestions extends BaseService {
     }
 
     /**
-     * @param Model\Subquestion $subquestion
+     * @param Model\Category $category
      */
-    public function save(Model\Subquestion $subquestion)
+    public function save(Model\Category $category)
     {
-        $this->_save($subquestion);
+        $this->_save($category);
     }
-
 }

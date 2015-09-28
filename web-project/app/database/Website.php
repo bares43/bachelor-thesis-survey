@@ -1,30 +1,32 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: janba_000
  * Date: 25. 8. 2015
- * Time: 16:05
+ * Time: 15:14
  */
 
-namespace App\Service;
+namespace App\Database;
 
+use App\Base\Database;
 use Kdyby\Doctrine\EntityManager;
 use Nette;
 use App\Model;
 use Kdyby\Doctrine;
 
-class Categories extends BaseService {
+class Website extends Database {
 
     /**
      * @param EntityManager $entityManager
      */
     public function __construct(EntityManager $entityManager)
     {
-        parent::__construct($entityManager, Model\Category::class);
+        parent::__construct($entityManager, Model\Website::getClassName());
     }
 
     /**
-     * @return Model\Category[]
+     * @return Model\Website[]
      */
     public function getAll()
     {
@@ -33,7 +35,7 @@ class Categories extends BaseService {
 
     /**
      * @param int $id
-     * @return Model\Category|null
+     * @return Model\Website|null
      */
     public function get($id)
     {
@@ -41,10 +43,10 @@ class Categories extends BaseService {
     }
 
     /**
-     * @param Model\Category $category
+     * @param Model\Website $website
      */
-    public function save(Model\Category $category)
+    public function save(Model\Website $website)
     {
-        $this->_save($category);
+        $this->_save($website);
     }
 }

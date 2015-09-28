@@ -2,62 +2,57 @@
 /**
  * Created by PhpStorm.
  * User: janba_000
- * Date: 25. 8. 2015
- * Time: 17:06
+ * Date: 27. 9. 2015
+ * Time: 17:29
  */
+
 namespace App\Service;
 
-use Kdyby\Doctrine\EntityManager;
-use Nette;
-use App\Model;
-use Kdyby\Doctrine;
 
-class Questions extends BaseService {
+use App\Base\Service;
+
+class Question extends Service {
+
+    /** @var \App\Database\Question */
+    private $database;
 
     /**
-     * @param EntityManager $entityManager
+     * Question constructor.
+     * @param \App\Database\Question $db_question
      */
-    public function __construct(EntityManager $entityManager)
-    {
-        parent::__construct($entityManager, Model\Question::class);
+    public function __construct(\App\Database\Question $db_question) {
+        $this->database = $db_question;
     }
 
     /**
-     * @return Model\Question[]
+     * @param $id_question
+     * @return \App\Model\Question|null
      */
-    public function getAll()
-    {
-        return $this->_getAll();
+    public function get($id_question) {
+        return $this->database->get($id_question);
     }
 
     /**
-     * @param int $id
-     * @return Model\Question|null
+     * @return \App\Model\Question[]
      */
-    public function get($id)
-    {
-        return $this->_get($id);
+    public function getAll() {
+        return $this->database->getAll();
     }
 
     /**
-     * @param Model\Question $question
+     * @param \App\Model\Question $question
      */
-    public function save(Model\Question $question)
-    {
-        $this->_save($question);
+    public function save($question) {
+        $this->database->save($question);
     }
 
     /**
-     * @param $id_respondent
-     * @param $id_page
-     * @return Model\Question
+     * @param int $id_respondent
+     * @param int $id_page
+     * @return \App\Model\Question
      */
-    public function create($id_respondent, $id_page)
-    {
-        $question = new Model\Question();
-        $question->id_respondent = $id_respondent;
-        $question->id_page = $id_page;
-        $this->save($question);
-        return $question;
+    public function create($id_respondent, $id_page) {
+        return $this->database->create($id_respondent, $id_page);
     }
+
 }

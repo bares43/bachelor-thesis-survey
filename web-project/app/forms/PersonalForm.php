@@ -15,13 +15,26 @@ use Nette\Application\UI\Form;
 
 class PersonalForm {
 
+    private $parent;
+    private $name;
+
+    /**
+     * WireframeForm constructor.
+     * @param $parent
+     * @param $name
+     */
+    public function __construct($parent, $name) {
+        $this->parent = $parent;
+        $this->name = $name;
+    }
+
     /**
      * @return Form
      */
     public function create() {
         $validaton_message = "Vyplňte prosím %s. Pomůže mi to lépe zpracovat výsledky průzkumu. Díky ;)";
 
-        $form = new Form();
+        $form = new Form($this->parent, $this->name);
 
         $form->addGroup("Obecné");
         $sex = array(

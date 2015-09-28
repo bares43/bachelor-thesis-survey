@@ -12,23 +12,36 @@ use App\Model\Page;
 
 class ColorSelectForm {
 
+    private $parent;
+    private $name;
+
     /**
-     * @param int $id_wireframe
-     * @param intwnull $id_question
+     * WireframeForm constructor.
+     * @param $parent
+     * @param $name
+     */
+    public function __construct($parent, $name) {
+        $this->parent = $parent;
+        $this->name = $name;
+    }
+
+    /**
+     * @param int $id_page
+     * @param int|null $id_question
      * @param Page[] $pages
      * @return BaseSurveyForm
      */
-    public function create($id_wireframe, $id_question, $pages){
+    public function create($id_page, $id_question, $pages){
         $pages_select = array();
         foreach($pages as $page){
             $pages_select[$page->id_page] = $page->name;
         }
 
-        $form = new BaseSurveyForm();
+        $form = new BaseSurveyForm($this->parent, $this->name);
 
-        $form->addRadioList("id_page","Název stránky",$pages_select)->setAttribute("class","buttons-group");
+        $form->addRadioList("id_pages","Název stránky",$pages_select)->setAttribute("class","buttons-group");
 
-        $form->addNavigation($id_wireframe, $id_question);
+        $form->addNavigation($id_page, null, $id_question);
 
         return $form;
     }
