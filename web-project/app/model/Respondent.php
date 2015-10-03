@@ -96,4 +96,9 @@ class Respondent extends BaseEntity {
      */
     public $datetime;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    public $user_agent;
+
 }

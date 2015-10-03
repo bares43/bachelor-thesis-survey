@@ -186,6 +186,7 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
         $respondent->email = $values->email;
         $respondent->message = $values->message;
         $respondent->sites = $values->sites;
+        $respondent->user_agent = $_SERVER["HTTP_USER_AGENT"];
         $this->respondent_service->save($respondent);
 
         foreach($values->category as $category_id => $params){
