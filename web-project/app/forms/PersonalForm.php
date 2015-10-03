@@ -62,7 +62,7 @@ class PersonalForm {
             ->addRule(Form::REQUIRED,$validaton_message,"zda navštěvujete i anglické webové stránky");
 
         $form->addRadioList("it","Pracuji v oboru IT nebo tento obor studuji",$truefalseoptions)->setAttribute('class','buttons-group')
-            ->addRule(Form::REQUIRED,$validaton_message,"zda navštěvujete i anglické webové stránky");
+            ->addRule(Form::REQUIRED,$validaton_message,"zda pracujete v oboru IT nebo ho studujete");
 
         $form->addTextArea("sites","Jaké stránky často navštěvuji");
 
