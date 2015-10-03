@@ -29,6 +29,7 @@ services:
 	wireframes: App\Service\Wireframe()
 	entities_categories: App\Service\EntityCategory()
 	respondents_websites: App\Service\RespondentWebsite()
+	codes: App\Service\Code()
 	db_websites: App\Database\Website()
 	db_categories: App\Database\Category()
 	db_pages: App\Database\Page()
@@ -39,6 +40,7 @@ services:
 	db_pages_related: App\Database\PageRelated()
 	db_entities_categories: App\Database\EntityCategory()
 	db_respondents_websites: App\Database\RespondentWebsite()
+	db_codes: App\Database\Code()
 
 extensions:
 	console: Kdyby\Console\DI\ConsoleExtension

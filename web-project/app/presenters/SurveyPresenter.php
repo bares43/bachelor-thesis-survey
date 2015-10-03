@@ -187,6 +187,7 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
         $respondent->message = $values->message;
         $respondent->sites = $values->sites;
         $respondent->user_agent = $_SERVER["HTTP_USER_AGENT"];
+        $respondent->code = $values->code;
         $this->respondent_service->save($respondent);
 
         foreach($values->category as $category_id => $params){
@@ -204,6 +205,7 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
 
         $this->sessionSection->next_personal = false;
         $this->sessionSection->respondent = $respondent;
+        $this->sessionSection->code = null;
 
         $this->redirect("Survey:question");
     }
@@ -336,7 +338,8 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
      * @return Form
      */
     public function createComponentPersonalForm() {
-        $form = (new PersonalForm($this,"personalForm"))->create($this->category_service->getCategoriesHolders());
+        $code = $this->sessionSection->code;
+        $form = (new PersonalForm($this,"personalForm"))->create($this->category_service->getCategoriesHolders(),$code);
         $form->onSuccess[] = $this->personalFormSubmitted;
         return $form;
     }

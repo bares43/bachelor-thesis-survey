@@ -101,4 +101,9 @@ class Respondent extends BaseEntity {
      */
     public $user_agent;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    public $code;
+
 }

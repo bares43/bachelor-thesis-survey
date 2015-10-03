@@ -16,6 +16,7 @@ class RouterFactory
 	public static function createRouter()
 	{
 		$router = new RouteList;
+		$router[] = new Route("akce/<code>","Action:default");
 		$router[] = new Route('<presenter>/<action>', array(
 			'presenter' => array(
 				Route::VALUE => 'Homepage',

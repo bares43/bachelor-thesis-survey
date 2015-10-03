@@ -31,9 +31,10 @@ class PersonalForm {
 
     /**
      * @param Category[] $categories
+     * @param string|null $code
      * @return Form
      */
-    public function create($categories) {
+    public function create($categories, $code = null) {
         $validaton_message = "Vyplňte prosím %s. Pomůže mi to lépe zpracovat výsledky průzkumu. Díky ;)";
 
         $form = new Form($this->parent, $this->name);
@@ -63,6 +64,12 @@ class PersonalForm {
 
         $form->addRadioList("it","Pracuji v oboru IT nebo tento obor studuji",$truefalseoptions)->setAttribute('class','buttons-group')
             ->addRule(Form::REQUIRED,$validaton_message,"zda pracujete v oboru IT nebo ho studujete");
+
+        if($code !== null){
+            $form->addHidden("code",$code);
+        }else{
+            $form->addText("code","Obdrželi jste letáček s kódem? Zadejte ho prosím");
+        }
 
         $form->addTextArea("sites","Jaké stránky často navštěvuji");
 
