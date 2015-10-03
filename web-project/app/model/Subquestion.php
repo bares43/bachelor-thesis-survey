@@ -57,4 +57,9 @@ class Subquestion extends BaseEntity {
      * @ORM\Column(type="string")
      */
     public $reason;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    public $seconds;
 }

@@ -24,6 +24,7 @@ class BaseSurveyForm extends Form {
         $this->addHidden('id_page',$id_page);
         $this->addHidden('id_wireframe',$id_wireframe);
         $this->addHidden('id_question',$id_question);
+        $this->addHidden('seconds',0);
         $this->addTextArea("reason","Proč si to myslíte?");
         $this->addSubmit("continue","Pokračovat v dotazníku")->setAttribute("class","btn btn-primary");
         $this->addSubmit("cancel","Ukončit dotazník")->setAttribute("class","btn btn-xs");

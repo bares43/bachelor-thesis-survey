@@ -72,4 +72,12 @@ $(document).ready(function(){
     });
 
     $(".buttons-group").parent().addClass("btn btn-default").parent().addClass("btn-group").attr("data-toggle","buttons").find("br").remove();
+
+    if($("input:hidden[name='seconds']").length === 1){
+        var seconds = 0;
+        setInterval(function(){
+            ++seconds;
+            $("input:hidden[name='seconds']").val(seconds);
+        },1000);
+    }
 });

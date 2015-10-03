@@ -85,6 +85,7 @@ class Subquestion extends Service {
         $subquestion->id_question = $id_question;
         $subquestion->id_wireframe = $values->id_wireframe;
         $subquestion->reason = $values->reason;
+        $subquestion->seconds = $values->seconds;
 
         return $subquestion;
     }
