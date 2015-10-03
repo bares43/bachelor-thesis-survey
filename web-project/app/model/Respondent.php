@@ -54,6 +54,11 @@ class Respondent extends BaseEntity {
     /**
      * @ORM\Column(type="boolean")
      */
+    public $it;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
     public $device_computer;
 
     /**

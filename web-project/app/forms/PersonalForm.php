@@ -57,8 +57,11 @@ class PersonalForm {
         $form->addRadioList('age','Věk',$age)->setAttribute('class','buttons-group')
             ->addRule(Form::REQUIRED,$validaton_message,"svůk věk");
 
-        $english = array(1=>"Ano",0=>"Ne");
-        $form->addRadioList("english","Navštěvuji Anglické webové stránky",$english)->setAttribute('class','buttons-group')
+        $truefalseoptions = array(1=>"Ano",0=>"Ne");
+        $form->addRadioList("english","Navštěvuji anglické webové stránky",$truefalseoptions)->setAttribute('class','buttons-group')
+            ->addRule(Form::REQUIRED,$validaton_message,"zda navštěvujete i anglické webové stránky");
+
+        $form->addRadioList("it","Pracuji v oboru IT nebo tento obor studuji",$truefalseoptions)->setAttribute('class','buttons-group')
             ->addRule(Form::REQUIRED,$validaton_message,"zda navštěvujete i anglické webové stránky");
 
         $form->addTextArea("sites","Jaké stránky často navštěvuji");
