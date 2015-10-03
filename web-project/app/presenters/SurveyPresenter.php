@@ -8,7 +8,6 @@
 
 namespace App\Presenters;
 
-use App\Forms\BaseSurveyForm;
 use App\Forms\ColorForm;
 use App\Forms\ColorSelectForm;
 use App\Forms\FinalForm;
@@ -16,9 +15,13 @@ use App\Forms\PersonalForm;
 use App\Forms\WireframeForm;
 use App\Forms\WireframeReverse;
 use App\Forms\WireframeSelectForm;
+use App\Holder\NewQuestion;
+use App\Service\Category;
+use App\Service\EntityCategory;
 use App\Service\Page;
 use App\Service\Question;
 use App\Service\Respondent;
+use App\Service\RespondentWebsite;
 use App\Service\Subquestion;
 use App\Service\Website;
 use App\Service\Wireframe;
@@ -45,6 +48,15 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
     /** @var Wireframe @inject */
     public $wireframe_service;
 
+    /** @var Category @inject */
+    public $category_service;
+
+    /** @var EntityCategory @inject */
+    public $entity_category_service;
+
+    /** @var RespondentWebsite @inject */
+    public $respondent_website_service;
+
     /** @var Nette\Http\SessionSection */
     private $sessionSection;
 
@@ -56,6 +68,12 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
 
     /** @var int */
     private $id_wireframe;
+
+    /** @var \App\Holder\Page */
+    private $page_holder;
+
+    /** @var NewQuestion */
+    private $new_question_holder;
 
     protected function startup() {
         parent::startup();
@@ -81,147 +99,10 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
     }
 
     public function actionQuestion(){
-        $options_wireframes = array(
-            \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME=>0,
-            \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME_SELECT=>0,
-            \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME_REVERSE=>0
-        );
-        $options_colors = array(
-            \App\Model\Subquestion::QUESTION_TYPE_COLOR=>0,
-            \App\Model\Subquestion::QUESTION_TYPE_COLOR_SELECT=>0
-        );
-        $options = array_merge($options_wireframes, $options_colors);
+        $new_question = $this->question_service->generateNewQuestion($this->sessionSection->respondent);
 
-        $filter = new \App\Filter\Page;
-
-        // chci údaje o respondentovi
-        /** @var Respondent $respondent */
-        $respondent = $this->sessionSection->respondent;
-        // chci respondentovy odpovědi
-
-        $last_question = null;
-
-        /** @var \App\Model\Page $page */
-        $page = null;
-        /** @var \App\Model\Wireframe $wireframe */
-        $wireframe = null;
-        $question_type = null;
-        /** @var \App\Model\Question $question */
-        $question = null;
-
-        if($respondent !== null){
-            /** @var \App\Holder\Subquestion[] $subquestions */
-            $subquestions = $this->subquestion_service->getSubquestionHoldersByIdRespondent($respondent->id_respondent);
-
-            $rand = rand(1,100);
-
-            if(count($subquestions) > 0) {
-
-                $pages_ids = array();
-                foreach($subquestions as $holder){
-                    $pages_ids[] = $holder->getPage()->id_page;
-
-                    $options[$holder->getSubquestion()->question_type]++;
-                }
-                $pages_ids_part = array_slice($pages_ids,ceil(count($pages_ids)/2));
-                $pages_ids = array_unique($pages_ids);
-                arsort($options);
-
-                /** @var \App\Holder\Subquestion $last_subquestion */
-                $last_subquestion = end($subquestions);
-
-                if ($rand >= 1 && $rand <= 20 && $last_subquestion->getSubquestion()->correct !== null && !$last_subquestion->getSubquestion()->correct) {
-                    $page = $last_subquestion->getPage();
-                    if(in_array($last_subquestion->getSubquestion()->question_type,array_keys($options_wireframes))){
-                        $question_type = array_rand($options_colors);
-                    }else{
-                        $question_type = array_rand($options_wireframes);
-                    }
-                    $question = $last_subquestion->getQuestion();
-                } else if ($rand >= 80 && $rand <= 100) {
-                    // vyberu nahodou subquestion a pro stejnou page jiny typ otazky, odfiltrovat poslednich X pages
-                } else if($rand >= 21 && $rand <= 35){
-                    // odfiltrovat vsechny pages, zobrazit prioritni page, NErespektovat nastaveni respondenta
-                    $holder = $this->page_service->getPageHolderByFilter(new \App\Filter\Page(
-                        array(
-                            \App\Filter\Page::PRIORITY=>true,
-                            \App\Filter\Page::EXCLUDE_ID_PAGE=>$pages_ids
-                        )
-                    ));
-                    if($holder !== null){
-                        $page = $holder->getPage();
-                        $wireframe = $holder->getWireframe();
-                        $question_type = array_rand($options_wireframes);
-                    }
-                }
-                if($page === null){
-                    // nahodna page, respektovat nastaveni respondenta, odfiltrovat X poslednich pages
-                    $holder = $this->page_service->getPageHolderByFilter(new \App\Filter\Page(
-                        array(
-                            \App\Filter\Page::PRIORITY=>true,
-                            \App\Filter\Page::EXCLUDE_ID_PAGE=>$pages_ids_part
-                        )
-                    ));
-                    if($holder !== null){
-                        $page = $holder->getPage();
-                        $wireframe = $holder->getWireframe();
-                        $question_type = array_rand($options_wireframes);
-                    }
-                }
-            }else{
-                // nahodna page, respektovat nastaveni respondenta
-                $holder = $this->page_service->getPageHolderByFilter(new \App\Filter\Page(
-                    array(\App\Filter\Page::PRIORITY=>true)
-                ));
-                if($holder !== null){
-                    $page = $holder->getPage();
-                    $wireframe = $holder->getWireframe();
-                    $question_type = array_rand($options_wireframes);
-                }
-            }
-
-
-            $languages = array(\App\Model\Website::LANGUAGE_CZECH);
-            if($respondent->english) $languages[] = \App\Model\Website::LANGUAGE_ENGLISH;
-
-            $filter->setLanguages($languages);
-        }
-
-        if($page === null){
-            $holder = $this->page_service->getPageHolderByFilter(new \App\Filter\Page(
-                array(\App\Filter\Page::PRIORITY=>true)
-            ));
-            $page = $holder->getPage();
-            $wireframe = $holder->getWireframe();
-            $question_type = array_rand($options_wireframes);
-        }
-
-        switch($question_type){
-            case \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME_SELECT:
-                $view = "wireframeselect";
-                break;
-            case \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME_REVERSE:
-                $view = "wireframereverse";
-                break;
-            case \App\Model\Subquestion::QUESTION_TYPE_COLOR:
-                $view = "color";
-                break;
-            case \App\Model\Subquestion::QUESTION_TYPE_COLOR_SELECT:
-                $view = "colorselect";
-                break;
-            default:
-                $view = "wireframe";
-        }
-        $this->setView($view);
-
-        $this->id_page = $page->id_page;
-        if($wireframe !== null){
-            $this->id_wireframe = $wireframe->id_wireframe;
-        }
-        if($question !== null){
-            $this->id_question = $question->id_question;
-        }
-
+        $this->new_question_holder = $new_question;
+        $this->setView($new_question->getQuestionType());
     }
 
     public function actionPersonal(){
@@ -238,29 +119,30 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
     /**
      * RENDER
      */
+    private function setHelp() {
+        if($this->new_question_holder->getPageHolder()->getCurrentWireframe()->text_mode === \App\Model\Wireframe::TEXT_BOX) $this->template->help_gray = true;
+        if($this->new_question_holder->getPageHolder()->getCurrentWireframe()->text_mode === \App\Model\Wireframe::TEXT_LOREM) $this->template->help_lorem = true;
+        if($this->new_question_holder->getPageHolder()->getCurrentWireframe()->text_mode === \App\Model\Wireframe::IMAGE_BLUR) $this->template->help_blur = true;
+        if($this->new_question_holder->getPageHolder()->getCurrentWireframe()->text_mode === \App\Model\Wireframe::IMAGE_BOX) $this->template->help_box = true;
+    }
 
     public function renderWireframe(){
         $this->template->answer_btn = "#frm-wireframeForm-page";
-        $this->template->help_lorem = true;
-        $this->template->help_gray = true;
-        $this->template->help_blur = true;
-        $this->template->id_wireframe = $this->id_wireframe;
+        $this->setHelp();
+        $this->template->id_wireframe = $this->new_question_holder->getPageHolder()->getCurrentWireframe()->id_wireframe;
         $this->template->form = $this->createComponentWireframeForm();
     }
 
     public function renderWireframeselect(){
         $this->template->answer_btn = "#frm-wireframeForm-page";
-        $this->template->help_lorem = true;
-        $this->template->help_gray = true;
-        $this->template->help_blur = true;
-        $this->template->id_wireframe = $this->id_wireframe;
+        $this->setHelp();
+        $this->template->id_wireframe = $this->new_question_holder->getPageHolder()->getCurrentWireframe()->id_wireframe;
         $this->template->form = $this->createComponentWireframeSelectForm();
     }
 
     public function renderWireframereverse(){
-        $this->template->help_lorem = true;
-        $this->template->help_gray = true;
-        $this->template->id_wireframe = $this->id_wireframe;
+        $this->setHelp();
+        $this->template->id_wireframe = $this->new_question_holder->getPageHolder()->getCurrentWireframe()->id_wireframe;
         $this->template->form = $this->createComponentWireframeReverseForm();
     }
 
@@ -304,6 +186,19 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
         $respondent->message = $values->message;
         $respondent->sites = $values->sites;
         $this->respondent_service->save($respondent);
+
+        foreach($values->category as $category_id => $params){
+            $period = $params["period"];
+            if($period !== null){
+                $this->entity_category_service->addCategoryToRespondent($category_id, $respondent->id_respondent, $period);
+
+                if(array_key_exists("items",$params)){
+                    foreach($params->items as $item){
+                        $this->entity_category_service->addCategoryToRespondent($item, $respondent->id_respondent, \App\Model\EntityCategory::MOSTLY);
+                    }
+                }
+            }
+        }
 
         $this->sessionSection->next_personal = false;
         $this->sessionSection->respondent = $respondent;
@@ -418,7 +313,19 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
      * @param Form $form
      */
     public function finalFormSubmitted(Form $form){
+        $values = $form->getValues();
+
+        foreach($values->website as $id_website => $param){
+            $period = $param["period"];
+
+            if($period !== null){
+                $this->respondent_website_service->addWebsiteToRespondent($id_website, $this->sessionSection->respondent->id_respondent, $period);
+            }
+        }
+
         $this->setView("results");
+
+
     }
 
     /** COMPONENTS */
@@ -427,7 +334,7 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
      * @return Form
      */
     public function createComponentPersonalForm() {
-        $form = (new PersonalForm($this,"personalForm"))->create();
+        $form = (new PersonalForm($this,"personalForm"))->create($this->category_service->getCategoriesHolders());
         $form->onSuccess[] = $this->personalFormSubmitted;
         return $form;
     }
@@ -436,7 +343,8 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
      * @return Form
      */
     public function createComponentColorForm() {
-        $form = (new ColorForm($this,"colorForm"))->create($this->id_page, $this->id_question);
+        $id_question = $this->new_question_holder->getQuestion() !== null ? $this->new_question_holder->getQuestion()->id_question : null;
+        $form = (new ColorForm($this))->create($this->new_question_holder->getPageHolder()->getPage()->id_page, $id_question);
         $form->onSuccess[] = $this->colorFormSubmitted;
         return $form;
     }
@@ -444,7 +352,8 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
      * @return Form
      */
     public function createComponentColorSelectForm() {
-        $form = (new ColorSelectForm($this,"colorSelectForm"))->create($this->id_page, $this->id_question, $this->page_service->getRelatedPages($this->id_page));
+        $id_question = $this->new_question_holder->getQuestion() !== null ? $this->new_question_holder->getQuestion()->id_question : null;
+        $form = (new ColorSelectForm($this))->create($this->new_question_holder->getPageHolder()->getPage()->id_page, $id_question, $this->new_question_holder->getPagesHolders());
         $form->onSuccess[] = $this->colorSelectFormSubmitted;
         return $form;
     }
@@ -453,7 +362,8 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
      * @return \App\Forms\BaseSurveyForm
      */
     public function createComponentWireframeForm(){
-        $form = (new WireframeForm($this,"wireframeForm"))->create($this->id_page, $this->id_wireframe, $this->id_question);
+        $id_question = $this->new_question_holder->getQuestion() !== null ? $this->new_question_holder->getQuestion()->id_question : null;
+        $form = (new WireframeForm($this))->create($this->new_question_holder->getPageHolder()->getPage()->id_page, $this->new_question_holder->getPageHolder()->getCurrentWireframe()->id_wireframe, $id_question);
         $form->onSuccess[] = $this->wireframeFormSubmitted;
         return $form;
     }
@@ -462,7 +372,8 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
      * @return \App\Forms\BaseSurveyForm
      */
     public function createComponentWireframeSelectForm(){
-        $form = (new WireframeSelectForm($this,"wireframeSelectForm"))->create($this->id_page, $this->id_wireframe, $this->id_question, $this->page_service->getRelatedPages($this->id_page));
+        $id_question = $this->new_question_holder->getQuestion() !== null ? $this->new_question_holder->getQuestion()->id_question : null;
+        $form = (new WireframeSelectForm($this))->create($this->new_question_holder->getPageHolder()->getPage()->id_page, $this->new_question_holder->getPageHolder()->getCurrentWireframe()->id_wireframe, $id_question, $this->new_question_holder->getPagesHolders());
         $form->onSuccess[] = $this->wireframeSelectFormSubmitted;
         return $form;
     }
@@ -471,7 +382,8 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
      * @return \App\Forms\BaseSurveyForm
      */
     public function createComponentWireframeReverseForm(){
-        $form = (new WireframeReverse($this,"wireframeReverseForm"))->create($this->id_page, $this->id_wireframe, $this->id_question, $this->page_service->getRelatedPages($this->id_page));
+        $id_question = $this->new_question_holder->getQuestion() !== null ? $this->new_question_holder->getQuestion()->id_question : null;
+        $form = (new WireframeReverse($this))->create($this->new_question_holder->getPageHolder()->getPage()->id_page, $this->new_question_holder->getPageHolder()->getCurrentWireframe()->id_wireframe, $id_question, $this->new_question_holder->getPagesHolders());
         $form->onSuccess[] = $this->wireframeReverseFormSubmitted;
         return $form;
     }
@@ -480,7 +392,13 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
      * @return Form
      */
     public function createComponentFinalForm(){
-        $form = (new FinalForm())->create($this->website_service->getAll());
+        $websites = array();
+        $subquestions = $this->question_service->getSubquestionHoldersByIdRespondent($this->sessionSection->respondent->id_respondent);
+        foreach($subquestions as $subquestion){
+            $websites[$subquestion->getWebsite()->id_website] = $subquestion->getWebsite()->name;
+        }
+
+        $form = (new FinalForm($this))->create($websites);
         $form->onSuccess[] = $this->finalFormSubmitted;
         return $form;
     }

@@ -9,6 +9,7 @@
 
 namespace App\Forms;
 
+use App\Holder\Category;
 use App\Model\Respondent;
 use App\Model\EntityCategory;
 use Nette\Application\UI\Form;
@@ -29,9 +30,10 @@ class PersonalForm {
     }
 
     /**
+     * @param Category[] $categories
      * @return Form
      */
-    public function create() {
+    public function create($categories) {
         $validaton_message = "Vyplňte prosím %s. Pomůže mi to lépe zpracovat výsledky průzkumu. Díky ;)";
 
         $form = new Form($this->parent, $this->name);
@@ -77,21 +79,26 @@ class PersonalForm {
             EntityCategory::PERIOD_FEW_TIMES_A_MONTH=>"několikrát měsíčně"
         );
 
-        $form->addGroup("Komunikuji na internetu (přes sociální sítě, e-mail)");
-        $form->addRadioList("comunication_period", "Jak často?", $period)
-            ->setAttribute("class","buttons-group");
+        $categories_container = $form->addContainer("category");
+        foreach($categories as $holder_category){
+            $category_container = $categories_container->addContainer($holder_category->getCategory()->id_category);
 
-        $form->addGroup("Nakupuji na internetu");
-        $form->addRadioList("shopping_period", "Jak často?", $period)
-            ->setAttribute("class","buttons-group");
+            $category_container->setCurrentGroup($categories_container->getForm()->addGroup($holder_category->getCategory()->label));
 
-        $shopping = array("Elektronika", "Oblečení", "Elektronický obsah (e-knihy, hudba)", "Potraviny", "Bazar");
-        $form->addCheckboxList("shopping_subject", "Co nejčastěji?", $shopping)
-            ->setAttribute("class","buttons-group");;
+            $category_container->addRadioList("period", "Jak často?", $period)
+                ->setAttribute("class","buttons-group");
 
-        $form->addGroup("Čtu na internetu zprávy");
-        $form->addRadioList("news_period", "Jak často?", $period)
-            ->setAttribute("class","buttons-group");
+            if($holder_category->getChildren()){
+                $items = array();
+                foreach($holder_category->getChildren() as $child){
+                    $items[$child->id_category] = $child->label;
+                }
+
+                $category_container->addCheckboxList("items", $holder_category->getCategory()->child_label, $items)
+                    ->setAttribute("class","buttons-group");
+            }
+        }
+        $form->setCurrentGroup(NULL);
 
         $form->addGroup("Zajímá mě to");
         $form->addText("email","E-mail")->setType("email");

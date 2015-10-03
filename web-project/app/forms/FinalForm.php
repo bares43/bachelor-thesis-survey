@@ -9,22 +9,36 @@
 namespace App\Forms;
 
 
+use App\Model\RespondentWebsite;
 use App\Model\Website;
 use Nette\Application\UI\Form;
 
 class FinalForm {
 
+    private $parent;
+
     /**
-     * @param Website[] $websites
+     * FinalForm constructor.
+     * @param $parent
+     */
+    public function __construct($parent) {
+        $this->parent = $parent;
+    }
+
+    /**
+     * @param string[] $websites
      * @return Form
      */
     public function create($websites){
-        $periods = array("Znám a navštěvuji","Pouze vím, že existuje","Neznám");
+        $periods = array(RespondentWebsite::PERIOD_KNOW_AND_VISIT=>"Znám a navštěvuji",RespondentWebsite::PERIOD_KNOW_THAT_EXISTS=>"Pouze vím, že existuje",RespondentWebsite::PERIOD_DONT_KNOW=>"Neznám");
 
-        $form = new Form();
+        $form = new Form($this->parent, "finalForm");
 
-        foreach($websites as $website){
-            $form->addRadioList("webpage_".$website->id_website,$website->name,$periods)->setAttribute("class","buttons-group");
+        $websites_container = $form->addContainer("website");
+
+        foreach($websites as $website_id=>$website_name){
+            $website_container = $websites_container->addContainer($website_id);
+            $website_container->addRadioList("period",$website_name,$periods)->setAttribute("class","buttons-group");
         }
 
         $form->addText("email","E-mail")->setType("email");

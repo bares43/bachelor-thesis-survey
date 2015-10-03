@@ -15,6 +15,15 @@ use Kdyby\Doctrine\Entities\BaseEntity;
  */
 class Wireframe extends BaseEntity {
 
+    const TEXT_LOREM = "lorem";
+    const TEXT_ORIGINAL = "original";
+    const TEXT_BOX = "box";
+
+    const IMAGE_BOX = "box";
+    const IMAGE_ORIGINAL = "original";
+    const IMAGE_BLUR = "blur";
+    const IMAGE_REMOVE = "remove";
+
     /**
      * @ORM\Id()
      * @ORM\Column(type="integer")

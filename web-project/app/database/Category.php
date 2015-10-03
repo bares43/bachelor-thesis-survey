@@ -33,6 +33,17 @@ class Category extends Database {
     }
 
     /**
+     * @param int|null $id_parent
+     * @return Model\Category[]
+     */
+    public function getByIdParent($id_parent) {
+        $criteria = array("id_parent"=>$id_parent);
+        $order_by = array("order"=>"asc");
+
+        return $this->_getBy($criteria, $order_by);
+    }
+
+    /**
      * @param int $id
      * @return Model\Category|null
      */

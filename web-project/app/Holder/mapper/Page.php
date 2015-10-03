@@ -32,7 +32,7 @@ class Page implements IMapper {
         }
 
         if(isset($result["wireframe_id_wireframe"])){
-            $holder->setWireframe(Service::populateEntity($result, Wireframe::getClassName(), "wireframe"));
+            $holder->setCurrentWireframe(Service::populateEntity($result, Wireframe::getClassName(), "wireframe"));
         }
 
         return $holder;

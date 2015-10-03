@@ -20,7 +20,8 @@ class Page implements IHolder {
     /** @var Website $website */
     private $website;
 
-    private $wireframe;
+    /** @var Wireframe */
+    private $current_wireframe;
 
     /**
      * @return \App\Model\Page
@@ -53,15 +54,15 @@ class Page implements IHolder {
     /**
      * @return Wireframe
      */
-    public function getWireframe() {
-        return $this->wireframe;
+    public function getCurrentWireframe() {
+        return $this->current_wireframe;
     }
 
     /**
-     * @param Wireframe $wireframe
+     * @param Wireframe $current_wireframe
      */
-    public function setWireframe($wireframe) {
-        $this->wireframe = $wireframe;
+    public function setCurrentWireframe($current_wireframe) {
+        $this->current_wireframe = $current_wireframe;
     }
 
 }

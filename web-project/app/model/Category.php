@@ -10,6 +10,9 @@ namespace App\Model;
 use Doctrine\ORM\Mapping as ORM;
 use Kdyby\Doctrine\Entities\BaseEntity;
 
+/**
+ * @ORM\Entity
+ */
 class Category extends BaseEntity {
 
     /**
@@ -29,4 +32,18 @@ class Category extends BaseEntity {
      */
     public $name;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    public $label;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    public $order;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    public $child_label;
 }

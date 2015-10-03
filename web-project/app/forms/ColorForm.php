@@ -11,16 +11,13 @@ namespace App\Forms;
 class ColorForm {
 
     private $parent;
-    private $name;
 
     /**
      * WireframeForm constructor.
      * @param $parent
-     * @param $name
      */
-    public function __construct($parent, $name) {
+    public function __construct($parent) {
         $this->parent = $parent;
-        $this->name = $name;
     }
 
     /**
@@ -29,7 +26,7 @@ class ColorForm {
      * @return BaseSurveyForm
      */
     public function create($id_page, $id_question){
-        $form = new BaseSurveyForm($this->parent, $this->name);
+        $form = new BaseSurveyForm($this->parent, "colorForm");
 
         $form->addTextArea("answer","Stránka");
 

@@ -58,14 +58,6 @@ class Subquestion extends Service {
     }
 
     /**
-     * @param int $id_respondent
-     * @return \App\Holder\Subquestion[]
-     */
-    public function getSubquestionHoldersByIdRespondent($id_respondent) {
-        return $this->database->getSubquestionHoldersByIdRespondent($id_respondent);
-    }
-
-    /**
      * @param ArrayHash $values
      * @param int $id_respondent
      * @return int

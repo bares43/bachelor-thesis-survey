@@ -39,6 +39,22 @@ class Category extends Service {
         return $this->database->getAll();
     }
 
+    public function getCategoriesHolders() {
+        $holders = array();
+        $parent_categories = $this->database->getByIdParent(null);
+        foreach($parent_categories as $parent_category){
+            $holder = new \App\Holder\Category();
+            $holder->setCategory($parent_category);
+
+            $children = $this->database->getByIdParent($parent_category->id_category);
+            $holder->setChildren($children);
+
+            $holders[] = $holder;
+        }
+
+        return $holders;
+    }
+
     /**
      * @param \App\Model\Category $category
      */

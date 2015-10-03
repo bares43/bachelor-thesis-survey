@@ -41,6 +41,18 @@ class Database extends Nette\Object {
     }
 
     /**
+     * @param array $criteria
+     * @param array $orderBy
+     * @param null $limit
+     * @param null $offset
+     * @return \Kdyby\Doctrine\Entities\BaseEntity[]
+     */
+    protected function _getBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        return $this->entityManager->getRepository($this->repositoryName)->findBy($criteria, $orderBy, $limit, $offset);
+    }
+
+    /**
      * @param int $id
      * @return null|BaseEntity
      */

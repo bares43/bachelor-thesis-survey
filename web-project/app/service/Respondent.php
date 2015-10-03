@@ -45,5 +45,4 @@ class Respondent extends Service {
     public function save($respondent) {
         $this->database->save($respondent);
     }
-
 }

@@ -55,28 +55,6 @@ class Subquestion extends Database {
         return $this->entityManager->getRepository($this->repositoryName)->findBy($criteria);
     }
 
-    /**
-     * @param int $id_respondent
-     * @return \App\Holder\Subquestion[]
-     */
-    public function getSubquestionHoldersByIdRespondent($id_respondent) {
-        $query = $this->entityManager->getRepository($this->repositoryName)->createQueryBuilder();
-
-        $query->select("subquestion");
-        $query->from(Model\Subquestion::getClassName(),"subquestion");
-
-        $query->join(Model\Question::getClassName(),"question",Join::WITH,"subquestion.id_question = question.id_question")->addSelect("question");
-        $query->leftJoin(Model\Wireframe::getClassName(),"wireframe",Join::WITH,"subquestion.id_wireframe = wireframe.id_wireframe")->addSelect("wireframe");
-        $query->join(Model\Page::getClassName(),"page",Join::WITH,"question.id_page = page.id_page")->addSelect("page");
-        $query->join(Model\Website::getClassName(),"website",Join::WITH,"page.id_website = website.id_website")->addSelect("website");
-
-        $query->where($query->expr()->eq("question.id_respondent",$id_respondent));
-
-        $mapper = new \App\Holder\Mapper\Subquestion();
-
-        return $this->populateMapper($query, $mapper);
-    }
-
 
     /**
      * @param Model\Subquestion $subquestion

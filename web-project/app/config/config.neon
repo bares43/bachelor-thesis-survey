@@ -27,6 +27,8 @@ services:
 	respondents: App\Service\Respondent()
 	subquestions: App\Service\Subquestion()
 	wireframes: App\Service\Wireframe()
+	entities_categories: App\Service\EntityCategory()
+	respondents_websites: App\Service\RespondentWebsite()
 	db_websites: App\Database\Website()
 	db_categories: App\Database\Category()
 	db_pages: App\Database\Page()
@@ -35,6 +37,8 @@ services:
 	db_subquestions: App\Database\Subquestion()
 	db_wireframes: App\Database\Wireframe()
 	db_pages_related: App\Database\PageRelated()
+	db_entities_categories: App\Database\EntityCategory()
+	db_respondents_websites: App\Database\RespondentWebsite()
 
 extensions:
 	console: Kdyby\Console\DI\ConsoleExtension
