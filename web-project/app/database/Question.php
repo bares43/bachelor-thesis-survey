@@ -46,6 +46,7 @@ class Question extends Database {
      */
     public function save(Model\Question $question)
     {
+        if($question->datetime === null) $question->datetime = new \DateTime();
         $this->_save($question);
     }
 

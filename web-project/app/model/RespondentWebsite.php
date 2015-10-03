@@ -42,4 +42,9 @@ class RespondentWebsite extends BaseEntity {
      */
     public $period;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    public $datetime;
+
 }

@@ -61,6 +61,7 @@ class Subquestion extends Database {
      */
     public function save(Model\Subquestion $subquestion)
     {
+        if($subquestion->datetime === null) $subquestion->datetime = new \DateTime();
         $this->_save($subquestion);
     }
 

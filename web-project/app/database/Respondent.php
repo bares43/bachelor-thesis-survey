@@ -45,6 +45,7 @@ class Respondent extends Database {
      */
     public function save(Model\Respondent $respondent)
     {
+        if($respondent->datetime === null) $respondent->datetime = new \DateTime();
         $this->_save($respondent);
     }
 }

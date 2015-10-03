@@ -27,6 +27,7 @@ class RespondentWebsite extends Database {
      */
     public function save(\App\Model\RespondentWebsite $website)
     {
+        if($website->datetime === null) $website->datetime = new \DateTime();
         $this->_save($website);
     }
 }

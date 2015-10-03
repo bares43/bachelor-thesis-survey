@@ -32,4 +32,9 @@ class Question  extends BaseEntity {
      * @ORM\Column(type="integer")
      */
     public $id_page;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    public $datetime;
 }
