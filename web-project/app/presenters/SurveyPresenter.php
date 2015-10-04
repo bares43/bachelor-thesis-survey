@@ -164,6 +164,37 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
         $this->template->form = $this->createComponentFinalForm();
     }
 
+    public function renderResults() {
+
+        $respondent = $this->sessionSection->respondent;
+        $subquestions = $this->question_service->getSubquestionHoldersByIdRespondent($respondent->id_respondent);
+
+        $pages = array();
+        $total_correct = 0;
+        $total_wrong = 0;
+        $total_not_evaluated = 0;
+
+        foreach($subquestions as $subquestion){
+            if($subquestion->getSubquestion()->correct){
+                $total_correct++;
+            }
+            elseif($subquestion->getSubquestion()->correct === null){
+                $total_not_evaluated++;
+            }else{
+                $total_wrong++;
+            }
+            $pages[] = $subquestion->getPage()->id_page;
+        }
+
+        $pages = array_unique($pages);
+
+        $this->template->total_questions = count($subquestions);
+        $this->template->total_pages = count($pages);
+        $this->template->total_correct = $total_correct;
+        $this->template->total_wrong = $total_wrong;
+        $this->template->total_not_evaluated = $total_not_evaluated;
+    }
+
 
     /** FORMS SUCCESS */
 

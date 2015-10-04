@@ -1,27 +1,31 @@
 {block title}Výsledky{/block}
 {block content}
-<h2>Výsledky</h2>
-<div>Ještě jednou Vám <strong>děkuji</strong> za vyplnění dotazníku.</div>
-<table>
-    <tr>
-        <th>Celkem stránek</th>
-        <td>10</td>
-    </tr>
-    <tr>
-        <th>Celkem otázek</th>
-        <td>10</td>
-    </tr>
-    <tr>
-        <th>Správně zodpovězených otázek</th>
-        <td>10</td>
-    </tr>
-    <tr>
-        <th>Neprávně zodpovězených otázek</th>
-        <td>10</td>
-    </tr>
-    <tr>
-        <th>Zatím nevyhodnocena odpověď</th>
-        <td>10</td>
-    </tr>
-</table>
-<a n:href="Help:#vyhodnoceni-odpovedi" class="btn btn-default btn-sm">Proč jsou nějaké odpovědi nevyhodnocené?</a>
+<div id="results">
+    <h2>Výsledky</h2>
+    <div>Ještě jednou Vám <strong>děkuji</strong> za vyplnění dotazníku.<br />Zde jsou Vaše výsledky.</div>
+    <table>
+        <tr>
+            <th>Celkem otázek</th>
+            <td>{$total_questions}</td>
+        </tr>
+        <tr>
+            <th>Celkem stránek</th>
+            <td>{$total_pages}</td>
+        </tr>
+        <tr>
+            <th>Správně zodpovězených otázek</th>
+            <td>{$total_correct}</td>
+        </tr>
+        <tr>
+            <th>Neprávně zodpovězených otázek</th>
+            <td>{$total_wrong}</td>
+        </tr>
+        <tr>
+            <th>Zatím nevyhodnocená odpověď</th>
+            <td>{$total_not_evaluated}</td>
+        </tr>
+    </table>
+    {if $total_not_evaluated > 0}
+    <a n:href="Help:#vyhodnoceni-odpovedi" class="btn btn-default btn-sm">Proč jsou nějaké odpovědi nevyhodnocené?</a>
+    {/if}
+</div>

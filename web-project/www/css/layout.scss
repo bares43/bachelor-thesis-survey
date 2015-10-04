@@ -302,3 +302,21 @@ form {
     }
   }
 }
+#results {
+  text-align: center;
+  > div {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  table {
+      margin: auto;
+      th {
+        width: 290px;
+        height: 40px;
+        line-height: 40px;
+      }
+      td {
+        text-align: right;
+      }
+  }
+}

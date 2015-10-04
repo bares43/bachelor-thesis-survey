@@ -220,4 +220,18 @@ form table td textarea {
   width: 300px;
   height: 100px; }
 
+#results {
+  text-align: center; }
+  #results > div {
+    margin-top: 20px;
+    margin-bottom: 20px; }
+  #results table {
+    margin: auto; }
+    #results table th {
+      width: 290px;
+      height: 40px;
+      line-height: 40px; }
+    #results table td {
+      text-align: right; }
+
 /*# sourceMappingURL=layout.css.map */
