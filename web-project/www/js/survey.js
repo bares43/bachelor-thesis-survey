@@ -45,12 +45,9 @@ $(document).ready(function(){
         $("a[data-select-image]").removeClass("btn-primary").addClass("btn-default");
         $("a[data-select-image="+option+"]").addClass("btn-primary").removeClass("btn-default");
 
-        console.log(option);
-        var radio = $("input[name='wf'][value="+option+"]");
-        console.log("input[name='wf'][value="+option+"]");
-        console.log(radio);
+        var radio = $("input[name='id_pages'][value="+option+"]");
 
-        $("input[name='wf']").not(radio).removeAttr("checked").parent().removeClass("active");
+        $("input[name='id_pages']").not(radio).removeAttr("checked").parent().removeClass("active");
         radio.attr("checked",true).parent().addClass("active");
     }
 
@@ -59,7 +56,7 @@ $(document).ready(function(){
         wireframeReverseSetOption(current);
     });
 
-    $("input[name='wf']").on("change", function(){
+    $("#frm-wireframeReverseForm input[name='id_pages']").on("change", function(){
         if($(this).is(":checked")){
             var current = $(this).val();
             wireframeReverseSetOption(current);

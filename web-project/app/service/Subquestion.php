@@ -65,7 +65,7 @@ class Subquestion extends Service {
     public function getIdQuestion($values, $id_respondent) {
         if($values->id_question != null) return $values->id_question;
 
-        $id_page = $this->wireframe_service->get($values->id_wireframe)->id_page;
+        $id_page = $values->id_page;
 
         $question = $this->question_service->create($id_respondent, $id_page);
         return $question->id_question;

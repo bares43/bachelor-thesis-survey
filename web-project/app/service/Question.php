@@ -80,20 +80,15 @@ class Question extends Service {
             \App\Model\Subquestion::QUESTION_TYPE_COLOR=>0,
             \App\Model\Subquestion::QUESTION_TYPE_COLOR_SELECT=>0
         );
-        $options = array_merge($options_wireframes, $options_colors);
+        $options = $options_wireframes + $options_colors;
 
-        $filter = new \App\Filter\Page;
-
-        $last_question = null;
-
-        /** @var \App\Model\Page $page */
-        $page = null;
-        /** @var \App\Model\Wireframe $wireframe */
-        $wireframe = null;
+        /** @var string $question_type */
         $question_type = null;
+
         /** @var \App\Model\Question $question */
         $question = null;
 
+        /** @var \App\Holder\Page $page_holder */
         $page_holder = null;
 
         if($respondent !== null){
@@ -101,44 +96,86 @@ class Question extends Service {
             // nastaveni jazyka do filtru
             $languages = array(\App\Model\Website::LANGUAGE_CZECH);
             if($respondent->english) $languages[] = \App\Model\Website::LANGUAGE_ENGLISH;
-            $filter->setLanguages($languages);
 
-            // nastavit kategorie do filtru
-
-            // nastavit zarizeni do filtru
+            //TODO [bares] dodělat filtrování dle kategorií a preferovaného zařízení
 
             /** @var \App\Holder\Subquestion[] $subquestions */
             $subquestions = $this->getSubquestionHoldersByIdRespondent($respondent->id_respondent);
 
             $rand = rand(1,100);
 
+            $pages_ids_part = array();
+
+            /** Respondent už zodpověděl nějaké otázky */
             if(count($subquestions) > 0) {
 
                 $pages_ids = array();
                 foreach($subquestions as $holder){
                     $pages_ids[] = $holder->getPage()->id_page;
 
+                    /** Spočítám kolikrát bych který typ otázky použit a později budu upřednosťnovat málo používáné */
                     $options[$holder->getSubquestion()->question_type]++;
+                    if(array_key_exists($holder->getSubquestion()->question_type, $options_wireframes)) $options_wireframes[$holder->getSubquestion()->question_type]++;
+                    if(array_key_exists($holder->getSubquestion()->question_type, $options_colors)) $options_colors[$holder->getSubquestion()->question_type]++;
                 }
-                $pages_ids_part = array_slice($pages_ids,ceil(count($pages_ids)/2));
+                $pages_ids_part = array_slice($pages_ids,10);
                 $pages_ids = array_unique($pages_ids);
                 arsort($options);
+                arsort($options_wireframes);
+                arsort($options_colors);
 
                 /** @var \App\Holder\Subquestion $last_subquestion */
                 $last_subquestion = end($subquestions);
 
                 /** Poslední page, pokud byla zodpovězena špatně, jen s jiným typem otázky */
-                if ($rand >= 1 && $rand <= 20 && $last_subquestion->getSubquestion()->correct !== null && !$last_subquestion->getSubquestion()->correct) {
-                    $page = $last_subquestion->getPage();
-                    if(in_array($last_subquestion->getSubquestion()->question_type,array_keys($options_wireframes))){
-                        $question_type = array_rand($options_colors);
-                    }else{
-                        $question_type = array_rand($options_wireframes);
+                if ((($rand >= 1 && $rand <= 30) || ($rand >= 70 && $rand <= 90)) && $last_subquestion->getSubquestion()->correct !== null && !$last_subquestion->getSubquestion()->correct) {
+
+                    $cnt = 3;
+                    $page_holder = null;
+                    while($page_holder === null && $cnt > 0){
+                        --$cnt;
+                        $filter = new \App\Filter\Page();
+                        $filter->setIdPage($last_subquestion->getPage()->id_page);
+
+                        /** Byl zobrazen wireframe a page má nadefinované barvy - zobrazí se otázka na barvy */
+                        if($cnt === 3 && in_array($last_subquestion->getSubquestion()->question_type,array_keys($options_wireframes))){
+                            $question_type = array_rand($options_colors);
+                            $filter->setRequiredColor(true);
+                            $filter->setRequiredTextColor(true);
+                        }
+                        /** Byl zobrazen wireframe bez obrázku - zobrazí se wireframe kde jsou místo obrázků šedé boxy */
+                        else if($cnt === 2 && in_array($last_subquestion->getSubquestion()->question_type,array_keys($options_wireframes)) && $last_subquestion->getWireframe()->image_mode === \App\Model\Wireframe::IMAGE_REMOVE){
+                            $question_type = array_rand($options_wireframes);
+                            $filter->setImageMode(\App\Model\Wireframe::IMAGE_BOX);
+                        }
+                        /** Byl zobrazen wireframe se šedými boxy - zobrazí se wireframe kde jsou rozmazené obrázky */
+                        else if($cnt === 1 && in_array($last_subquestion->getSubquestion()->question_type,array_keys($options_wireframes)) && $last_subquestion->getWireframe()->image_mode === \App\Model\Wireframe::IMAGE_BOX){
+                            $question_type = array_rand($options_wireframes);
+                            $filter->setImageMode(\App\Model\Wireframe::IMAGE_BLUR);
+                        }
+
+                        $page_holder = $this->page_service->getPageHolderByFilter($filter);
+                        if($page_holder !== null){
+                            $question = $last_subquestion->getQuestion();
+                        }
                     }
-                    $question = $last_subquestion->getQuestion();
                 }
                 /** Page která již byla zobrazena s jiným typem otázky */
-                else if ($rand >= 80 && $rand <= 100) {
+                else if ($rand >= 80 && $rand <= 100 && count($pages_ids_part) > 0) {
+                    $filter = new \App\Filter\Page();
+                    $page_id = $pages_ids_part[array_rand($pages_ids_part)];
+                    $filter->setIdPage($page_id);
+
+                    if(in_array($last_subquestion->getSubquestion()->question_type,array_keys($options_wireframes))){
+                        $question_type = key($options_colors);
+                        $filter->setRequiredColor(true);
+                        $filter->setRequiredTextColor(true);
+                    }else{
+                        $question_type = key($options_wireframes);
+                    }
+
+                    $page_holder = $this->page_service->getPageHolderByFilter($filter);
+
                 }
                 /** Náhodná prioritní page, kromě již zobrazených, nerespektuji nastavneí responenta */
                 else if($rand >= 21 && $rand <= 35){
@@ -148,35 +185,49 @@ class Question extends Service {
                             \App\Filter\Page::EXCLUDE_ID_PAGE=>$pages_ids
                         )
                     ));
-                    $question_type = array_rand($options_wireframes);
-                }
-
-                /** Náhodná page kromě X posledních pages, respektovat nastavení respondenta */
-                if($page === null){
-                    $page_holder = $this->page_service->getPageHolderByFilter(new \App\Filter\Page(
-                        array(
-                            \App\Filter\Page::PRIORITY=>true,
-                            \App\Filter\Page::EXCLUDE_ID_PAGE=>$pages_ids_part
-                        )
-                    ));
-                    $question_type = array_rand($options_wireframes);
+                    $question_type = key($options_wireframes);
                 }
             }
-            /** Náhodná prioritní page, respektuji nastavení respondenta */
-            else{
+
+            /**
+             * Respondent ještě nezodpověděl žádné otázky a nebo se dosud nepodařilo vybrat otázku
+             * Zobrazit pouze prioritní pages, odfiltrovat X posledních pages, respektovat nastavení respondenta
+             */
+            if($page_holder === null){
                 $page_holder = $this->page_service->getPageHolderByFilter(new \App\Filter\Page(
-                    array(\App\Filter\Page::PRIORITY=>true)
+                    array(
+                        \App\Filter\Page::PRIORITY=>true,
+                        \App\Filter\Page::EXCLUDE_ID_PAGE=>$pages_ids_part,
+                        \App\Filter\Page::LANGUAGES=>$languages
+                    )
                 ));
                 $question_type = array_rand($options_wireframes);
             }
         }
 
-        /** Náhodná prioritní page s nádhoným typem otázky, kromě otázek na barvy */
+        /**
+         * Ještě neznáme respondenta nebo se dosud nepodařilo vybrat otázku
+         * Náhodná prioritní page s náhodným typem otázky, kromě otázek na barvy
+         */
         if($page_holder === null){
             $page_holder = $this->page_service->getPageHolderByFilter(new \App\Filter\Page(
                 array(\App\Filter\Page::PRIORITY=>true)
             ));
             $question_type = array_rand($options_wireframes);
+        }
+
+        $related = $this->page_service->getRelatedPagesHolders($page_holder);
+
+        /**
+         * Pokud by se stalo, že je vybraný typ otázky, který potřebuje podobné příbuzné stránky z výběru, a aktuální page je nemá
+         */
+        if(count($related) !== 2){
+            if($question_type === \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME_REVERSE || $question_type === \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME_SELECT){
+                $question_type = \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME;
+            }
+            else if($question_type === \App\Model\Subquestion::QUESTION_TYPE_COLOR_SELECT){
+                $question_type = \App\Model\Subquestion::QUESTION_TYPE_COLOR;
+            }
         }
 
         switch($question_type){
@@ -199,8 +250,7 @@ class Question extends Service {
         $new_question->setQuestion($question);
         $new_question->setPageHolder($page_holder);
         $new_question->setQuestionType($question_type_string);
-
-
+        $new_question->setPagesHolders($related);
 
         return $new_question;
     }

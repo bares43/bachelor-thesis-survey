@@ -2,24 +2,19 @@
 {define type}wireframe-reverse{/define}
 {define name}Přiřazení wireframu k webu{/define}
 {define task}
-<strong>Hlavní stránka</strong> na webu <strong>www.novinky.cz</strong> vypadá jako jeden z těchto wireframů. Jaký vyberete?
+<strong>{$page->getPage()->name}</strong> na webu <strong>{$page->getWebsite()->name}</strong> vypadá jako jeden z těchto wireframů. Jaký vyberete?
 {/define}
 {define question}
 <div class="clearfix">
-        <div class="pull-left">
-            <div class="wireframe">
-                <img src="{$basePath}/files/wireframes/{$id_wireframe}.png" width="450" data-select-image="0" class="border elevate-zoom" data-zoom-image="{$basePath}/files/wireframes/{$id_wireframe}.png" />
-                <a class="btn btn-default btn-sm" data-select-image="0">Tento wireframe</a>
-                <a href="{$basePath}/files/wireframes/{$id_wireframe}.png" target="_blank" class="btn btn-default btn-sm">Zobrazit plnou velikost</a>
+        {foreach $pages_holders as $page_holder}
+            <div class="{if $iterator->first}pull-left{else}pull-right{/if}">
+                <div class="wireframe">
+                    <img src="{$basePath}/files/wireframes/{$page_holder->getCurrentWireframe()->id_wireframe}.png" width="450" data-select-image="{$page_holder->getPage()->id_page}" class="border elevate-zoom" data-zoom-image="{$basePath}/files/wireframes/{$page_holder->getCurrentWireframe()->id_wireframe}.png" />
+                    <a class="btn btn-default btn-sm" data-select-image="{$page_holder->getPage()->id_page}">Tento wireframe</a>
+                    <a href="{$basePath}/files/wireframes/{$page_holder->getCurrentWireframe()->id_wireframe}.png" target="_blank" class="btn btn-default btn-sm">Zobrazit plnou velikost</a>
+                </div>
             </div>
-        </div>
-        <div class="pull-right">
-            <div class="wireframe">
-                <img src="{$basePath}/files/wireframes/{$id_wireframe}.png" width="450" data-select-image="1" class="border elevate-zoom" data-zoom-image="{$basePath}/files/wireframes/{$id_wireframe}.png" />
-                <a class="btn btn-default btn-sm" data-select-image="1">Tento wireframe</a>
-                <a href="{$basePath}/files/wireframes/{$id_wireframe}.png" target="_blank" class="btn btn-default btn-sm">Zobrazit plnou velikost</a>
-            </div>
-        </div>
+        {/foreach}
     </div>
 {/define}
 {define form}{control $form}{/define}

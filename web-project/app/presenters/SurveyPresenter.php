@@ -142,7 +142,8 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
 
     public function renderWireframereverse(){
         $this->setHelp();
-        $this->template->id_wireframe = $this->new_question_holder->getPageHolder()->getCurrentWireframe()->id_wireframe;
+        $this->template->page = $this->new_question_holder->getPageHolder();
+        $this->template->pages_holders = $this->new_question_holder->getPagesHolders();
         $this->template->form = $this->createComponentWireframeReverseForm();
     }
 
@@ -234,11 +235,19 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
      * @param Form $form
      */
     public function wireframeSelectFormSubmitted(Form $form){
+        // rekonstrukce puvodnich id_pages
+        $values = $form->getValues();
+        $id_page = $values->id_page;
+        $pages = $this->page_service->getRelatedPages($id_page);
+        $options = array($id_page=>"",$pages[0]->id_page);
+
+        $form->getComponent("id_pages")->setItems($options);
+
         $values = $form->getValues();
 
         $subquestion = $this->subquestion_service->prepareSubquestionForSave($values, \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME_SELECT,$this->sessionSection->respondent->id_respondent);
 
-        $subquestion->correct = $values->id_pages === $values->id_page;
+        $subquestion->correct = $values->id_pages === (int)$values->id_page;
         $subquestion->answer = $values->id_pages;
 
         $this->subquestion_service->save($subquestion);
@@ -255,11 +264,19 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
      * @param Form $form
      */
     public function wireframeReverseFormSubmitted(Form $form){
+        // rekonstrukce puvodnich id_pages
+        $values = $form->getValues();
+        $id_page = $values->id_page;
+        $pages = $this->page_service->getRelatedPages($id_page);
+        $options = array(0=>"",$id_page=>"",$pages[0]->id_page);
+
+        $form->getComponent("id_pages")->setItems($options);
+
         $values = $form->getValues();
 
         $subquestion = $this->subquestion_service->prepareSubquestionForSave($values, \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME_REVERSE,$this->sessionSection->respondent->id_respondent);
 
-        $subquestion->correct = $values->id_pages === $values->id_page;
+        $subquestion->correct = $values->id_pages === (int)$values->id_page;
         $subquestion->answer = $values->id_pages;
 
         $this->subquestion_service->save($subquestion);
@@ -296,11 +313,19 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
      * @param Form $form
      */
     public function colorSelectFormSubmitted(Form $form){
+        // rekonstrukce puvodnich id_pages
+        $values = $form->getValues();
+        $id_page = $values->id_page;
+        $pages = $this->page_service->getRelatedPages($id_page);
+        $options = array($id_page=>"",$pages[0]->id_page);
+
+        $form->getComponent("id_pages")->setItems($options);
+
         $values = $form->getValues();
 
         $subquestion = $this->subquestion_service->prepareSubquestionForSave($values, \App\Model\Subquestion::QUESTION_TYPE_COLOR_SELECT,$this->sessionSection->respondent->id_respondent);
 
-        $subquestion->correct = $values->id_pages === $values->id_page;
+        $subquestion->correct = $values->id_pages === (int)$values->id_page;
         $subquestion->answer = $values->id_pages;
 
         $this->subquestion_service->save($subquestion);
@@ -348,8 +373,10 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
      * @return Form
      */
     public function createComponentColorForm() {
-        $id_question = $this->new_question_holder->getQuestion() !== null ? $this->new_question_holder->getQuestion()->id_question : null;
-        $form = (new ColorForm($this))->create($this->new_question_holder->getPageHolder()->getPage()->id_page, $id_question);
+        $form = (new ColorForm($this))->create(
+            $this->new_question_holder->getPageHolder()->getPage()->id_page,
+            $this->new_question_holder->getQuestionId()
+        );
         $form->onSuccess[] = $this->colorFormSubmitted;
         return $form;
     }
@@ -357,8 +384,11 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
      * @return Form
      */
     public function createComponentColorSelectForm() {
-        $id_question = $this->new_question_holder->getQuestion() !== null ? $this->new_question_holder->getQuestion()->id_question : null;
-        $form = (new ColorSelectForm($this))->create($this->new_question_holder->getPageHolder()->getPage()->id_page, $id_question, $this->new_question_holder->getPagesHolders());
+        $form = (new ColorSelectForm($this))->create(
+            $this->new_question_holder->getPageHolder()->getPage()->id_page,
+            $this->new_question_holder->getQuestionId(),
+            $this->new_question_holder->getPagesHolders()
+        );
         $form->onSuccess[] = $this->colorSelectFormSubmitted;
         return $form;
     }
@@ -367,8 +397,11 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
      * @return \App\Forms\BaseSurveyForm
      */
     public function createComponentWireframeForm(){
-        $id_question = $this->new_question_holder->getQuestion() !== null ? $this->new_question_holder->getQuestion()->id_question : null;
-        $form = (new WireframeForm($this))->create($this->new_question_holder->getPageHolder()->getPage()->id_page, $this->new_question_holder->getPageHolder()->getCurrentWireframe()->id_wireframe, $id_question);
+        $form = (new WireframeForm($this))->create(
+            $this->new_question_holder->getPageHolder()->getPage()->id_page,
+            $this->new_question_holder->getPageHolder()->getCurrentWireframe()->id_wireframe,
+            $this->new_question_holder->getQuestionId()
+        );
         $form->onSuccess[] = $this->wireframeFormSubmitted;
         return $form;
     }
@@ -377,8 +410,11 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
      * @return \App\Forms\BaseSurveyForm
      */
     public function createComponentWireframeSelectForm(){
-        $id_question = $this->new_question_holder->getQuestion() !== null ? $this->new_question_holder->getQuestion()->id_question : null;
-        $form = (new WireframeSelectForm($this))->create($this->new_question_holder->getPageHolder()->getPage()->id_page, $this->new_question_holder->getPageHolder()->getCurrentWireframe()->id_wireframe, $id_question, $this->new_question_holder->getPagesHolders());
+        $form = (new WireframeSelectForm($this))->create(
+            $this->new_question_holder->getPageHolder()->getPage()->id_page,
+            $this->new_question_holder->getPageHolder()->getCurrentWireframe()->id_wireframe,
+            $this->new_question_holder->getQuestionId(),
+            $this->new_question_holder->getPagesHolders());
         $form->onSuccess[] = $this->wireframeSelectFormSubmitted;
         return $form;
     }
@@ -387,8 +423,12 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
      * @return \App\Forms\BaseSurveyForm
      */
     public function createComponentWireframeReverseForm(){
-        $id_question = $this->new_question_holder->getQuestion() !== null ? $this->new_question_holder->getQuestion()->id_question : null;
-        $form = (new WireframeReverse($this))->create($this->new_question_holder->getPageHolder()->getPage()->id_page, $this->new_question_holder->getPageHolder()->getCurrentWireframe()->id_wireframe, $id_question, $this->new_question_holder->getPagesHolders());
+        $form = (new WireframeReverse($this))->create(
+            $this->new_question_holder->getPageHolder()->getPage()->id_page,
+            $this->new_question_holder->getPageHolder()->getCurrentWireframe()->id_wireframe,
+            $this->new_question_holder->getQuestionId(),
+            $this->new_question_holder->getPagesHolders()
+        );
         $form->onSuccess[] = $this->wireframeReverseFormSubmitted;
         return $form;
     }

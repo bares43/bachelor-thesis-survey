@@ -39,7 +39,7 @@ class PageRelated extends Database {
 
         $related = array();
         foreach($rows as $row){
-            $related[] = Service::populateEntity($row,\App\Model\PageRelated::getClassName(),"page_related");
+            $related[] = Service::populateEntity($row,\App\Model\PageRelated::getClassName(),null);
         }
         return $related;
     }

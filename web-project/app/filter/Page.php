@@ -22,7 +22,10 @@ class Page extends Filter {
     const MIN_RESOLUTION_HEIGHT = "minresolutionheight";
     const TEXT_MODE = "textmode";
     const IMAGE_MODE = "imagemode";
-    const USER_AGENT = "user_agent";
+    const USER_AGENT = "useragent";
+    const ID_PAGE = "idpage";
+    const REQUIRED_COLOR = "requiredcolor";
+    const REQUIRED_TEXT_COLOR = "requiredtextcolor";
 
     /**
      * @return \string[]
@@ -163,5 +166,46 @@ class Page extends Filter {
         $this->set(self::USER_AGENT,$user_agent);;
     }
 
+    /**
+     * @return int
+     */
+    public function getIdPage() {
+        return $this->get(self::ID_PAGE);
+    }
+
+    /**
+     * @param int $id_page
+     */
+    public function setIdPage($id_page) {
+        $this->set(self::ID_PAGE, $id_page);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRequiredColor() {
+        return $this->get(self::REQUIRED_COLOR);
+    }
+
+    /**
+     * @param bool $required_color
+     */
+    public function setRequiredColor($required_color) {
+        $this->set(self::REQUIRED_COLOR, $required_color);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRequiredTextColor() {
+        return $this->get(self::REQUIRED_TEXT_COLOR);
+    }
+
+    /**
+     * @param bool $required_text_color
+     */
+    public function setRequiredTextColor($required_text_color) {
+        $this->set(self::REQUIRED_TEXT_COLOR, $required_text_color);
+    }
 
 }

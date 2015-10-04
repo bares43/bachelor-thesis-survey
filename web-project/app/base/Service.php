@@ -14,7 +14,7 @@ class Service {
     /**
      * @param $row
      * @param string $entityName
-     * @param string $alias
+     * @param string|null $alias
      * @return BaseEntity
      */
     public static function populateEntity($row, $entityName, $alias) {
@@ -24,6 +24,9 @@ class Service {
             if (preg_match('/^' . $alias . '_(.*)/', $column, $match)) {
                 $columnName = $match[1];
                 $entity->$columnName = $value;
+            }
+            else if($alias === null){
+                $entity->$column = $value;
             }
         }
 

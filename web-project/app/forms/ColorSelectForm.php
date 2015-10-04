@@ -30,9 +30,9 @@ class ColorSelectForm {
      */
     public function create($id_page, $id_question, $pages){
         $pages_select = array();
-//        foreach($pages as $page){
-//            $pages_select[$page->id_page] = $page->name;
-//        }
+        foreach($pages as $page){
+            $pages_select[$page->getPage()->id_page] = $page->getWebsite()->name;
+        }
 
         $form = new BaseSurveyForm($this->parent, "colorSelectForm");
 

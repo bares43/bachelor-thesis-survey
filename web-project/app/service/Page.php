@@ -53,11 +53,11 @@ class Page extends Service {
     }
 
     /**
-     * @param \App\Filter\Page $filter
-     * @return \App\Holder\Page[]
+     * @param int[] $id_pages
+     * @return \App\Holder\Page
      */
-    public function getPageHoldersByFilter(\App\Filter\Page $filter) {
-        return $this->database->getPageHoldersByFilter($filter);
+    public function getPageHolders($id_pages) {
+        return $this->database->getPageHolders($id_pages);
     }
 
     /**
@@ -74,6 +74,7 @@ class Page extends Service {
      */
     public function getRelatedPages($id_page) {
         $related = $this->page_related_database->getPageRelated($id_page);
+
         $pages_ids = array();
         foreach($related as $row){
             if($row->id_page_a !== $id_page) $pages_ids[] = $row->id_page_a;
@@ -88,6 +89,27 @@ class Page extends Service {
         }
 
         return $pages;
+    }
+
+    /**
+     * @param \App\Holder\Page $page
+     * @return \App\Holder\Page[]
+     */
+    public function getRelatedPagesHolders(\App\Holder\Page $page) {
+        $related_pages = $this->getRelatedPages($page->getPage()->id_page);
+
+        $id = count($related_pages) > 0 ? $related_pages[0]->id_page : null;
+
+        $holders = array();
+
+        $holders[] = $page;
+        $holders[] = $this->getPageHolderByFilter(new \App\Filter\Page(
+            array(
+                \App\Filter\Page::ID_PAGE => $id
+            )
+        ));
+        shuffle($holders);
+        return $holders;
     }
 
 }

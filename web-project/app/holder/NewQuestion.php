@@ -90,4 +90,12 @@ class NewQuestion implements IHolder {
         $this->pages_holders = $pages_holders;
     }
 
+    /**
+     * @return int|null
+     */
+    public function getQuestionId() {
+        if($this->question !== null) return $this->question->id_question;
+        return null;
+    }
+
 }

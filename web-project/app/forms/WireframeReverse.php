@@ -32,9 +32,12 @@ class WireframeReverse {
      */
     public function create($id_page, $id_wireframe, $id_question, $pages){
         $pages_select = array();
-//        foreach($pages as $page){
-//            $pages_select[$page->id_page] = $page->name;
-//        }
+
+        if(count($pages) === 2){
+            $pages_select[$pages[0]->getPage()->id_page] = "první";
+            $pages_select[0] = "nevím";
+            $pages_select[$pages[1]->getPage()->id_page] = "druhý";
+        }
 
         $form = new BaseSurveyForm($this->parent, "wireframeReverseForm");
 
