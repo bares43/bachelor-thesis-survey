@@ -131,6 +131,7 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
 
     public function renderWireframe(){
         $this->template->answer_btn = "#frm-wireframeForm-page";
+        $this->template->showAppeal = true;
         $this->setHelp();
         $this->template->id_wireframe = $this->new_question_holder->getPageHolder()->getCurrentWireframe()->id_wireframe;
         $this->template->form = $this->createComponentWireframeForm();
@@ -138,6 +139,7 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
 
     public function renderWireframeselect(){
         $this->template->answer_btn = "#frm-wireframeForm-page";
+        $this->template->showAppeal = true;
         $this->setHelp();
         $this->template->id_wireframe = $this->new_question_holder->getPageHolder()->getCurrentWireframe()->id_wireframe;
         $this->template->form = $this->createComponentWireframeSelectForm();
@@ -145,12 +147,14 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
 
     public function renderWireframereverse(){
         $this->setHelp();
+        $this->template->showAppeal = true;
         $this->template->page = $this->new_question_holder->getPageHolder();
         $this->template->pages_holders = $this->new_question_holder->getPagesHolders();
         $this->template->form = $this->createComponentWireframeReverseForm();
     }
 
     public function renderColor(){
+        $this->template->showAppeal = true;
         $this->template->color = "3397C7";
         $this->template->answer_btn = "#frm-colorForm-answer";
         $this->template->help_lorem = true;
@@ -158,6 +162,7 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
     }
 
     public function renderColorselect(){
+        $this->template->showAppeal = true;
         $this->template->color = "3397C7";
         $this->template->help_lorem = true;
         $this->template->form = $this->createComponentColorSelectForm();

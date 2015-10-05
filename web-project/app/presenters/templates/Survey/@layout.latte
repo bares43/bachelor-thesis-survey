@@ -10,11 +10,13 @@
     {/if}
     <div id="form-wrapper">
         {block form}{/block}
-        {if $max_questions_for_respondent_reached}
+        {if isset($max_questions_for_respondent_reached) && $max_questions_for_respondent_reached}
         <p>Již jste zodpověděli na {$max_questions_for_respondent} otázek. Jestli chcete <strong>skončit</strong>, klikněte prosím na tlačítko "ukončit dotazník".<br />
         Pokud chcete, klidně můžete v dotazníku dále <strong>pokračovat</strong>.</p>
         {/if}
+        {if isset($showAppeal) && $showAppeal}
         <p>Zkuste se prosím zamyslet, ale pokud opravdu nevíte, nemusíte nic vyplňovat a jen klikněte na tlačítko <strong>Pokračovat v dotazníku</strong>.</p>
+        {/if}
     </div>
 </div>
 {/define}
