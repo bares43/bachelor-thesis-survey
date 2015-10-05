@@ -23,14 +23,19 @@ class Question extends Service {
     /** @var Page */
     private $page_service;
 
+    /** @var EntityCategory */
+    private $entity_category_service;
+
     /**
      * Question constructor.
      * @param \App\Database\Question $db_question
      * @param Page $page_service
+     * @param EntityCategory $entity_category_service
      */
-    public function __construct(\App\Database\Question $db_question, Page $page_service) {
+    public function __construct(\App\Database\Question $db_question, Page $page_service, EntityCategory $entity_category_service) {
         $this->database = $db_question;
         $this->page_service = $page_service;
+        $this->entity_category_service = $entity_category_service;
     }
 
     /**
@@ -97,7 +102,12 @@ class Question extends Service {
             $languages = array(\App\Model\Website::LANGUAGE_CZECH);
             if($respondent->english) $languages[] = \App\Model\Website::LANGUAGE_ENGLISH;
 
-            //TODO [bares] dodělat filtrování dle kategorií a preferovaného zařízení
+            $entity_categories = $this->entity_category_service->getEntityCategoriesByIdRespondent($respondent->id_respondent);
+            $categories = array();
+            foreach($entity_categories as $entity_category){
+                $categories[] = $entity_category->id_category;
+            }
+            //TODO [bares] preferovaného zařízení
 
             /** @var \App\Holder\Subquestion[] $subquestions */
             $subquestions = $this->getSubquestionHoldersByIdRespondent($respondent->id_respondent);
@@ -198,7 +208,8 @@ class Question extends Service {
                     array(
                         \App\Filter\Page::PRIORITY=>true,
                         \App\Filter\Page::EXCLUDE_ID_PAGE=>$pages_ids_part,
-                        \App\Filter\Page::LANGUAGES=>$languages
+                        \App\Filter\Page::LANGUAGES=>$languages,
+                        \App\Filter\Page::CATEGORIES=>$categories
                     )
                 ));
                 $question_type = array_rand($options_wireframes);

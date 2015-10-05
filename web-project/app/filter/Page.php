@@ -26,6 +26,7 @@ class Page extends Filter {
     const ID_PAGE = "idpage";
     const REQUIRED_COLOR = "requiredcolor";
     const REQUIRED_TEXT_COLOR = "requiredtextcolor";
+    const CATEGORIES = "categories";
 
     /**
      * @return \string[]
@@ -206,6 +207,20 @@ class Page extends Filter {
      */
     public function setRequiredTextColor($required_text_color) {
         $this->set(self::REQUIRED_TEXT_COLOR, $required_text_color);
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getCategories() {
+        return $this->get(self::CATEGORIES);
+    }
+
+    /**
+     * @param int[] $categories
+     */
+    public function setCategories($categories) {
+        $this->set(self::CATEGORIES, $categories);
     }
 
 }

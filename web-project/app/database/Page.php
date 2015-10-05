@@ -137,6 +137,11 @@ class Page extends Database {
             $query->where($query->expr()->notIn("page.id_page",$filter->getExcludeIdPage()));
         }
 
+        if($filter->getCategories() !== null && count($filter->getCategories()) > 0){
+            $query->join(Model\EntityCategory::getClassName(),"entity_category",Join::WITH,"website.id_website = entity_category.id_website");
+            $query->where($query->expr()->in("entity_category.id_category",$filter->getCategories()));
+        }
+
         $mapper = new \App\Holder\Mapper\Page();
 
 //        $query->setMaxResults(1);

@@ -23,6 +23,16 @@ class EntityCategory extends Database {
     }
 
     /**
+     * @param int $id_respondent
+     * @return \App\Model\EntityCategory[]
+     */
+    public function getEntityCategoriesByIdRespondent($id_respondent) {
+        return $this->_getBy(array(
+            "id_respondent"=>$id_respondent
+        ));
+    }
+
+    /**
      * @param \App\Model\EntityCategory $category
      */
     public function save(\App\Model\EntityCategory $category)

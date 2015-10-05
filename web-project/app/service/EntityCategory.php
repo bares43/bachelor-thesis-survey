@@ -37,6 +37,14 @@ class EntityCategory extends Service {
     }
 
     /**
+     * @param int $id_respondent
+     * @return \App\Model\EntityCategory[]
+     */
+    public function getEntityCategoriesByIdRespondent($id_respondent) {
+        return $this->database->getEntityCategoriesByIdRespondent($id_respondent);
+    }
+
+    /**
      * @param \App\Model\EntityCategory $entity
      */
     public function save($entity) {
