@@ -2,7 +2,7 @@
 # http://nette.org/security-warning
 
 parameters:
-
+    max_questions_for_respondent: 15
 
 php:
 	date.timezone: Europe/Prague

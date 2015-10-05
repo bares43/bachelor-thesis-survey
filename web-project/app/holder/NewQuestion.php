@@ -35,6 +35,11 @@ class NewQuestion implements IHolder {
     private $pages_holders;
 
     /**
+     * @var int
+     */
+    private $respondent_subquestions_count = 0;
+
+    /**
      * @return Question
      */
     public function getQuestion() {
@@ -96,6 +101,20 @@ class NewQuestion implements IHolder {
     public function getQuestionId() {
         if($this->question !== null) return $this->question->id_question;
         return null;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRespondentSubquestionsCount() {
+        return $this->respondent_subquestions_count;
+    }
+
+    /**
+     * @param int $respondent_subquestions_count
+     */
+    public function setRespondentSubquestionsCount($respondent_subquestions_count) {
+        $this->respondent_subquestions_count = $respondent_subquestions_count;
     }
 
 }

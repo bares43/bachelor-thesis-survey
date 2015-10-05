@@ -103,6 +103,9 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
 
         $this->new_question_holder = $new_question;
         $this->setView($new_question->getQuestionType());
+
+        $this->template->max_questions_for_respondent_reached = $new_question->getRespondentSubquestionsCount() === $this->context->getParameters()["max_questions_for_respondent"];
+        $this->template->max_questions_for_respondent = $this->context->getParameters()["max_questions_for_respondent"];
     }
 
     public function actionPersonal(){
