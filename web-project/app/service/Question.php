@@ -122,8 +122,10 @@ class Question extends Service {
             if(count($subquestions) > 0) {
 
                 $pages_ids = array();
+                $wireframes_ids = array();
                 foreach($subquestions as $holder){
                     $pages_ids[] = $holder->getPage()->id_page;
+                    if($holder->getWireframe() !== null) $wireframes_ids[] = $holder->getWireframe()->id_wireframe;
 
                     /** Spočítám kolikrát bych který typ otázky použit a později budu upřednosťnovat málo používáné */
                     $options[$holder->getSubquestion()->question_type]++;
@@ -148,6 +150,7 @@ class Question extends Service {
                         --$cnt;
                         $filter = new \App\Filter\Page();
                         $filter->setIdPage($last_subquestion->getPage()->id_page);
+                        $filter->setExcludeIdWireframe($wireframes_ids);
 
                         /** Byl zobrazen wireframe a page má nadefinované barvy - zobrazí se otázka na barvy */
                         if($cnt === 3 && in_array($last_subquestion->getSubquestion()->question_type,array_keys($options_wireframes))){

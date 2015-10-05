@@ -27,6 +27,7 @@ class Page extends Filter {
     const REQUIRED_COLOR = "requiredcolor";
     const REQUIRED_TEXT_COLOR = "requiredtextcolor";
     const CATEGORIES = "categories";
+    const EXCLUDE_ID_WIREFRAME = "excludeidwireframe";
 
     /**
      * @return \string[]
@@ -221,6 +222,20 @@ class Page extends Filter {
      */
     public function setCategories($categories) {
         $this->set(self::CATEGORIES, $categories);
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getExcludeIdWireframe() {
+        return $this->get(self::EXCLUDE_ID_WIREFRAME);
+    }
+
+    /**
+     * @param int[] $exclude_id_wireframe
+     */
+    public function setExcludeIdWireframe($exclude_id_wireframe) {
+        $this->set(self::EXCLUDE_ID_WIREFRAME, $exclude_id_wireframe);
     }
 
 }
