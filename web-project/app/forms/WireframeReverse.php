@@ -24,13 +24,11 @@ class WireframeReverse {
     }
 
     /**
-     * @param int $id_page
-     * @param int $id_wireframe
-     * @param int|null $id_question
+     * @param int $id_subquestion
      * @param \App\Holder\Page[] $pages
      * @return BaseSurveyForm
      */
-    public function create($id_page, $id_wireframe, $id_question, $pages){
+    public function create($id_subquestion, $pages){
         $pages_select = array();
 
         if(count($pages) === 2){
@@ -39,11 +37,11 @@ class WireframeReverse {
             $pages_select[$pages[1]->getPage()->id_page] = "druhý";
         }
 
-        $form = new BaseSurveyForm($this->parent, "wireframeReverseForm");
+        $form = new BaseSurveyForm(/*$this->parent, "wireframeReverseForm"*/);
 
         $form->addRadioList('id_pages','Který obrázek?',$pages_select)->setAttribute("class","buttons-group");
 
-        $form->addNavigation($id_page, $id_wireframe, $id_question);
+        $form->addNavigation($id_subquestion);
 
         return $form;
     }

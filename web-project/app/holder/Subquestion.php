@@ -10,7 +10,6 @@ namespace App\Holder;
 
 
 use App\Base\IHolder;
-use App\Model\Page;
 use App\Model\Question;
 use App\Model\Website;
 use App\Model\Wireframe;
@@ -23,7 +22,7 @@ class Subquestion implements IHolder {
     /** @var Question */
     private $question;
 
-    /** @var Page */
+    /** @var \App\Model\Page */
     private $page;
 
     /** @var Website */
@@ -61,14 +60,14 @@ class Subquestion implements IHolder {
     }
 
     /**
-     * @return Page
+     * @return \App\Model\Page
      */
     public function getPage() {
         return $this->page;
     }
 
     /**
-     * @param Page $page
+     * @param \App\Model\Page $page
      */
     public function setPage($page) {
         $this->page = $page;

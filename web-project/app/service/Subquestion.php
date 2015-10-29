@@ -20,19 +20,14 @@ class Subquestion extends Service {
     /** @var Wireframe */
     private $wireframe_service;
 
-    /** @var Question */
-    private $question_service;
-
     /**
      * Subquestion constructor.
      * @param \App\Database\Subquestion $db_subquestion
      * @param Wireframe $wireframe_service
-     * @param Question $question_service
      */
-    public function __construct(\App\Database\Subquestion $db_subquestion, Wireframe $wireframe_service, Question $question_service) {
+    public function __construct(\App\Database\Subquestion $db_subquestion, Wireframe $wireframe_service) {
         $this->database = $db_subquestion;
         $this->wireframe_service = $wireframe_service;
-        $this->question_service = $question_service;
     }
 
     /**
@@ -59,35 +54,40 @@ class Subquestion extends Service {
 
     /**
      * @param ArrayHash $values
-     * @param int $id_respondent
-     * @return int
-     */
-    public function getIdQuestion($values, $id_respondent) {
-        if($values->id_question != null) return $values->id_question;
-
-        $id_page = $values->id_page;
-
-        $question = $this->question_service->create($id_respondent, $id_page);
-        return $question->id_question;
-    }
-
-    /**
-     * @param ArrayHash $values
-     * @param int $type
-     * @param int $id_respondent
      * @return \App\Model\Subquestion
      */
-    public function prepareSubquestionForSave($values, $type, $id_respondent){
-        $id_question = $this->getIdQuestion($values, $id_respondent);
-
-        $subquestion = new \App\Model\Subquestion();
-        $subquestion->question_type = $type;
-        $subquestion->id_question = $id_question;
-        $subquestion->id_wireframe = $values->id_wireframe;
+    public function saveBaseProperties($values){
+        $subquestion = $this->get($values->id_subquestion);
         $subquestion->reason = $values->reason;
         $subquestion->seconds = $values->seconds;
 
         return $subquestion;
+    }
+
+    /**
+     * @param int $question_type
+     * @return string
+     */
+    public function questionTypeToString($question_type) {
+        $question_type_string = "";
+        switch($question_type){
+            case \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME:
+                $question_type_string = "wireframe";
+                break;
+            case \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME_SELECT:
+                $question_type_string = "wireframeselect";
+                break;
+            case \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME_REVERSE:
+                $question_type_string = "wireframereverse";
+                break;
+            case \App\Model\Subquestion::QUESTION_TYPE_COLOR:
+                $question_type_string = "color";
+                break;
+            case \App\Model\Subquestion::QUESTION_TYPE_COLOR_SELECT:
+                $question_type_string = "colorselect";
+                break;
+        }
+        return $question_type_string;
     }
 
 }

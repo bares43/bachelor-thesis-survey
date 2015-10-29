@@ -11,6 +11,7 @@ namespace App\Holder;
 
 use App\Base\IHolder;
 use App\Model\Question;
+use App\Model\Subquestion;
 
 class NewQuestion implements IHolder {
 
@@ -20,12 +21,17 @@ class NewQuestion implements IHolder {
     private $question;
 
     /**
+     * @var Subquestion
+     */
+    private $subquestion;
+
+    /**
      * @var Page
      */
     private $page_holder;
 
     /**
-     * @var string
+     * @var int
      */
     private $question_type;
 
@@ -54,6 +60,21 @@ class NewQuestion implements IHolder {
     }
 
     /**
+     * @return Subquestion
+     */
+    public function getSubquestion() {
+        return $this->subquestion;
+    }
+
+    /**
+     * @param Subquestion $subquestion
+     */
+    public function setSubquestion($subquestion) {
+        $this->subquestion = $subquestion;
+    }
+
+
+    /**
      * @return Page
      */
     public function getPageHolder() {
@@ -68,14 +89,14 @@ class NewQuestion implements IHolder {
     }
 
     /**
-     * @return string
+     * @return int
      */
     public function getQuestionType() {
         return $this->question_type;
     }
 
     /**
-     * @param string $question_type
+     * @param int $question_type
      */
     public function setQuestionType($question_type) {
         $this->question_type = $question_type;

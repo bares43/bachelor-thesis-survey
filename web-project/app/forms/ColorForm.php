@@ -21,16 +21,15 @@ class ColorForm {
     }
 
     /**
-     * @param int $id_page
-     * @param int|null $id_question
+     * @param int $id_subquestion
      * @return BaseSurveyForm
      */
-    public function create($id_page, $id_question){
-        $form = new BaseSurveyForm($this->parent, "colorForm");
+    public function create($id_subquestion){
+        $form = new BaseSurveyForm(/*$this->parent, "colorForm"*/);
 
         $form->addTextArea("answer","Stránka");
 
-        $form->addNavigation($id_page, null, $id_question);
+        $form->addNavigation($id_subquestion);
 
         return $form;
     }

@@ -24,23 +24,21 @@ class WireframeSelectForm {
     }
 
     /**
-     * @param int $id_page
-     * @param int $id_wireframe
-     * @param int|null $id_question
+     * @param int $id_subquestion
      * @param \App\Holder\Page[] $pages
      * @return BaseSurveyForm
      */
-    public function create($id_page, $id_wireframe, $id_question, $pages){
+    public function create($id_subquestion, $pages){
         $pages_select = array();
         foreach($pages as $page){
             $pages_select[$page->getPage()->id_page] = $page->getWebsite()->name;
         }
 
-        $form = new BaseSurveyForm($this->parent, "wireframeSelectForm");
+        $form = new BaseSurveyForm(/*$this->parent, "wireframeSelectForm"*/);
 
         $form->addRadioList("id_pages","Název stránky",$pages_select)->setAttribute("class","buttons-group");
 
-        $form->addNavigation($id_page, $id_wireframe, $id_question);
+        $form->addNavigation($id_subquestion);
 
         return $form;
     }

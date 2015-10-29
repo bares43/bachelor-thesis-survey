@@ -1,4 +1,3 @@
-{layout '@layout.latte'}
 {define type}wireframe-select{/define}
 {define name}Poznání webu z wireframu{/define}
 {define task}O jakou webovou stránku se jedná?{/define}
@@ -8,4 +7,4 @@
     <a href="{$basePath}/files/wireframes/{$id_wireframe}.png" target="_blank" class="btn btn-primary btn-sm">Zobrazit plnou velikost</a>
 </div>
 {/define}
-{define form}{control $form}{/define}
+{define form}{control wireframeSelectForm}{/define}

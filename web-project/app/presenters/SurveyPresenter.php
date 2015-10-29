@@ -77,96 +77,145 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
 
     protected function startup() {
         parent::startup();
-
         $this->sessionSection = $this->getSession()->getSection("survey");
-
-        if($this->sessionSection->next_personal && $this->sessionSection->respondent === null && $this->action !== "personal"){
-            $this->redirect("Survey:personal");
-            exit;
-        }
-
-        if($this->sessionSection->respondent === null){
-            $this->sessionSection->next_personal = true;
-        }
     }
 
     /**
      * ACTION
      */
 
+    public function actionQuestion() {
+        $this->new_question_holder = new NewQuestion();
+        $this->new_question_holder->setPageHolder(new \App\Holder\Page());
+        $this->new_question_holder->setQuestion(new \App\Model\Question());
+        $this->new_question_holder->setSubquestion(new \App\Model\Subquestion());
+        $this->new_question_holder->setPagesHolders(array());
+        $this->new_question_holder->setQuestionType(0);
+    }
+
     public function actionDefault(){
+        if($this->sessionSection->cannot_continue){
+            $this->redirect("Survey:noQuestions");
+        }
         $this->redirect("Survey:personal");
     }
 
-    public function actionQuestion(){
-        $new_question = $this->question_service->generateNewQuestion($this->sessionSection->respondent);
-
-        $this->new_question_holder = $new_question;
-        $this->setView($new_question->getQuestionType());
-
-        $this->template->max_questions_for_respondent_reached = $new_question->getRespondentSubquestionsCount() === $this->context->getParameters()["max_questions_for_respondent"];
-        $this->template->max_questions_for_respondent = $this->context->getParameters()["max_questions_for_respondent"];
-    }
-
     public function actionPersonal(){
-        if($this->sessionSection->respondent !== null){
+        if($this->sessionSection->cannot_continue){
+            $this->redirect("Survey:noQuestions");
+        }
+
+        if($this->sessionSection->id_respondent !== null){
             $this->setView("continue");
         }
     }
 
     public function actionNewRespondent(){
-        $this->sessionSection->respondent = null;
+        $this->sessionSection->id_respondent = null;
+        $this->sessionSection->cannot_continue = false;
         $this->redirect("Survey:personal");
+    }
+
+    public function actionResults() {
+        if($this->sessionSection->id_respondent === null) {
+            $this->redirect("Survey:personal");
+        }
+    }
+
+    public function actionFinal() {
+        if($this->sessionSection->id_respondent === null) {
+            $this->redirect("Survey:personal");
+        }
+        if($this->sessionSection->cannot_final){
+            $this->redirect("Survey:results");
+        }
     }
 
     /**
      * RENDER
      */
-    private function setHelp() {
+
+    public function renderQuestion(){
+        $respondent = null;
+        if($this->sessionSection->id_respondent !== null){
+            $respondent = $this->respondent_service->get($this->sessionSection->id_respondent);
+        }
+        $new_question = $this->question_service->generateNewQuestion($respondent);
+
+        if($new_question === null) {
+            $this->sessionSection->cannot_continue = true;
+            $this->redirect("Survey:final");
+        }
+
+        $this->sessionSection->cannot_final = false;
+
+        $this->new_question_holder = $new_question;
+
+        switch($new_question->getQuestionType()){
+            case \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME:
+            case \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME_SELECT:
+                $this->template->id_wireframe = $this->new_question_holder->getPageHolder()->getCurrentWireframe()->id_wireframe;
+                $this->template->id_wireframe = $this->new_question_holder->getPageHolder()->getCurrentWireframe()->id_wireframe;
+                break;
+            case \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME_REVERSE:
+                $this->template->page = $this->new_question_holder->getPageHolder();
+                $this->template->pages_holders = $this->new_question_holder->getPagesHolders();
+                break;
+            case \App\Model\Subquestion::QUESTION_TYPE_COLOR:
+            case \App\Model\Subquestion::QUESTION_TYPE_COLOR_SELECT:
+                $this->template->color = $this->new_question_holder->getPageHolder()->getPage()->dominant_color;
+                $this->template->help_lorem = true;
+                break;
+        }
+
+
         if($this->new_question_holder->getPageHolder()->getCurrentWireframe()->text_mode === \App\Model\Wireframe::TEXT_BOX) $this->template->help_gray = true;
         if($this->new_question_holder->getPageHolder()->getCurrentWireframe()->text_mode === \App\Model\Wireframe::TEXT_LOREM) $this->template->help_lorem = true;
         if($this->new_question_holder->getPageHolder()->getCurrentWireframe()->text_mode === \App\Model\Wireframe::IMAGE_BLUR) $this->template->help_blur = true;
         if($this->new_question_holder->getPageHolder()->getCurrentWireframe()->text_mode === \App\Model\Wireframe::IMAGE_BOX) $this->template->help_box = true;
+
+//        $this->setView($new_question->getQuestionType());
+//   echo $this->subquestion_service->questionTypeToString($new_question->getQuestionType());exit;
+//echo "tst";exit;
+        $this->template->type = $this->subquestion_service->questionTypeToString($new_question->getQuestionType());
+        $this->template->showAppeal = true;
+        $this->template->respondent_subquestions_count = $new_question->getRespondentSubquestionsCount();
+        $this->template->max_questions_for_respondent_reached = $new_question->getRespondentSubquestionsCount() >= $this->context->getParameters()["max_questions_for_respondent"];
     }
 
-    public function renderWireframe(){
-        $this->template->answer_btn = "#frm-wireframeForm-page";
-        $this->template->showAppeal = true;
-        $this->setHelp();
-        $this->template->id_wireframe = $this->new_question_holder->getPageHolder()->getCurrentWireframe()->id_wireframe;
-        $this->template->form = $this->createComponentWireframeForm();
-    }
-
-    public function renderWireframeselect(){
-        $this->template->answer_btn = "#frm-wireframeForm-page";
-        $this->template->showAppeal = true;
-        $this->setHelp();
-        $this->template->id_wireframe = $this->new_question_holder->getPageHolder()->getCurrentWireframe()->id_wireframe;
-        $this->template->form = $this->createComponentWireframeSelectForm();
-    }
-
-    public function renderWireframereverse(){
-        $this->setHelp();
-        $this->template->showAppeal = true;
-        $this->template->page = $this->new_question_holder->getPageHolder();
-        $this->template->pages_holders = $this->new_question_holder->getPagesHolders();
-        $this->template->form = $this->createComponentWireframeReverseForm();
-    }
-
-    public function renderColor(){
-        $this->template->showAppeal = true;
-        $this->template->color = "3397C7";
-        $this->template->answer_btn = "#frm-colorForm-answer";
-        $this->template->help_lorem = true;
-        $this->template->form = $this->createComponentColorForm();
-    }
-
-    public function renderColorselect(){
-        $this->template->showAppeal = true;
-        $this->template->color = "3397C7";
-        $this->template->help_lorem = true;
-        $this->template->form = $this->createComponentColorSelectForm();
-    }
+//    public function renderWireframe(){
+//        $this->template->answer_btn = "#frm-wireframeForm-page";
+//        $this->template->showAppeal = true;
+//        $this->setHelp();
+//        $this->template->id_wireframe = $this->new_question_holder->getPageHolder()->getCurrentWireframe()->id_wireframe;
+//    }
+//
+//    public function renderWireframeselect(){
+//        $this->template->answer_btn = "#frm-wireframeForm-page";
+//        $this->template->showAppeal = true;
+//        $this->setHelp();
+//        $this->template->id_wireframe = $this->new_question_holder->getPageHolder()->getCurrentWireframe()->id_wireframe;
+//    }
+//
+//    public function renderWireframereverse(){
+//        $this->setHelp();
+//        $this->template->showAppeal = true;
+//        $this->template->page = $this->new_question_holder->getPageHolder();
+//        $this->template->pages_holders = $this->new_question_holder->getPagesHolders();
+//    }
+//
+//    public function renderColor(){
+//        $this->template->showAppeal = true;
+//        $this->template->color = "3397C7";
+//        $this->template->answer_btn = "#frm-colorForm-answer";
+//        $this->template->help_lorem = true;
+//    }
+//
+//    public function renderColorselect(){
+//        $this->template->showAppeal = true;
+//        $this->template->color = "3397C7";
+//        $this->template->help_lorem = true;
+//    }
 
     public function renderFinal(){
         $this->template->form = $this->createComponentFinalForm();
@@ -174,7 +223,7 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
 
     public function renderResults() {
 
-        $respondent = $this->sessionSection->respondent;
+        $respondent = $this->respondent_service->get($this->sessionSection->id_respondent);
         $subquestions = $this->question_service->getSubquestionHoldersByIdRespondent($respondent->id_respondent);
 
         $pages = array();
@@ -243,9 +292,15 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
             }
         }
 
-        $this->sessionSection->next_personal = false;
-        $this->sessionSection->respondent = $respondent;
+        $this->sessionSection->id_respondent = $respondent->id_respondent;
         $this->sessionSection->code = null;
+        $this->sessionSection->cannot_final = false;
+
+        if($this->sessionSection->id_question !== null){
+            $question = $this->question_service->get($this->sessionSection->id_question);
+            $question->id_respondent = $respondent->id_respondent;
+            $this->question_service->save($question);
+        }
 
         $this->redirect("Survey:question");
     }
@@ -256,7 +311,7 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
     public function wireframeFormSubmitted(Form $form){
         $values = $form->getValues();
 
-        $subquestion = $this->subquestion_service->prepareSubquestionForSave($values, \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME,$this->sessionSection->respondent->id_respondent);
+        $subquestion = $this->subquestion_service->saveBaseProperties($values);
 
         $subquestion->answer = $values->answer;
 
@@ -266,17 +321,24 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
             $this->redirect("Survey:final");
         }
 
-        $this->redirect("Survey:question");
-        exit;
+        if($this->sessionSection->id_respondent === null){
+            $this->sessionSection->id_question = $subquestion->id_question;
+            $this->redirect("Survey:personal");
+        }else{
+            $this->redirect("Survey:question");
+        }
     }
 
     /**
      * @param Form $form
      */
     public function wireframeSelectFormSubmitted(Form $form){
-        // rekonstrukce puvodnich id_pages
         $values = $form->getValues();
-        $id_page = $values->id_page;
+
+        $subquestion = $this->subquestion_service->saveBaseProperties($values);
+
+        // rekonstrukce puvodnich id_pages
+        $id_page = $this->question_service->get($subquestion->id_question)->id_page;
         $pages = $this->page_service->getRelatedPages($id_page);
         $options = array($id_page=>"",$pages[0]->id_page);
 
@@ -284,9 +346,7 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
 
         $values = $form->getValues();
 
-        $subquestion = $this->subquestion_service->prepareSubquestionForSave($values, \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME_SELECT,$this->sessionSection->respondent->id_respondent);
-
-        $subquestion->correct = $values->id_pages === (int)$values->id_page;
+        $subquestion->correct = $values->id_pages === (int)$id_page;
         $subquestion->answer = $values->id_pages;
 
         $this->subquestion_service->save($subquestion);
@@ -295,17 +355,24 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
             $this->redirect("Survey:final");
         }
 
-        $this->redirect("Survey:question");
-        exit;
+        if($this->sessionSection->id_respondent === null){
+            $this->sessionSection->id_question = $subquestion->id_question;
+            $this->redirect("Survey:personal");
+        }else{
+            $this->redirect("Survey:question");
+        }
     }
 
     /**
      * @param Form $form
      */
     public function wireframeReverseFormSubmitted(Form $form){
-        // rekonstrukce puvodnich id_pages
         $values = $form->getValues();
-        $id_page = $values->id_page;
+
+        $subquestion = $this->subquestion_service->saveBaseProperties($values);
+
+        // rekonstrukce puvodnich id_pages
+        $id_page = $this->question_service->get($subquestion->id_question)->id_page;
         $pages = $this->page_service->getRelatedPages($id_page);
         $options = array(0=>"",$id_page=>"",$pages[0]->id_page);
 
@@ -313,9 +380,7 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
 
         $values = $form->getValues();
 
-        $subquestion = $this->subquestion_service->prepareSubquestionForSave($values, \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME_REVERSE,$this->sessionSection->respondent->id_respondent);
-
-        $subquestion->correct = $values->id_pages === (int)$values->id_page;
+        $subquestion->correct = $values->id_pages === (int)$id_page;
         $subquestion->answer = $values->id_pages;
 
         $this->subquestion_service->save($subquestion);
@@ -324,8 +389,12 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
             $this->redirect("Survey:final");
         }
 
-        $this->redirect("Survey:question");
-        exit;
+        if($this->sessionSection->id_respondent === null){
+            $this->sessionSection->id_question = $subquestion->id_question;
+            $this->redirect("Survey:personal");
+        }else{
+            $this->redirect("Survey:question");
+        }
     }
 
     /**
@@ -334,7 +403,7 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
     public function colorFormSubmitted(Form $form){
         $values = $form->getValues();
 
-        $subquestion = $this->subquestion_service->prepareSubquestionForSave($values, \App\Model\Subquestion::QUESTION_TYPE_COLOR, $this->sessionSection->respondent->id_respondent);
+        $subquestion = $this->subquestion_service->saveBaseProperties($values);
 
         $subquestion->answer = $values->answer;
 
@@ -344,17 +413,24 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
             $this->redirect("Survey:final");
         }
 
-        $this->redirect("Survey:question");
-        exit;
+        if($this->sessionSection->id_respondent === null){
+            $this->sessionSection->id_question = $subquestion->id_question;
+            $this->redirect("Survey:personal");
+        }else{
+            $this->redirect("Survey:question");
+        }
     }
 
     /**
      * @param Form $form
      */
     public function colorSelectFormSubmitted(Form $form){
-        // rekonstrukce puvodnich id_pages
         $values = $form->getValues();
-        $id_page = $values->id_page;
+
+        $subquestion = $this->subquestion_service->saveBaseProperties($values);
+
+        // rekonstrukce puvodnich id_pages
+        $id_page = $this->question_service->get($subquestion->id_question)->id_page;
         $pages = $this->page_service->getRelatedPages($id_page);
         $options = array($id_page=>"",$pages[0]->id_page);
 
@@ -362,9 +438,7 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
 
         $values = $form->getValues();
 
-        $subquestion = $this->subquestion_service->prepareSubquestionForSave($values, \App\Model\Subquestion::QUESTION_TYPE_COLOR_SELECT,$this->sessionSection->respondent->id_respondent);
-
-        $subquestion->correct = $values->id_pages === (int)$values->id_page;
+        $subquestion->correct = $values->id_pages === (int)$id_page;
         $subquestion->answer = $values->id_pages;
 
         $this->subquestion_service->save($subquestion);
@@ -373,8 +447,12 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
             $this->redirect("Survey:final");
         }
 
-        $this->redirect("Survey:question");
-        exit;
+        if($this->sessionSection->id_respondent === null){
+            $this->sessionSection->id_question = $subquestion->id_question;
+            $this->redirect("Survey:personal");
+        }else{
+            $this->redirect("Survey:question");
+        }
     }
 
     /**
@@ -387,13 +465,14 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
             $period = $param["period"];
 
             if($period !== null){
-                $this->respondent_website_service->addWebsiteToRespondent($id_website, $this->sessionSection->respondent->id_respondent, $period);
+                $this->respondent_website_service->addWebsiteToRespondent($id_website, $this->sessionSection->id_respondent, $period);
             }
         }
 
-        $this->setView("results");
 
+        $this->sessionSection->cannot_final = true;
 
+        $this->redirect("Survey:results");
     }
 
     /** COMPONENTS */
@@ -413,8 +492,7 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
      */
     public function createComponentColorForm() {
         $form = (new ColorForm($this))->create(
-            $this->new_question_holder->getPageHolder()->getPage()->id_page,
-            $this->new_question_holder->getQuestionId()
+            $this->new_question_holder->getSubquestion()->id_subquestion
         );
         $form->onSuccess[] = $this->colorFormSubmitted;
         return $form;
@@ -424,8 +502,7 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
      */
     public function createComponentColorSelectForm() {
         $form = (new ColorSelectForm($this))->create(
-            $this->new_question_holder->getPageHolder()->getPage()->id_page,
-            $this->new_question_holder->getQuestionId(),
+            $this->new_question_holder->getSubquestion()->id_subquestion,
             $this->new_question_holder->getPagesHolders()
         );
         $form->onSuccess[] = $this->colorSelectFormSubmitted;
@@ -437,9 +514,7 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
      */
     public function createComponentWireframeForm(){
         $form = (new WireframeForm($this))->create(
-            $this->new_question_holder->getPageHolder()->getPage()->id_page,
-            $this->new_question_holder->getPageHolder()->getCurrentWireframe()->id_wireframe,
-            $this->new_question_holder->getQuestionId()
+            $this->new_question_holder->getSubquestion()->id_subquestion
         );
         $form->onSuccess[] = $this->wireframeFormSubmitted;
         return $form;
@@ -450,9 +525,7 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
      */
     public function createComponentWireframeSelectForm(){
         $form = (new WireframeSelectForm($this))->create(
-            $this->new_question_holder->getPageHolder()->getPage()->id_page,
-            $this->new_question_holder->getPageHolder()->getCurrentWireframe()->id_wireframe,
-            $this->new_question_holder->getQuestionId(),
+            $this->new_question_holder->getSubquestion()->id_subquestion,
             $this->new_question_holder->getPagesHolders());
         $form->onSuccess[] = $this->wireframeSelectFormSubmitted;
         return $form;
@@ -463,9 +536,7 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
      */
     public function createComponentWireframeReverseForm(){
         $form = (new WireframeReverse($this))->create(
-            $this->new_question_holder->getPageHolder()->getPage()->id_page,
-            $this->new_question_holder->getPageHolder()->getCurrentWireframe()->id_wireframe,
-            $this->new_question_holder->getQuestionId(),
+            $this->new_question_holder->getSubquestion()->id_subquestion,
             $this->new_question_holder->getPagesHolders()
         );
         $form->onSuccess[] = $this->wireframeReverseFormSubmitted;
@@ -477,7 +548,7 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
      */
     public function createComponentFinalForm(){
         $websites = array();
-        $subquestions = $this->question_service->getSubquestionHoldersByIdRespondent($this->sessionSection->respondent->id_respondent);
+        $subquestions = $this->question_service->getSubquestionHoldersByIdRespondent($this->sessionSection->id_respondent);
         foreach($subquestions as $subquestion){
             $websites[$subquestion->getWebsite()->id_website] = $subquestion->getWebsite()->name;
         }

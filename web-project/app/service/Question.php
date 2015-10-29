@@ -23,6 +23,9 @@ class Question extends Service {
     /** @var Page */
     private $page_service;
 
+    /** @var Subquestion */
+    private $subquestion_service;
+
     /** @var EntityCategory */
     private $entity_category_service;
 
@@ -31,11 +34,13 @@ class Question extends Service {
      * @param \App\Database\Question $db_question
      * @param Page $page_service
      * @param EntityCategory $entity_category_service
+     * @param \App\Service\Subquestion $subquestion_service
      */
-    public function __construct(\App\Database\Question $db_question, Page $page_service, EntityCategory $entity_category_service) {
+    public function __construct(\App\Database\Question $db_question, Page $page_service, EntityCategory $entity_category_service, Subquestion $subquestion_service) {
         $this->database = $db_question;
         $this->page_service = $page_service;
         $this->entity_category_service = $entity_category_service;
+        $this->subquestion_service = $subquestion_service;
     }
 
     /**
@@ -61,17 +66,17 @@ class Question extends Service {
     }
 
     /**
-     * @param int $id_respondent
      * @param int $id_page
+     * @param int|null $id_respondent
      * @return \App\Model\Question
      */
-    public function create($id_respondent, $id_page) {
-        return $this->database->create($id_respondent, $id_page);
+    public function create($id_page, $id_respondent = null) {
+        return $this->database->create($id_page, $id_respondent);
     }
 
     /**
      * @param \App\Model\Respondent|null $respondent
-     * @return NewQuestion
+     * @return NewQuestion|null
      */
     public function generateNewQuestion($respondent) {
         $new_question = new NewQuestion();
@@ -96,6 +101,9 @@ class Question extends Service {
         /** @var \App\Holder\Page $page_holder */
         $page_holder = null;
 
+
+        $wireframes_ids = array();
+
         if($respondent !== null){
 
             // nastaveni jazyka do filtru
@@ -112,7 +120,7 @@ class Question extends Service {
             /** @var \App\Holder\Subquestion[] $subquestions */
             $subquestions = $this->getSubquestionHoldersByIdRespondent($respondent->id_respondent);
 
-            $new_question->setRespondentSubquestionsCount(count($subquestions));
+            $new_question->setRespondentSubquestionsCount(count($subquestions)-1);
 
             $rand = rand(1,100);
 
@@ -122,7 +130,6 @@ class Question extends Service {
             if(count($subquestions) > 0) {
 
                 $pages_ids = array();
-                $wireframes_ids = array();
                 foreach($subquestions as $holder){
                     $pages_ids[] = $holder->getPage()->id_page;
                     if($holder->getWireframe() !== null) $wireframes_ids[] = $holder->getWireframe()->id_wireframe;
@@ -227,48 +234,57 @@ class Question extends Service {
          */
         if($page_holder === null){
             $page_holder = $this->page_service->getPageHolderByFilter(new \App\Filter\Page(
-                array(\App\Filter\Page::PRIORITY=>true)
+                array(
+                    \App\Filter\Page::PRIORITY=>true,
+                    \App\Filter\Page::EXCLUDE_ID_WIREFRAME=>$wireframes_ids
+                )
             ));
             $question_type = array_rand($options_wireframes);
         }
 
-        $related = $this->page_service->getRelatedPagesHolders($page_holder);
+        if($page_holder !== null){
 
-        /**
-         * Pokud by se stalo, že je vybraný typ otázky, který potřebuje podobné příbuzné stránky z výběru, a aktuální page je nemá
-         */
-        if(count($related) !== 2){
-            if($question_type === \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME_REVERSE || $question_type === \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME_SELECT){
-                $question_type = \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME;
+            $related = $this->page_service->getRelatedPagesHolders($page_holder);
+
+            /**
+             * Pokud by se stalo, že je vybraný typ otázky, který potřebuje podobné příbuzné stránky z výběru, a aktuální page je nemá
+             */
+            if(count($related) !== 2){
+                if($question_type === \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME_REVERSE || $question_type === \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME_SELECT){
+                    $question_type = \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME;
+                }
+                else if($question_type === \App\Model\Subquestion::QUESTION_TYPE_COLOR_SELECT){
+                    $question_type = \App\Model\Subquestion::QUESTION_TYPE_COLOR;
+                }
             }
-            else if($question_type === \App\Model\Subquestion::QUESTION_TYPE_COLOR_SELECT){
-                $question_type = \App\Model\Subquestion::QUESTION_TYPE_COLOR;
+
+            if($question === null){
+                $question = new \App\Model\Question();
+                if($respondent !== null) $question->id_respondent = $respondent->id_respondent;
+                $question->id_page = $page_holder->getPage()->id_page;
+
+                $this->save($question);
             }
+
+            if($question_type === null) $question_type = \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME;
+
+            $subquestion = new \App\Model\Subquestion();
+            $subquestion->id_question = $question->id_question;
+            $subquestion->question_type = $question_type;
+            if($page_holder->getCurrentWireframe() !== null) $subquestion->id_wireframe = $page_holder->getCurrentWireframe()->id_wireframe;
+
+            $this->subquestion_service->save($subquestion);
+
+            $new_question->setQuestion($question);
+            $new_question->setSubquestion($subquestion);
+            $new_question->setPageHolder($page_holder);
+            $new_question->setQuestionType($question_type);
+            $new_question->setPagesHolders($related);
+
+            return $new_question;
+        }else{
+            return null;
         }
-
-        switch($question_type){
-            case \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME_SELECT:
-                $question_type_string = "wireframeselect";
-                break;
-            case \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME_REVERSE:
-                $question_type_string = "wireframereverse";
-                break;
-            case \App\Model\Subquestion::QUESTION_TYPE_COLOR:
-                $question_type_string = "color";
-                break;
-            case \App\Model\Subquestion::QUESTION_TYPE_COLOR_SELECT:
-                $question_type_string = "colorselect";
-                break;
-            default:
-                $question_type_string = "wireframe";
-        }
-
-        $new_question->setQuestion($question);
-        $new_question->setPageHolder($page_holder);
-        $new_question->setQuestionType($question_type_string);
-        $new_question->setPagesHolders($related);
-
-        return $new_question;
     }
 
     /**

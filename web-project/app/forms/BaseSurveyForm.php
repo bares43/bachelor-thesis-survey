@@ -15,15 +15,11 @@ use Nette\Forms\Controls;
 class BaseSurveyForm extends Form {
 
     /**
-     * @param int $id_page
-     * @param int|null $id_wireframe
-     * @param int|null $id_question
+     * @param int $id_subquestion
      */
-    public function addNavigation($id_page, $id_wireframe = null, $id_question = null){
+    public function addNavigation($id_subquestion){
         $this->getElementPrototype()->addAttributes(['class'=>'center']);
-        $this->addHidden('id_page',$id_page);
-        $this->addHidden('id_wireframe',$id_wireframe);
-        $this->addHidden('id_question',$id_question);
+        $this->addHidden('id_subquestion',$id_subquestion);
         $this->addHidden('seconds',0);
         $this->addTextArea("reason","Proč si to myslíte?");
         $this->addSubmit("continue","Pokračovat v dotazníku")->setAttribute("class","btn btn-primary");

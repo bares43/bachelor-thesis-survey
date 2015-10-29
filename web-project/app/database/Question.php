@@ -59,11 +59,11 @@ class Question extends Database {
     }
 
     /**
-     * @param $id_respondent
-     * @param $id_page
+     * @param int $id_page
+     * @param int|null $id_respondent
      * @return Model\Question
      */
-    public function create($id_respondent, $id_page)
+    public function create($id_page, $id_respondent = null)
     {
         $question = new Model\Question();
         $question->id_respondent = $id_respondent;
