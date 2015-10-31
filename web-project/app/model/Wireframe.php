@@ -59,7 +59,7 @@ class Wireframe extends BaseEntity {
     /**
      * @ORM\Column(type="string")
      */
-    public $user_agent;
+    public $device;
 
     /**
      * @ORM\Column(type="boolean")

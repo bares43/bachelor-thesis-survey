@@ -22,7 +22,7 @@ class Page extends Filter {
     const MIN_RESOLUTION_HEIGHT = "minresolutionheight";
     const TEXT_MODE = "textmode";
     const IMAGE_MODE = "imagemode";
-    const USER_AGENT = "useragent";
+    const DEVICES = "devices";
     const ID_PAGE = "idpage";
     const REQUIRED_COLOR = "requiredcolor";
     const REQUIRED_TEXT_COLOR = "requiredtextcolor";
@@ -158,17 +158,17 @@ class Page extends Filter {
     }
 
     /**
-     * @return string
+     * @return string[]
      */
-    public function getUserAgent() {
-        return $this->get(self::USER_AGENT);
+    public function getDevices() {
+        return $this->get(self::DEVICES);
     }
 
     /**
-     * @param string $user_agent
+     * @param string[] $devices
      */
-    public function setUserAgent($user_agent) {
-        $this->set(self::USER_AGENT,$user_agent);;
+    public function setDevices($devices) {
+        $this->set(self::DEVICES,$devices);;
     }
 
     /**

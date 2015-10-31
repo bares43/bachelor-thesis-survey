@@ -105,8 +105,8 @@ class Page extends Database {
             $query->andWhere($query->expr()->eq("wireframe.image_mode",$filter->getImageMode()));
         }
 
-        if($filter->getUserAgent() !== null){
-            $query->andWhere($query->expr()->eq("wireframe.user_agent",$filter->getUserAgent()));
+        if($filter->getDevices() !== null && count($filter->getDevices()) > 0){
+            $query->andWhere($query->expr()->in("wireframe.device",$filter->getDevices()));
         }
 
         if($filter->getMinResolutionWidth() !== null){
