@@ -67,8 +67,6 @@ class PersonalForm {
 
         if($code !== null){
             $form->addHidden("code",$code);
-        }else{
-            $form->addText("code","Obdrželi jste letáček s kódem? Zadejte ho prosím");
         }
 
         $form->addTextArea("sites","Jaké stránky často navštěvuji");
