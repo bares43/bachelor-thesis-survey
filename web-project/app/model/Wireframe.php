@@ -60,4 +60,9 @@ class Wireframe extends BaseEntity {
      * @ORM\Column(type="string")
      */
     public $user_agent;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    public $visible;
 }

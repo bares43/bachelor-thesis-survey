@@ -85,7 +85,10 @@ class Page extends Service {
 
         $pages = array();
         foreach($pages_ids as $page_id){
-            $pages[] = $this->get($page_id);
+            $page = $this->get($page_id);
+            if($page->visible){
+                $pages[] = $this->get($page_id);
+            }
         }
 
         return $pages;

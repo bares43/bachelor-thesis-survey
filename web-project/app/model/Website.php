@@ -40,4 +40,9 @@ class Website extends BaseEntity {
      * @ORM\Column(type="string")
      */
     public $language;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    public $visible;
 }

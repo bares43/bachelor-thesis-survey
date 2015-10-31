@@ -28,6 +28,9 @@ class Page extends Filter {
     const REQUIRED_TEXT_COLOR = "requiredtextcolor";
     const CATEGORIES = "categories";
     const EXCLUDE_ID_WIREFRAME = "excludeidwireframe";
+    const WEBSITE_VISIBLE = "websitevisible";
+    const PAGE_VISIBLE = "pagevisible";
+    const WIREFRAME_VISIBLE = "wireframevisible";
 
     /**
      * @return \string[]
@@ -236,6 +239,56 @@ class Page extends Filter {
      */
     public function setExcludeIdWireframe($exclude_id_wireframe) {
         $this->set(self::EXCLUDE_ID_WIREFRAME, $exclude_id_wireframe);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isWebsiteVisible() {
+        if($this->get(self::WEBSITE_VISIBLE) === null){
+            return true;
+        }
+        return $this->get(self::WEBSITE_VISIBLE);
+    }
+
+    /**
+     * @param bool $visible
+     */
+    public function setWebsiteVisible($visible) {
+        $this->set(self::WEBSITE_VISIBLE, $visible);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPageVisible() {
+        if($this->get(self::PAGE_VISIBLE) === null){
+            return true;
+        }
+        return $this->get(self::PAGE_VISIBLE);
+    }
+
+    /**
+     * @param bool $visible
+     */
+    public function setPageVisible($visible) {
+        $this->set(self::PAGE_VISIBLE, $visible);
+    }
+    /**
+     * @return bool
+     */
+    public function isWireframeVisible() {
+        if($this->get(self::WIREFRAME_VISIBLE) === null){
+            return true;
+        }
+        return $this->get(self::WIREFRAME_VISIBLE);
+    }
+
+    /**
+     * @param bool $visible
+     */
+    public function setWireframeVisible($visible) {
+        $this->set(self::WIREFRAME_VISIBLE, $visible);
     }
 
 }

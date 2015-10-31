@@ -52,4 +52,9 @@ class Page extends BaseEntity {
      * @ORM\Column(type="boolean")
      */
     public $priority;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    public $visible;
 }

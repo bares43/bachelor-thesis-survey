@@ -86,71 +86,79 @@ class Page extends Database {
         $query->join(Model\Wireframe::getClassName(),"wireframe",Join::WITH,"page.id_page = wireframe.id_page")->addSelect("wireframe");
 
         if($filter->getIdPage() !== null){
-            $query->where($query->expr()->eq("page.id_page",$filter->getIdPage()));
+            $query->andWhere($query->expr()->eq("page.id_page",$filter->getIdPage()));
         }
 
         if($filter->isRequiredColor()){
-            $query->where($query->expr()->isNotNull("page.dominant_color"));
+            $query->andWhere($query->expr()->isNotNull("page.dominant_color"));
         }
 
         if($filter->isRequiredTextColor()){
-            $query->where($query->expr()->isNotNull("page.dominant_text_color"));
+            $query->andWhere($query->expr()->isNotNull("page.dominant_text_color"));
         }
 
         if($filter->getTextMode() !== null){
-            $query->where($query->expr()->eq("wireframe.text_mode",$filter->getTextMode()));
+            $query->andWhere($query->expr()->eq("wireframe.text_mode",$filter->getTextMode()));
         }
 
         if($filter->getImageMode() !== null){
-            $query->where($query->expr()->eq("wireframe.image_mode",$filter->getImageMode()));
+            $query->andWhere($query->expr()->eq("wireframe.image_mode",$filter->getImageMode()));
         }
 
         if($filter->getUserAgent() !== null){
-            $query->where($query->expr()->eq("wireframe.user_agent",$filter->getUserAgent()));
+            $query->andWhere($query->expr()->eq("wireframe.user_agent",$filter->getUserAgent()));
         }
 
         if($filter->getMinResolutionWidth() !== null){
-            $query->where($query->expr()->gte("wireframe.resolution_width", $filter->getMinResolutionWidth()));
+            $query->andWhere($query->expr()->gte("wireframe.resolution_width", $filter->getMinResolutionWidth()));
         }
 
         if($filter->getMinResolutionHeight() !== null){
-            $query->where($query->expr()->gte("wireframe.resolution_height", $filter->getMinResolutionHeight()));
+            $query->andWhere($query->expr()->gte("wireframe.resolution_height", $filter->getMinResolutionHeight()));
         }
 
         if($filter->getMaxResolutionWidth() !== null){
-            $query->where($query->expr()->lte("wireframe.resolution_width", $filter->getMaxResolutionWidth()));
+            $query->andWhere($query->expr()->lte("wireframe.resolution_width", $filter->getMaxResolutionWidth()));
         }
 
         if($filter->getMaxResolutionHeight() !== null){
-            $query->where($query->expr()->lte("wireframe.resolution_height", $filter->getMaxResolutionHeight()));
+            $query->andWhere($query->expr()->lte("wireframe.resolution_height", $filter->getMaxResolutionHeight()));
         }
 
         if($filter->getLanguages() !== null && count($filter->getLanguages()) > 0){
-            $query->where($query->expr()->in("website.language",$filter->getLanguages()));
+            $query->andWhere($query->expr()->in("website.language",$filter->getLanguages()));
         }
 
         if($filter->isPriority() !== null){
-            $query->where($query->expr()->eq("page.priority",$filter->isPriority()?1:0));
+            $query->andWhere($query->expr()->eq("page.priority",$filter->isPriority()?1:0));
         }
 
         if($filter->getExcludeIdPage() !== null && count($filter->getExcludeIdPage()) > 0){
-            $query->where($query->expr()->notIn("page.id_page",$filter->getExcludeIdPage()));
+            $query->andWhere($query->expr()->notIn("page.id_page",$filter->getExcludeIdPage()));
         }
 
         if($filter->getExcludeIdWireframe() !== null && count($filter->getExcludeIdWireframe()) > 0){
-            $query->where($query->expr()->notIn("wireframe.id_wireframe",$filter->getExcludeIdWireframe()));
+            $query->andWhere($query->expr()->notIn("wireframe.id_wireframe",$filter->getExcludeIdWireframe()));
         }
 
         if($filter->getCategories() !== null && count($filter->getCategories()) > 0){
             $query->join(Model\EntityCategory::getClassName(),"entity_category",Join::WITH,"website.id_website = entity_category.id_website");
-            $query->where($query->expr()->in("entity_category.id_category",$filter->getCategories()));
+            $query->andWhere($query->expr()->in("entity_category.id_category",$filter->getCategories()));
+        }
+
+        if($filter->isWebsiteVisible()){
+            $query->andWhere($query->expr()->eq("website.visible",1));
+        }
+
+        if($filter->isPageVisible()){
+            $query->andWhere($query->expr()->eq("page.visible",1));
+        }
+
+        if($filter->isWireframeVisible()){
+            $query->andWhere($query->expr()->eq("wireframe.visible",1));
         }
 
         $mapper = new \App\Holder\Mapper\Page();
-
-//        $query->setMaxResults(1);
-//        $query->orderBy("random");
-
 
         $holders = $this->getHolders($query, $mapper);
         if(count($holders) > 0) return $holders[array_rand($holders)];
