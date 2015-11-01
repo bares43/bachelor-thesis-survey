@@ -115,7 +115,12 @@ class Question extends Service {
             foreach($entity_categories as $entity_category){
                 $categories[] = $entity_category->id_category;
             }
-            //TODO [bares] preferovaného zařízení
+
+            $devices = array();
+            if($respondent->device_phone) $devices[] = \App\Model\Respondent::DEVICE_PHONE;
+            if($respondent->device_computer) $devices[] = \App\Model\Respondent::DEVICE_COMPUTER;
+            if($respondent->device_tablet) $devices[] = \App\Model\Respondent::DEVICE_TABLET;
+            if(count($devices) > 0) $devices[] = '';
 
             /** @var \App\Holder\Subquestion[] $subquestions */
             $subquestions = $this->getSubquestionHoldersByIdRespondent($respondent->id_respondent);
@@ -134,7 +139,7 @@ class Question extends Service {
                     $pages_ids[] = $holder->getPage()->id_page;
                     if($holder->getWireframe() !== null) $wireframes_ids[] = $holder->getWireframe()->id_wireframe;
 
-                    /** Spočítám kolikrát bych který typ otázky použit a později budu upřednosťnovat málo používáné */
+                    /** Spočítám kolikrát byl který typ otázky použit a později budu upřednosťnovat málo používáné */
                     $options[$holder->getSubquestion()->question_type]++;
                     if(array_key_exists($holder->getSubquestion()->question_type, $options_wireframes)) $options_wireframes[$holder->getSubquestion()->question_type]++;
                     if(array_key_exists($holder->getSubquestion()->question_type, $options_colors)) $options_colors[$holder->getSubquestion()->question_type]++;
@@ -221,7 +226,8 @@ class Question extends Service {
                         \App\Filter\Page::PRIORITY=>true,
                         \App\Filter\Page::EXCLUDE_ID_PAGE=>$pages_ids_part,
                         \App\Filter\Page::LANGUAGES=>$languages,
-                        \App\Filter\Page::CATEGORIES=>$categories
+                        \App\Filter\Page::CATEGORIES=>$categories,
+                        \App\Filter\Page::DEVICES=>$devices
                     )
                 ));
                 $question_type = array_rand($options_wireframes);
