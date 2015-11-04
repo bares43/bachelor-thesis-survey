@@ -32,12 +32,13 @@ body {
 .container {
   width: 970px;
   margin-bottom: 20px; }
-  .container.main {
-    padding-bottom: 50px;
+  .container.page {
     margin-top: 50px;
     border-radius: 10px;
     box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.3);
     background-color: #fff; }
+  .container.content {
+    padding-bottom: 50px; }
 
 footer {
   text-align: center; }
@@ -105,7 +106,8 @@ Survey
 .survey #task {
   text-align: center;
   margin-top: 20px;
-  margin-bottom: 20px; }
+  margin-bottom: 20px;
+  font-size: 18px; }
   .survey #task .btn {
     margin-left: 5px; }
 .survey #form-wrapper {

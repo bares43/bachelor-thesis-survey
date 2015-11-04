@@ -40,12 +40,15 @@ body {
 .container {
   width: $page-width;
   margin-bottom: 20px;
-  &.main {
-    padding-bottom: 50px;
+  &.page {
     margin-top: 50px;
     border-radius: 10px;
     box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.3);
     background-color: #fff;
+  }
+  &.content {
+    padding-bottom: 50px;
+
   }
 }
 footer {
@@ -135,6 +138,7 @@ Survey
     text-align: center;
     margin-top: 20px;
     margin-bottom: 20px;
+    font-size: 18px;
     .btn {
       margin-left: 5px;
     }
