@@ -153,18 +153,29 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
 
         switch($new_question->getQuestionType()){
             case \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME:
+                $this->template->id_wireframe = $this->new_question_holder->getPageHolder()->getCurrentWireframe()->id_wireframe;
+                $this->template->id_wireframe = $this->new_question_holder->getPageHolder()->getCurrentWireframe()->id_wireframe;
+                $this->template->answer_btn = "#frm-wireframeForm-answer";
+                break;
             case \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME_SELECT:
                 $this->template->id_wireframe = $this->new_question_holder->getPageHolder()->getCurrentWireframe()->id_wireframe;
                 $this->template->id_wireframe = $this->new_question_holder->getPageHolder()->getCurrentWireframe()->id_wireframe;
+                $this->template->answer_btn = true;
                 break;
             case \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME_REVERSE:
                 $this->template->page = $this->new_question_holder->getPageHolder();
                 $this->template->pages_holders = $this->new_question_holder->getPagesHolders();
+                $this->template->answer_btn = true;
                 break;
             case \App\Model\Subquestion::QUESTION_TYPE_COLOR:
+                $this->template->color = $this->new_question_holder->getPageHolder()->getPage()->dominant_color;
+                $this->template->help_lorem = true;
+                $this->template->answer_btn = "#frm-colorForm-answer";
+                break;
             case \App\Model\Subquestion::QUESTION_TYPE_COLOR_SELECT:
                 $this->template->color = $this->new_question_holder->getPageHolder()->getPage()->dominant_color;
                 $this->template->help_lorem = true;
+                $this->template->answer_btn = true;
                 break;
         }
 

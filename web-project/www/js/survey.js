@@ -2,6 +2,7 @@
  * Created by janba_000 on 25. 8. 2015.
  */
 
+var question_noty_shown = false;
 $(document).ready(function(){
     $("#frm-personalForm").find("[name=nonvalidate]").on("click", function(e){
         var appeal = $("#validation-appeal");
@@ -38,6 +39,15 @@ $(document).ready(function(){
         cursor : "pointer"
     });
 
+    function createNoty(text){
+        noty({
+            text: text,
+            theme:'survey',
+            layout: 'top'
+        });
+    }
+
+
     function wireframeReverseSetOption(option){
         $("img[data-select-image]").removeClass("selected-image");
         $("img[data-select-image="+option+"]").addClass("selected-image");
@@ -49,6 +59,25 @@ $(document).ready(function(){
 
         $("input[name='id_pages']").not(radio).removeAttr("checked").parent().removeClass("active");
         radio.attr("checked",true).parent().addClass("active");
+
+        if(!question_noty_shown){
+            question_noty_shown = true;
+            setTimeout(function(){
+                wireframeReverseSelected();
+            },2000);
+        }
+    }
+
+    function wireframeReverseSelected(){
+        $.noty.closeAll();
+
+        setTimeout(function(){
+            createNoty("Nezapomeňte odpověď odeslat klikem na tlačítko \"Pokračovat v dotazníku\".");
+            $('html, body').animate({
+                scrollTop: $("footer").offset().top
+            }, 1200);
+            $("input:submit[name=continue]").focus();
+        },1000);
     }
 
     $("[data-select-image]").on("click", function(){
@@ -64,8 +93,14 @@ $(document).ready(function(){
     });
 
     $("[data-focus]").on("click", function(){
-        var focus = $($(this).data("focus"));
-        focus.focus();
+        $('html, body').animate({
+            scrollTop: $("footer").offset().top
+        }, 1200);
+        var selector = $(this).data("focus");
+        if(selector !== undefined && selector.length > 0){
+            var focus = $(selector);
+            focus.focus();
+        }
     });
 
     $(".buttons-group").parent().addClass("btn btn-default").parent().addClass("btn-group").attr("data-toggle","buttons").find("br").remove();
