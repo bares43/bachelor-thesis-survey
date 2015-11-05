@@ -38,7 +38,7 @@ body {
     box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.3);
     background-color: #fff; }
   .container.content {
-    padding-bottom: 50px; }
+    padding-bottom: 30px; }
 
 footer {
   text-align: center; }
@@ -136,49 +136,6 @@ Survey
   width: 450px; }
 .survey.survey-wireframe-reverse .pull-right {
   width: 450px; }
-
-/**
-Fancy Select
-**/
-.fancy-select {
-  width: 300px;
-  height: 40px; }
-  .fancy-select .trigger {
-    border: none;
-    border-radius: 5px;
-    color: #505050;
-    width: 300px; }
-    .fancy-select .trigger.open {
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0; }
-    .fancy-select .trigger, .fancy-select .trigger.open {
-      box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2) inset !important; }
-    .fancy-select .trigger:after {
-      background: url("../images/select-arrow.png") no-repeat left center;
-      width: 30px;
-      height: 38px; }
-    .fancy-select .trigger.open:after {
-      background-image: url("../images/select-arrow-open.png"); }
-  .fancy-select ul {
-    top: 38px !important;
-    background-color: #ffffff;
-    border: none;
-    border-radius: 0 0 5px 5px;
-    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2) inset;
-    color: #505050;
-    width: 300px; }
-    .fancy-select ul li {
-      padding: 2px 2px 2px 12px;
-      position: relative; }
-      .fancy-select ul li:hover {
-        background-color: #3397C7;
-        color: #ffffff; }
-      .fancy-select ul li .fancy-text {
-        max-width: 270px;
-        display: inline-block;
-        overflow: hidden;
-        line-height: 36px;
-        height: 36px; }
 
 /**
 Buttons

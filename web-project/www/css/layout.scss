@@ -47,7 +47,7 @@ body {
     background-color: #fff;
   }
   &.content {
-    padding-bottom: 50px;
+    padding-bottom: 30px;
 
   }
 }
@@ -183,63 +183,6 @@ Survey
     }
     .pull-right {
       width: 450px;
-    }
-  }
-}
-
-/**
-Fancy Select
-**/
-$fancy-width : 300px;
-$item-height : 40px;
-$transition-width : 30px;
-$border-radius : 5px;
-.fancy-select {
-  width: $fancy-width;
-  height: $item-height;
-  .trigger {
-    border: none;
-    border-radius: $border-radius;
-    color: #505050;
-    width: $fancy-width;
-    &.open {
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-    &, &.open {
-      box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2) inset !important;
-    }
-    &:after {
-      background: url("../images/select-arrow.png") no-repeat left center;
-      width: 30px;
-      height: $item-height - 2px;
-    }
-    &.open:after {
-      background-image: url("../images/select-arrow-open.png");
-    }
-  }
-  ul {
-    top: $item-height - 2px !important;
-    background-color: #ffffff;
-    border: none;
-    border-radius: 0 0 $border-radius $border-radius;
-    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2) inset;
-    color: #505050;
-    width: $fancy-width;
-    li {
-      padding: 2px 2px 2px 12px;
-      position: relative;
-      &:hover {
-        background-color: $primary-color;
-        color: #ffffff
-      }
-      .fancy-text {
-        max-width: $fancy-width - $transition-width;
-        display: inline-block;
-        overflow: hidden;
-        line-height: $item-height - 4px;
-        height: $item-height - 4px;
-      }
     }
   }
 }
