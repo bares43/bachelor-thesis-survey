@@ -8,6 +8,7 @@
 
 namespace App\Presenters;
 
+use App\Filter\PageRelated;
 use App\Forms\ColorForm;
 use App\Forms\ColorSelectForm;
 use App\Forms\FinalForm;
@@ -16,6 +17,7 @@ use App\Forms\WireframeForm;
 use App\Forms\WireframeReverse;
 use App\Forms\WireframeSelectForm;
 use App\Holder\NewQuestion;
+use App\Model\RespondentPageDuel;
 use App\Service\Category;
 use App\Service\EntityCategory;
 use App\Service\Page;
@@ -57,6 +59,9 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
     /** @var RespondentWebsite @inject */
     public $respondent_website_service;
 
+    /** @var  \App\Service\RespondentPageDuel @inject */
+    public $respondent_page_duel;
+
     /** @var Nette\Http\SessionSection */
     private $sessionSection;
 
@@ -89,8 +94,9 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
         $this->new_question_holder->setPageHolder(new \App\Holder\Page());
         $this->new_question_holder->setQuestion(new \App\Model\Question());
         $this->new_question_holder->setSubquestion(new \App\Model\Subquestion());
-        $this->new_question_holder->setPagesHolders(array());
+//        $this->new_question_holder->setPagesHolders(array());
         $this->new_question_holder->setQuestionType(0);
+        $this->new_question_holder->setPageRelated(new \App\Holder\PageRelated());
     }
 
     public function actionDefault(){
@@ -164,7 +170,7 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
                 break;
             case \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME_REVERSE:
                 $this->template->page = $this->new_question_holder->getPageHolder();
-                $this->template->pages_holders = $this->new_question_holder->getPagesHolders();
+                $this->template->pages_holders = $this->new_question_holder->getPageRelated()->getPagesRelatedAsArray();
                 $this->template->answer_btn = true;
                 break;
             case \App\Model\Subquestion::QUESTION_TYPE_COLOR:
@@ -350,8 +356,17 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
 
         // rekonstrukce puvodnich id_pages
         $id_page = $this->question_service->get($subquestion->id_question)->id_page;
-        $pages = $this->page_service->getRelatedPages($id_page);
-        $options = array($id_page=>"",$pages[0]->id_page);
+
+        $options = array();
+        if($subquestion->id_page_related !== null){
+            $related = $this->page_service->getRelatedPagesByFilter(new PageRelated(array(
+                PageRelated::IDS_PAGE_RELATED=>array($subquestion->id_page_related)
+            )));
+            if(count($related) === 1 && $related[0] !== null){
+                $pages = $related[0]->getPagesRelatedAsArray();
+                $options = array($pages[0]->getPage()->id_page=>"",$pages[1]->getPage()->id_page);
+            }
+        }
 
         $form->getComponent("id_pages")->setItems($options);
 
@@ -384,8 +399,22 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
 
         // rekonstrukce puvodnich id_pages
         $id_page = $this->question_service->get($subquestion->id_question)->id_page;
-        $pages = $this->page_service->getRelatedPages($id_page);
-        $options = array(0=>"",$id_page=>"",$pages[0]->id_page);
+//        $pages = $this->page_service->getRelatedPages($id_page);
+//        $options = array(0=>"",$id_page=>"",$pages[0]->id_page);
+
+        $options = array();
+        if($subquestion->id_page_related !== null){
+            $related = $this->page_service->getRelatedPagesByFilter(new PageRelated(array(
+                PageRelated::IDS_PAGE_RELATED=>array($subquestion->id_page_related)
+            )));
+            if(count($related) === 1 && $related[0] !== null){
+                $options = array(
+                  $related[0]->getPageA()->getPage()->id_page=>"",
+                  $related[0]->getPageB()->getPage()->id_page=>"",
+                  0=>""
+                );
+            }
+        }
 
         $form->getComponent("id_pages")->setItems($options);
 
@@ -442,8 +471,18 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
 
         // rekonstrukce puvodnich id_pages
         $id_page = $this->question_service->get($subquestion->id_question)->id_page;
-        $pages = $this->page_service->getRelatedPages($id_page);
-        $options = array($id_page=>"",$pages[0]->id_page);
+        $options = array();
+        if($subquestion->id_page_related !== null){
+            $related = $this->page_service->getRelatedPagesByFilter(new PageRelated(array(
+                PageRelated::IDS_PAGE_RELATED=>array($subquestion->id_page_related)
+            )));
+            if(count($related) === 1 && $related[0] !== null){
+                $pages = $related[0]->getPagesRelatedAsArray();
+                $options = array($pages[0]->getPage()->id_page=>"",$pages[1]->getPage()->id_page);
+            }
+        }
+//        $pages = $this->page_service->getRelatedPages($id_page);
+//        $options = array($id_page=>"",$pages[0]->id_page);
 
         $form->getComponent("id_pages")->setItems($options);
 
@@ -477,6 +516,22 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
 
             if($period !== null){
                 $this->respondent_website_service->addWebsiteToRespondent($id_website, $this->sessionSection->id_respondent, $period);
+            }
+        }
+
+        foreach($values->duels as $id_page_related => $param){
+            $page = $param["page"];
+
+            if($page !== null){
+                if($page === RespondentPageDuel::MORE_OFTEN_BOTH ||$page === RespondentPageDuel::MORE_OFTEN_NONE){
+                    $id_page = null;
+                    $mote_often = $page;
+                }else{
+                    $id_page = $page;
+                    $mote_often = RespondentPageDuel::MORE_OFTEN_PAGE;
+                }
+
+                $this->respondent_page_duel->addPageDuelToRespondent($id_page_related, $this->sessionSection->id_respondent, $mote_often, $id_page);
             }
         }
 
@@ -514,7 +569,7 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
     public function createComponentColorSelectForm() {
         $form = (new ColorSelectForm($this))->create(
             $this->new_question_holder->getSubquestion()->id_subquestion,
-            $this->new_question_holder->getPagesHolders()
+            $this->new_question_holder->getPageRelated()->getPagesRelatedAsArray()
         );
         $form->onSuccess[] = $this->colorSelectFormSubmitted;
         return $form;
@@ -537,7 +592,7 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
     public function createComponentWireframeSelectForm(){
         $form = (new WireframeSelectForm($this))->create(
             $this->new_question_holder->getSubquestion()->id_subquestion,
-            $this->new_question_holder->getPagesHolders());
+            $this->new_question_holder->getPageRelated()->getPagesRelatedAsArray());
         $form->onSuccess[] = $this->wireframeSelectFormSubmitted;
         return $form;
     }
@@ -548,7 +603,7 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
     public function createComponentWireframeReverseForm(){
         $form = (new WireframeReverse($this))->create(
             $this->new_question_holder->getSubquestion()->id_subquestion,
-            $this->new_question_holder->getPagesHolders()
+            $this->new_question_holder->getPageRelated()
         );
         $form->onSuccess[] = $this->wireframeReverseFormSubmitted;
         return $form;
@@ -564,7 +619,9 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
             $websites[$subquestion->getWebsite()->id_website] = $subquestion->getWebsite()->name;
         }
 
-        $form = (new FinalForm($this))->create($websites);
+        $duels_pages = $this->question_service->getDuelsPagesByIdRespondent($this->sessionSection->id_respondent);
+
+        $form = (new FinalForm($this))->create($websites, $duels_pages);
         $form->onSuccess[] = $this->finalFormSubmitted;
         return $form;
     }

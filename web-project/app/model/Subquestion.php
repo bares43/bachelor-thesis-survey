@@ -67,4 +67,9 @@ class Subquestion extends BaseEntity {
      * @ORM\Column(type="datetime")
      */
     public $datetime;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    public $id_page_related;
 }

@@ -33,4 +33,9 @@ class PageRelated extends BaseEntity {
      * @ORM\Column(type="integer")
      */
     public $id_page_b;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    public $duel;
 }

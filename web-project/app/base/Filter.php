@@ -11,6 +11,8 @@ namespace App\Base;
 
 class Filter {
 
+    const LIMIT = "limit";
+
     private $params = array();
 
     /**
@@ -43,5 +45,18 @@ class Filter {
         return null;
     }
 
+    /**
+     * @param int $limit
+     */
+    public function setLimit($limit) {
+        $this->set(self::LIMIT,$limit);
+    }
+
+    /**
+     * @return int
+     */
+    public function getLimit() {
+        return $this->get(self::LIMIT);
+    }
 
 }

@@ -9,7 +9,9 @@
 namespace App\Service;
 
 
+use App\Base\Filter;
 use App\Base\Service;
+use App\Filter\PageRelated;
 use App\Holder\NewQuestion;
 use App\Service\Page;
 use App\Service\Subquestion;
@@ -250,12 +252,22 @@ class Question extends Service {
 
         if($page_holder !== null){
 
-            $related = $this->page_service->getRelatedPagesHolders($page_holder);
+            $subquestion = new \App\Model\Subquestion();
+
+//            $related = $this->page_service->getRelatedPagesHolders($page_holder);
+            $related_holder = $this->page_service->getRelatedPagesByFilter(new PageRelated(array(
+                \App\Base\Filter::LIMIT=>1,
+                \App\Filter\PageRelated::IDS_PAGE=>array($page_holder->getPage()->id_page),
+                \App\Filter\Page::PAGE_VISIBLE=>true
+            )));
 
             /**
              * Pokud by se stalo, že je vybraný typ otázky, který potřebuje podobné příbuzné stránky z výběru, a aktuální page je nemá
              */
-            if(count($related) !== 2){
+            if(count($related_holder) === 1 && $related_holder[0] !== null){
+                $new_question->setPageRelated($related_holder[0]);
+                $subquestion->id_page_related = $related_holder[0]->getPageRelated()->id_page_related;
+            }else{
                 if($question_type === \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME_REVERSE || $question_type === \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME_SELECT){
                     $question_type = \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME;
                 }
@@ -263,6 +275,7 @@ class Question extends Service {
                     $question_type = \App\Model\Subquestion::QUESTION_TYPE_COLOR;
                 }
             }
+
 
             if($question === null){
                 $question = new \App\Model\Question();
@@ -274,7 +287,6 @@ class Question extends Service {
 
             if($question_type === null) $question_type = \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME;
 
-            $subquestion = new \App\Model\Subquestion();
             $subquestion->id_question = $question->id_question;
             $subquestion->question_type = $question_type;
             if($page_holder->getCurrentWireframe() !== null) $subquestion->id_wireframe = $page_holder->getCurrentWireframe()->id_wireframe;
@@ -285,7 +297,7 @@ class Question extends Service {
             $new_question->setSubquestion($subquestion);
             $new_question->setPageHolder($page_holder);
             $new_question->setQuestionType($question_type);
-            $new_question->setPagesHolders($related);
+//            $new_question->setPagesHolders($related);
 
             return $new_question;
         }else{
@@ -299,5 +311,25 @@ class Question extends Service {
      */
     public function getSubquestionHoldersByIdRespondent($id_respondent) {
         return $this->database->getSubquestionHoldersByIdRespondent($id_respondent);
+    }
+
+    /**
+     * @param int $id_respondent
+     * @return \App\Holder\PageRelated[]
+     */
+    public function getDuelsPagesByIdRespondent($id_respondent) {
+        $subquestions = $this->database->getSubquestionHoldersByIdRespondent($id_respondent);
+        $ids_page_related = array();
+        foreach($subquestions as $subquestion){
+            if($subquestion->getSubquestion()->id_page_related !== null && !in_array($subquestion->getSubquestion()->id_page_related, $ids_page_related)){
+                $ids_page_related[] = $subquestion->getSubquestion()->id_page_related;
+            }
+        }
+        return $this->page_service->getRelatedPagesByFilter(new PageRelated(
+            array(
+                PageRelated::DUEL=>true,
+                PageRelated::IDS_PAGE_RELATED=>$ids_page_related
+            )
+        ));
     }
 }

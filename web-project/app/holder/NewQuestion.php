@@ -41,6 +41,11 @@ class NewQuestion implements IHolder {
     private $pages_holders;
 
     /**
+     * @var PageRelated
+     */
+    private $page_related;
+
+    /**
      * @var int
      */
     private $respondent_subquestions_count = 0;
@@ -104,6 +109,7 @@ class NewQuestion implements IHolder {
 
     /**
      * @return Page[]
+     * @deprecated
      */
     public function getPagesHolders() {
         return $this->pages_holders;
@@ -111,10 +117,11 @@ class NewQuestion implements IHolder {
 
     /**
      * @param Page[] $pages_holders
+     * @deprecated
      */
-    public function setPagesHolders($pages_holders) {
-        $this->pages_holders = $pages_holders;
-    }
+//    public function setPagesHolders($pages_holders) {
+//        $this->pages_holders = $pages_holders;
+//    }
 
     /**
      * @return int|null
@@ -138,4 +145,17 @@ class NewQuestion implements IHolder {
         $this->respondent_subquestions_count = $respondent_subquestions_count;
     }
 
+    /**
+     * @return PageRelated
+     */
+    public function getPageRelated() {
+        return $this->page_related;
+    }
+
+    /**
+     * @param PageRelated $page_related
+     */
+    public function setPageRelated($page_related) {
+        $this->page_related = $page_related;
+    }
 }

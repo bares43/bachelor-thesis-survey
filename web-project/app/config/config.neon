@@ -29,6 +29,7 @@ services:
 	wireframes: App\Service\Wireframe()
 	entities_categories: App\Service\EntityCategory()
 	respondents_websites: App\Service\RespondentWebsite()
+	respondents_page_duels: App\Service\RespondentPageDuel()
 	codes: App\Service\Code()
 	db_websites: App\Database\Website()
 	db_categories: App\Database\Category()
@@ -40,6 +41,7 @@ services:
 	db_pages_related: App\Database\PageRelated()
 	db_entities_categories: App\Database\EntityCategory()
 	db_respondents_websites: App\Database\RespondentWebsite()
+	db_respondents_page_duels: App\Database\RespondentPageDuel()
 	db_codes: App\Database\Code()
 
 extensions:

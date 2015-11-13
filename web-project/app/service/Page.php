@@ -69,50 +69,10 @@ class Page extends Service {
     }
 
     /**
-     * @param int $id_page
-     * @return \App\Model\Page[]
+     * @param \App\Filter\PageRelated $filter
+     * @return \App\Holder\PageRelated[]
      */
-    public function getRelatedPages($id_page) {
-        $related = $this->page_related_database->getPageRelated($id_page);
-
-        $pages_ids = array();
-        foreach($related as $row){
-            if($row->id_page_a !== $id_page) $pages_ids[] = $row->id_page_a;
-            if($row->id_page_b !== $id_page) $pages_ids[] = $row->id_page_b;
-        }
-
-        $pages_ids = array_unique($pages_ids);
-
-        $pages = array();
-        foreach($pages_ids as $page_id){
-            $page = $this->get($page_id);
-            if($page->visible){
-                $pages[] = $this->get($page_id);
-            }
-        }
-
-        return $pages;
+    public function getRelatedPagesByFilter(\App\Filter\PageRelated $filter) {
+        return $this->page_related_database->getRelatedPagesByFilter($filter);
     }
-
-    /**
-     * @param \App\Holder\Page $page
-     * @return \App\Holder\Page[]
-     */
-    public function getRelatedPagesHolders(\App\Holder\Page $page) {
-        $related_pages = $this->getRelatedPages($page->getPage()->id_page);
-
-        $id = count($related_pages) > 0 ? $related_pages[0]->id_page : null;
-
-        $holders = array();
-
-        $holders[] = $page;
-        $holders[] = $this->getPageHolderByFilter(new \App\Filter\Page(
-            array(
-                \App\Filter\Page::ID_PAGE => $id
-            )
-        ));
-        shuffle($holders);
-        return $holders;
-    }
-
 }

@@ -9,7 +9,7 @@
 namespace App\Forms;
 
 
-use App\Model\Page;
+use App\Holder\PageRelated;
 
 class WireframeReverse {
 
@@ -25,16 +25,16 @@ class WireframeReverse {
 
     /**
      * @param int $id_subquestion
-     * @param \App\Holder\Page[] $pages
+     * @param PageRelated $related
      * @return BaseSurveyForm
      */
-    public function create($id_subquestion, $pages){
+    public function create($id_subquestion, $related){
         $pages_select = array();
 
-        if(count($pages) === 2){
-            $pages_select[$pages[0]->getPage()->id_page] = "první";
+        if($related !== null){
+            $pages_select[$related->getPageA()->getPage()->id_page] = "první";
             $pages_select[0] = "nevím";
-            $pages_select[$pages[1]->getPage()->id_page] = "druhý";
+            $pages_select[$related->getPageB()->getPage()->id_page] = "druhý";
         }
 
         $form = new BaseSurveyForm(/*$this->parent, "wireframeReverseForm"*/);
