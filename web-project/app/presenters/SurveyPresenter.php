@@ -27,8 +27,10 @@ use App\Service\RespondentWebsite;
 use App\Service\Subquestion;
 use App\Service\Website;
 use App\Service\Wireframe;
+use Latte\Engine;
 use Nette;
 use Nette\Application\UI\Form;
+use Nette\Mail\Message;
 
 class SurveyPresenter extends Nette\Application\UI\Presenter {
 
@@ -126,6 +128,23 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
         if($this->sessionSection->id_respondent === null) {
             $this->redirect("Survey:personal");
         }
+
+        $latte = new Engine();
+
+        $mail = new Message;
+        $mail->setFrom($this->context->getParameters()["mailer_mail"])
+            ->addTo($this->context->getParameters()["mailer_mail"])
+            ->setHtmlBody($latte->renderToString(__DIR__ . '/templates/Survey/email.latte', array(
+                "id"=>$this->sessionSection->id_respondent
+            )));
+
+        $mailer = new Nette\Mail\SmtpMailer(array(
+            'host' => $this->context->getParameters()["mailer_host"],
+            'username' => $this->context->getParameters()["mailer_mail"],
+            'password' => $this->context->getParameters()["mailer_password"],
+            'secure' => 'ssl',
+        ));
+        $mailer->send($mail);
     }
 
     public function actionFinal() {
