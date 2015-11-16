@@ -13,6 +13,7 @@ use App\Base\Filter;
 use App\Base\Service;
 use App\Filter\PageRelated;
 use App\Holder\NewQuestion;
+use App\Model\EntityCategory;
 use App\Service\Page;
 use App\Service\Subquestion;
 use App\Service\Website;
@@ -115,7 +116,9 @@ class Question extends Service {
             $entity_categories = $this->entity_category_service->getEntityCategoriesByIdRespondent($respondent->id_respondent);
             $categories = array();
             foreach($entity_categories as $entity_category){
-                $categories[] = $entity_category->id_category;
+                if($entity_category->period !== EntityCategory::PERIOD_NEVER) {
+                    $categories[] = $entity_category->id_category;
+                }
             }
 
             $devices = array();
