@@ -48,7 +48,7 @@ CREATE TABLE `page` (
   `id_page` int(11) NOT NULL AUTO_INCREMENT,
   `id_website` int(11) NOT NULL,
   `name` varchar(45) COLLATE utf8_czech_ci NOT NULL,
-  `url` varchar(45) COLLATE utf8_czech_ci NOT NULL,
+  `url` text COLLATE utf8_czech_ci NOT NULL,
   `dominant_color` varchar(45) COLLATE utf8_czech_ci NOT NULL,
   `dominant_text_color` varchar(45) COLLATE utf8_czech_ci NOT NULL,
   `priority` tinyint(1) NOT NULL DEFAULT '0',
