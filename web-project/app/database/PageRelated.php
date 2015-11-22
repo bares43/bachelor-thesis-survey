@@ -149,6 +149,10 @@ class PageRelated extends Database {
             $query->setMaxResults($filter->getLimit());
         }
 
+        if($filter->getGroupBy()){
+            $query->groupBy("page_related.id_page_related");
+        }
+
         return $this->getHolders($query, new \App\Holder\Mapper\PageRelated());
     }
 }

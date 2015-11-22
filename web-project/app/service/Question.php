@@ -330,7 +330,8 @@ class Question extends Service {
         return $this->page_service->getRelatedPagesByFilter(new PageRelated(
             array(
                 PageRelated::DUEL=>true,
-                PageRelated::IDS_PAGE_RELATED=>$ids_page_related
+                PageRelated::IDS_PAGE_RELATED=>$ids_page_related,
+                Filter::GROUP_BY=>true
             )
         ));
     }

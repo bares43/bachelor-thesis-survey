@@ -13,6 +13,8 @@ class Filter {
 
     const LIMIT = "limit";
 
+    const GROUP_BY = "groupby";
+
     private $params = array();
 
     /**
@@ -57,6 +59,20 @@ class Filter {
      */
     public function getLimit() {
         return $this->get(self::LIMIT);
+    }
+
+    /**
+     * @param bool $group
+     */
+    public function setGroupBy($group) {
+        $this->set(self::GROUP_BY, $group);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getGroupBy() {
+        return $this->get(self::GROUP_BY);
     }
 
 }
