@@ -98,11 +98,11 @@ class Page extends Database {
         }
 
         if($filter->getTextMode() !== null){
-            $query->andWhere($query->expr()->eq("wireframe.text_mode",$filter->getTextMode()));
+            $query->andWhere($query->expr()->eq("wireframe.text_mode","'".$filter->getTextMode()."'"));
         }
 
         if($filter->getImageMode() !== null){
-            $query->andWhere($query->expr()->eq("wireframe.image_mode",$filter->getImageMode()));
+            $query->andWhere($query->expr()->eq("wireframe.image_mode","'".$filter->getImageMode()."'"));
         }
 
         if($filter->getDevices() !== null && count($filter->getDevices()) > 0){
