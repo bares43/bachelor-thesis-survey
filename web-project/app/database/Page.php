@@ -80,6 +80,7 @@ class Page extends Database {
         $query = $this->entityManager->getRepository($this->repositoryName)->createQueryBuilder();
 
         $query->select("page");
+        $query->addSelect("rand() as rand");
         $query->from(Model\Page::getClassName(),"page");
 
         $query->join(Model\Website::getClassName(),"website",Join::WITH,"page.id_website = website.id_website")->addSelect("website");
@@ -158,10 +159,11 @@ class Page extends Database {
             $query->andWhere($query->expr()->eq("wireframe.visible",1));
         }
 
+        $query->orderBy("rand");
+        $query->setMaxResults(1);
+
         $mapper = new \App\Holder\Mapper\Page();
 
-        $holders = $this->getHolders($query, $mapper);
-        if(count($holders) > 0) return $holders[array_rand($holders)];
-        return null;
+        return $this->getHolder($query, $mapper);
     }
 }

@@ -30,6 +30,7 @@ class Database extends Nette\Object {
     {
         $entityManager->getConfiguration()->addCustomNumericFunction("greatest",'App\Doctrine\Greatest');
         $entityManager->getConfiguration()->addCustomNumericFunction("least",'App\Doctrine\Least');
+        $entityManager->getConfiguration()->addCustomNumericFunction("rand",'App\Doctrine\Rand');
         $this->entityManager = $entityManager;
         $this->repositoryName = $repositoryName;
     }
