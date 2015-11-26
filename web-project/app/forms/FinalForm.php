@@ -51,7 +51,7 @@ class FinalForm {
 
         foreach($duels as $page_related_holder){
             $duel_container = $duels_container->addContainer($page_related_holder->getPageRelated()->id_page_related);
-            $title = $page_related_holder->getPageA()->getWebsite()->name ." vs. ".$page_related_holder->getPageA()->getWebsite()->name;
+            $title = $page_related_holder->getPageA()->getWebsite()->name ." vs. ".$page_related_holder->getPageB()->getWebsite()->name;
             $options = array(
                 $page_related_holder->getPageA()->getPage()->id_page=>$page_related_holder->getPageA()->getWebsite()->name,
                 RespondentPageDuel::MORE_OFTEN_BOTH=>"nastejno",

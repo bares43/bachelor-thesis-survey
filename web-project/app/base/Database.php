@@ -28,6 +28,8 @@ class Database extends Nette\Object {
      */
     public function __construct(EntityManager $entityManager, $repositoryName)
     {
+        $entityManager->getConfiguration()->addCustomNumericFunction("greatest",'App\Doctrine\Greatest');
+        $entityManager->getConfiguration()->addCustomNumericFunction("least",'App\Doctrine\Least');
         $this->entityManager = $entityManager;
         $this->repositoryName = $repositoryName;
     }

@@ -51,10 +51,6 @@ extensions:
 	doctrine: Kdyby\Doctrine\DI\OrmExtension
 
 doctrine:
-	orm:
-		dql:
-			numeric_functions:
-				Rand: App\Doctrine\Rand
 	user: root
 	password: ''
 	dbname: bt_survey

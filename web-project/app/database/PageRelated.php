@@ -40,6 +40,10 @@ class PageRelated extends Database {
         $query->join(\App\Model\Wireframe::getClassName(),"wireframe_a",Join::WITH,"page_a.id_page = wireframe_a.id_page")->addSelect("wireframe_a");
         $query->join(\App\Model\Wireframe::getClassName(),"wireframe_b",Join::WITH,"page_b.id_page = wireframe_b.id_page")->addSelect("wireframe_b");
 
+        if($filter->getGroupBy()){
+            $query->addSelect("concat(least(website_a.id_website, website_b.id_website),'_',greatest(website_a.id_website,website_b.id_website)) as g");
+        }
+
         if($filter->getIdsPage() !== null && count($filter->getIdsPage()) > 0){
             $query->andWhere($query->expr()->in("page_a.id_page",$filter->getIdsPage()));
             $query->orWhere($query->expr()->in("page_b.id_page",$filter->getIdsPage()));
@@ -150,7 +154,7 @@ class PageRelated extends Database {
         }
 
         if($filter->getGroupBy()){
-            $query->groupBy("page_related.id_page_related");
+            $query->groupBy("g");
         }
 
         return $this->getHolders($query, new \App\Holder\Mapper\PageRelated());

@@ -58,7 +58,7 @@ $(document).ready(function(){
         var radio = $("input[name='id_pages'][value="+option+"]");
 
         $("input[name='id_pages']").not(radio).removeAttr("checked").parent().removeClass("active");
-        radio.attr("checked",true).parent().addClass("active");
+        radio.prop("checked",true).parent().addClass("active");
 
         if(!question_noty_shown){
             question_noty_shown = true;
@@ -80,12 +80,12 @@ $(document).ready(function(){
         },1000);
     }
 
-    $("[data-select-image]").on("click", function(){
+    $(".survey-wireframe-reverse [data-select-image]").on("click", function(){
         var current = $(this).data("select-image");
         wireframeReverseSetOption(current);
     });
 
-    $("#frm-wireframeReverseForm input[name='id_pages']").on("change", function(){
+    $(".survey-wireframe-reverse input[name='id_pages']").on("change", function(){
         if($(this).is(":checked")){
             var current = $(this).val();
             wireframeReverseSetOption(current);

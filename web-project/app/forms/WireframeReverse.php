@@ -31,10 +31,13 @@ class WireframeReverse {
     public function create($id_subquestion, $related){
         $pages_select = array();
 
-        if($related !== null){
-            $pages_select[$related->getPageA()->getPage()->id_page] = "první";
-            $pages_select[0] = "nevím";
-            $pages_select[$related->getPageB()->getPage()->id_page] = "druhý";
+        if($related !== null && count($related->getPagesRelatedAsArray()) === 2){
+            $related_array = $related->getPagesRelatedAsArray();
+            if($related_array[0] !== null && $related_array[1] !== null){
+                $pages_select[$related_array[0]->getPage()->id_page] = "první";
+                $pages_select[0] = "nevím";
+                $pages_select[$related_array[1]->getPage()->id_page] = "druhý";
+            }
         }
 
         $form = new BaseSurveyForm(/*$this->parent, "wireframeReverseForm"*/);
