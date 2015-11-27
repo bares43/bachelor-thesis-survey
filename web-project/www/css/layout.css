@@ -193,4 +193,7 @@ form table td textarea {
     #results table td {
       text-align: right; }
 
+#page-help table td {
+  padding: 10px 0; }
+
 /*# sourceMappingURL=layout.css.map */

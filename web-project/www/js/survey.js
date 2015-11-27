@@ -112,4 +112,6 @@ $(document).ready(function(){
             $("input:hidden[name='seconds']").val(seconds);
         },1000);
     }
+
+    $('[data-toggle="tooltip"]').tooltip();
 });

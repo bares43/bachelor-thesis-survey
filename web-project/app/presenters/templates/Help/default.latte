@@ -1,7 +1,61 @@
 {block title}Nápověda{/block}
 {block content}
-<h2>Nápověda</h2>
-<h3 id="lorem-ipsum">Lorem Ipsum</h3>
-<h3 id="sede-obdelniky">Šedé obdelníky</h3>
-<h3 id="rozmazane-obrazky">Rozmazané obrázky</h3>
-<h3 id="vyhodnoceni-odpovedi">Jak se vyhodnocují odpověd?</h3>
+<div id="page-help">
+    <h2>Nápověda</h2>
+    <h3 id="jak-poznat-stranku">Jak poznat stránku?</h3>
+    <div>
+        <p>Je zde několik druhů wireframů (<i>náčrtů</i> webové stránky). Na některých se místo textu vyskytuje zástupný text lorem ipsum (viz níže), jinde jsou místo textu pouze šedé bloky. Je tedy vždy <strong>vidět umístění a rozsah původního textu</strong>.</p>
+        <p>Obrázky jsou nejčastěji nahrazeny šedým blok, mohou se ale vyskytovat i původní obrázky, jen rozmazaně. Místo původních obrázku je tedy opět <strong>vidět pouze jejich umístění a velikost</strong>.</p>
+        <p>Když tedy vidíte wireframe, zkuste se zamyslet, jakou webovou stránku vám <strong>připomíná umístění textů a obrázku</strong>, případně nějaký <strong>výrazný prvek na stránce</strong>.</p>
+    </div>
+    <h3 id="lorem-ipsum">Co znamená ten zmatený text?</h3>
+    <div>
+        <p>Jedná se o <strong>náhodně vygenerovaný text</strong>, který <strong>nahrazuje</strong> na webové stránce původní text.</p>
+        <p>Tzv. Lorem Ipsum je text, který má připomínat latinu. Používá se tam, kde není vhodné, aby se uživatel zaměřoval na konkrétní obsah textu. Více se lze dočíst na <a href="https://cs.wikipedia.org/wiki/Lorem_ipsum" target="_blank">Wikipedii</a>.</p>
+    </div>
+    <h3 id="sede-obdelniky">Co znamenají šedé obdelníky?</h3>
+    <div>
+        <p>Šedé obdelníky mohou vyjadřovat čtyři různé části webové stránky. Jedná se o obrázky, text, formulářové prvky a nebo ostatní elementy (jako třeba reklamy a podobně). Každý z těchto prvků mí jiný odstín.</p>
+        <table class="text-center">
+            <thead>
+                <tr>
+                    <th class="text-center" width="250">Prvek</th>
+                    <th class="text-center" width="300">Šedý obdelník</th>
+                    <th class="text-center" width="300">Původní prvek</th>
+                </tr>
+            </thead>
+            <tr>
+                <td>Obrázky</td>
+                <td>
+                    <div style="background-color: #bfbfbf; width: 250px; height: 163px; margin: auto;"></div>
+                </td>
+                <td>
+                    <img src="{$basePath}/images/original.png" width="250" style="margin: auto;">
+                </td>
+            </tr>
+            <tr>
+                <td>Text</td>
+                <td><span style="background-color: #dfdfdf; color: #dfdfdf;">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span><br /><span style="background-color: #dfdfdf; color: #dfdfdf;">Donec laoreet vulputate nulla a lacinia.</span></td>
+                <td><span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span><br /><span>Donec laoreet vulputate nulla a lacinia.</span></td>
+            </tr>
+            <tr>
+                <td>Formulářová prvek</td>
+                <td><input type="text" style="color: #b0b0b0; background-color: #b0b0b0;"></td>
+                <td><input type="text"></td>
+            </tr>
+            <tr>
+                <td>Ostatní prvky (například YouTube nebo reklamy)</td>
+                <td><div style="background-color: #9d9d9d; width: 250px; height: 165px; margin: auto;"></div></td>
+                <td><iframe width="250" height="165" src="https://www.youtube.com/embed/1crL10P3m_E" frameborder="0" allowfullscreen></iframe></td>
+            </tr>
+        </table>
+    </div>
+    <h3 id="rozmazane-obrazky">Proč jsou obrázky rozmazané?</h3>
+    <div>
+        <p>Některé obrázky mohou být záměrně rozmazány, aby nebylo poznat, co na nich původně bylo. Cílem je pouze ukázat umístění, velikost a přibližné barvy obrázk.</p>
+    </div>
+    <h3 id="vyhodnoceni-odpovedi">Jak se vyhodnocuje správnost odpovědi?</h3>
+    <div>
+        <p>To záleží na druhu otázky. Pokud měla otázka <strong>uzavřenou odpověď</strong> (to znamená výběr z možností), je odpověď <strong>automaticky vyhodnocena ihned</strong>. Pokud ale otázka měla <strong>otevřenou odpověď</strong> (to znamená, že odpověď byla zadána slovně) bude odpověď <strong>ručně vhodnocena až zpětně</strong>.</p>
+    </div>
+</div>
