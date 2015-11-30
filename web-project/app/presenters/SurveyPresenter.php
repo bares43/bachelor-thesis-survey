@@ -129,22 +129,25 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
             $this->redirect("Survey:personal");
         }
 
-        $latte = new Engine();
+        if($this->context->getParameters()["send_emails"]){
 
-        $mail = new Message;
-        $mail->setFrom($this->context->getParameters()["mailer_mail"])
-            ->addTo($this->context->getParameters()["mailer_mail"])
-            ->setHtmlBody($latte->renderToString(__DIR__ . '/templates/Survey/email.latte', array(
-                "id"=>$this->sessionSection->id_respondent
-            )));
+            $latte = new Engine();
 
-        $mailer = new Nette\Mail\SmtpMailer(array(
-            'host' => $this->context->getParameters()["mailer_host"],
-            'username' => $this->context->getParameters()["mailer_mail"],
-            'password' => $this->context->getParameters()["mailer_password"],
-            'secure' => 'ssl',
-        ));
-        $mailer->send($mail);
+            $mail = new Message;
+            $mail->setFrom($this->context->getParameters()["mailer_mail"])
+                ->addTo($this->context->getParameters()["mailer_mail"])
+                ->setHtmlBody($latte->renderToString(__DIR__ . '/templates/Survey/email.latte', array(
+                    "id"=>$this->sessionSection->id_respondent
+                )));
+
+            $mailer = new Nette\Mail\SmtpMailer(array(
+                'host' => $this->context->getParameters()["mailer_host"],
+                'username' => $this->context->getParameters()["mailer_mail"],
+                'password' => $this->context->getParameters()["mailer_password"],
+                'secure' => 'ssl',
+            ));
+            $mailer->send($mail);
+        }
     }
 
     public function actionFinal() {
