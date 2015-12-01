@@ -312,6 +312,7 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
         }
         $respondent->device_most = $values->device_most;
         $respondent->email = $values->email;
+        $respondent->nickname = $values->nickname;
         $respondent->message = $values->message;
         $respondent->sites = $values->sites;
         $respondent->user_agent = $_SERVER["HTTP_USER_AGENT"];

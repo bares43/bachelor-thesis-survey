@@ -35,7 +35,7 @@ body {
   @include linear-gradient(90deg, $seconadry-color , $primary-color);
   background-color: $primary-color;
   font-family: "Roboto", serif;
-  font-size: 14px;
+  font-size: 15px;
 }
 .container {
   width: $page-width;
@@ -272,6 +272,26 @@ form {
   table {
     td {
       padding: 10px 0;
+    }
+  }
+}
+
+#page-highscore {
+
+  > a {
+    margin: auto;
+    display: block;
+  }
+  table {
+    margin: auto;
+    td, th {
+      padding: 10px;
+      &.strong {
+        font-weight: bold;
+      }
+    }
+    tr.current {
+      background-color: #dfdfdf;
     }
   }
 }

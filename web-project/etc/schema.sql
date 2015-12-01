@@ -86,10 +86,10 @@ CREATE TABLE `question` (
   CONSTRAINT `question_ibfk_2` FOREIGN KEY (`id_page`) REFERENCES `page` (`id_page`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
-
 DROP TABLE IF EXISTS `respondent`;
 CREATE TABLE `respondent` (
   `id_respondent` int(11) NOT NULL AUTO_INCREMENT,
+  `nickname` varchar(255),
   `age` varchar(5) COLLATE utf8_czech_ci DEFAULT NULL,
   `gender` varchar(1) COLLATE utf8_czech_ci DEFAULT NULL,
   `english` tinyint(1) DEFAULT NULL,

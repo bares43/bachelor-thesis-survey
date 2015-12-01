@@ -39,6 +39,11 @@ class Respondent extends BaseEntity {
     /**
      * @ORM\Column(type="string")
      */
+    public $nickname;
+
+    /**
+     * @ORM\Column(type="string")
+     */
     public $age;
 
     /**

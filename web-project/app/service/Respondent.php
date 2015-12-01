@@ -10,6 +10,7 @@ namespace App\Service;
 
 
 use App\Base\Service;
+use App\Holder\Highscore;
 
 class Respondent extends Service {
 
@@ -44,5 +45,12 @@ class Respondent extends Service {
      */
     public function save($respondent) {
         $this->database->save($respondent);
+    }
+
+    /**
+     * @return Highscore[]
+     */
+    public function getHighscore() {
+        return $this->database->getHighscore();
     }
 }

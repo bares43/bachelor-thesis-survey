@@ -109,6 +109,7 @@ class PersonalForm {
         $form->setCurrentGroup(NULL);
 
         $form->addGroup("Zajímá mě to");
+        $form->addText("nickname","Nick (chci být v highscore)");
         $form->addText("email","E-mail")->setType("email");
         $form->addTextArea("message","Vzkaz");
 
