@@ -5,9 +5,7 @@
     <h2>{block name}{/block}</h2>
     <div id="task">{block task}{/block}{ifset $answer_btn}<a class="btn btn-primary btn-sm" data-focus="{$answer_btn}">Odpovědět</a>{/ifset}</div>
     {block question}{/block}
-    {if isset($help_lorem) || isset($help_gray) || isset($help_blur)}
-        {include 'help.latte'}
-    {/if}
+    {include 'help.latte'}
     <div id="form-wrapper">
         {block form}{/block}
         {if isset($respondent_subquestions_count) && $respondent_subquestions_count > 0}
