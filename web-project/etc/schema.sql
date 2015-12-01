@@ -114,7 +114,7 @@ CREATE TABLE `respondent_page_duel` (
   `id_respondent` int(11) NOT NULL,
   `id_page_related` int(11) NOT NULL,
   `more_often` varchar(1) COLLATE utf8_czech_ci NOT NULL,
-  `id_page` int(11) NOT NULL,
+  `id_page` int(11),
   `datetime` datetime NOT NULL,
   PRIMARY KEY (`id_respondent_page_duel`),
   KEY `id_respondent` (`id_respondent`),
