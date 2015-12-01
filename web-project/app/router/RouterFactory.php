@@ -23,6 +23,7 @@ class RouterFactory
 				Route::FILTER_TABLE	=> array(
 					'uvod'=>'Homepage',
 					'dotaznik'=>'Survey',
+					'nejlepsi-respondenti'=>'Highscore',
 					'co-je-wireframe'=>'WhatIsWireframe',
 					'napoveda'=>'Help',
 					'o-projektu'=>'About',
