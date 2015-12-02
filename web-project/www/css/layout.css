@@ -39,6 +39,8 @@ body {
     background-color: #fff; }
   .container.content {
     padding-bottom: 30px; }
+  .container .text-container {
+    padding: 0 45px; }
 
 footer {
   text-align: center; }
