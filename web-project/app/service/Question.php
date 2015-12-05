@@ -134,11 +134,11 @@ class Question extends Service {
             $rand = rand(1,100);
 
             $pages_ids_part = array();
+            $pages_ids = array();
 
             /** Respondent už zodpověděl nějaké otázky */
             if(count($subquestions) > 0) {
 
-                $pages_ids = array();
                 foreach($subquestions as $holder){
                     $pages_ids[] = $holder->getPage()->id_page;
                     if($holder->getWireframe() !== null) $wireframes_ids[] = $holder->getWireframe()->id_wireframe;
@@ -148,7 +148,7 @@ class Question extends Service {
                     if(array_key_exists($holder->getSubquestion()->question_type, $options_wireframes)) $options_wireframes[$holder->getSubquestion()->question_type]++;
                     if(array_key_exists($holder->getSubquestion()->question_type, $options_colors)) $options_colors[$holder->getSubquestion()->question_type]++;
                 }
-                $pages_ids_part = array_slice($pages_ids,10);
+                $pages_ids_part = array_slice($pages_ids,20);
                 $pages_ids = array_unique($pages_ids);
                 arsort($options);
                 arsort($options_wireframes);
@@ -192,7 +192,7 @@ class Question extends Service {
                     }
                 }
                 /** Page která již byla zobrazena s jiným typem otázky */
-                else if ($rand >= 80 && $rand <= 100 && count($pages_ids_part) > 0) {
+                else if ($rand >= 80 && $rand <= 100 && count($pages_ids_part) > 20) {
                     $filter = new \App\Filter\Page();
                     $page_id = $pages_ids_part[array_rand($pages_ids_part)];
                     $filter->setIdPage($page_id);
@@ -228,7 +228,7 @@ class Question extends Service {
                 $page_holder = $this->page_service->getPageHolderByFilter(new \App\Filter\Page(
                     array(
                         \App\Filter\Page::PRIORITY=>true,
-                        \App\Filter\Page::EXCLUDE_ID_PAGE=>$pages_ids_part,
+                        \App\Filter\Page::EXCLUDE_ID_PAGE=>$pages_ids,
                         \App\Filter\Page::LANGUAGES=>$languages,
                         \App\Filter\Page::CATEGORIES=>$categories,
                         \App\Filter\Page::DEVICES=>$devices
@@ -246,7 +246,8 @@ class Question extends Service {
             $page_holder = $this->page_service->getPageHolderByFilter(new \App\Filter\Page(
                 array(
                     \App\Filter\Page::PRIORITY=>true,
-                    \App\Filter\Page::EXCLUDE_ID_WIREFRAME=>$wireframes_ids
+                    \App\Filter\Page::EXCLUDE_ID_WIREFRAME=>$wireframes_ids,
+                    \App\Filter\Page::EXCLUDE_ID_PAGE=>$pages_ids
                 )
             ));
             $question_type = array_rand($options_wireframes);
