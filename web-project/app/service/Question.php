@@ -260,7 +260,7 @@ class Question extends Service {
             /**
              * Pokud by se stalo, že je vybraný typ otázky, který potřebuje podobné příbuzné stránky z výběru, a aktuální page je nemá
              */
-            if(count($related_holder) === 1 && $related_holder[0] !== null){
+            if(count($related_holder) === 1 && $related_holder[0] !== null && ($question_type === \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME_REVERSE || $question_type === \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME_SELECT || $question_type === \App\Model\Subquestion::QUESTION_TYPE_COLOR_SELECT)){
                 $new_question->setPageRelated($related_holder[0]);
                 $subquestion->id_page_related = $related_holder[0]->getPageRelated()->id_page_related;
             }else{
