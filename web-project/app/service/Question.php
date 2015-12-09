@@ -120,12 +120,6 @@ class Question extends Service {
                 }
             }
 
-            $devices = array();
-            if($respondent->device_phone) $devices[] = \App\Model\Respondent::DEVICE_PHONE;
-            if($respondent->device_computer) $devices[] = \App\Model\Respondent::DEVICE_COMPUTER;
-            if($respondent->device_tablet) $devices[] = \App\Model\Respondent::DEVICE_TABLET;
-            if(count($devices) > 0) $devices[] = '';
-
             /** @var \App\Holder\Subquestion[] $subquestions */
             $subquestions = $this->getSubquestionHoldersByIdRespondent($respondent->id_respondent);
 
@@ -230,8 +224,7 @@ class Question extends Service {
                         \App\Filter\Page::PRIORITY=>true,
                         \App\Filter\Page::EXCLUDE_ID_PAGE=>$pages_ids,
                         \App\Filter\Page::LANGUAGES=>$languages,
-                        \App\Filter\Page::CATEGORIES=>$categories,
-                        \App\Filter\Page::DEVICES=>$devices
+                        \App\Filter\Page::CATEGORIES=>$categories
                     )
                 ));
                 $question_type = array_rand($options_wireframes);
