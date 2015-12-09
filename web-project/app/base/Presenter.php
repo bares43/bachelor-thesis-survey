@@ -15,5 +15,8 @@ class Presenter extends \Nette\Application\UI\Presenter{
 
         parent::startup();
 
+        if(array_key_exists("google_analytics_code", $this->context->getParameters())){
+            $this->template->google_analytics_code = $this->context->getParameters()["google_analytics_code"];
+        }
     }
 }

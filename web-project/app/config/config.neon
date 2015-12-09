@@ -4,6 +4,7 @@
 parameters:
     max_questions_for_respondent: 6
     send_emails : true
+    google_analytics_code :
 
 php:
 	date.timezone: Europe/Prague
