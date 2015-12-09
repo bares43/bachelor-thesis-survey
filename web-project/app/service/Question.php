@@ -213,7 +213,7 @@ class Question extends Service {
                     $question_type = key($options_wireframes);
                 }
                 /** Náhodná page dle nastavení respondenta */
-                if($page_holder === null || $page_holder->getPage() === null && count($categories) > 0) {
+                if(($page_holder === null || $page_holder->getPage() === null) && count($categories) > 0) {
                     $page_holder = $this->page_service->getPageHolderByFilter(new \App\Filter\Page(
                         array(
                             \App\Filter\Page::EXCLUDE_ID_PAGE=>$pages_ids,
