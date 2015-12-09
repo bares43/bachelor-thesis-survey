@@ -156,6 +156,11 @@ Survey
     margin-top: 20px;
     margin-bottom: 20px;
   }
+  &.survey-final {
+    #task {
+      font-size: 15px;
+    }
+  }
   &.survey-color, &.survey-color-select {
     .pull-left {
       width: 500px;

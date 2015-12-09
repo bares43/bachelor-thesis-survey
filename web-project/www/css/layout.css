@@ -120,6 +120,8 @@ Survey
   text-align: center;
   margin-top: 20px;
   margin-bottom: 20px; }
+.survey.survey-final #task {
+  font-size: 15px; }
 .survey.survey-color .pull-left, .survey.survey-color-select .pull-left {
   width: 500px; }
 .survey.survey-color .pull-right, .survey.survey-color-select .pull-right {

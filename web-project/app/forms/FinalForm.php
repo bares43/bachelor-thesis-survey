@@ -36,7 +36,7 @@ class FinalForm {
 
         $form = new Form($this->parent, "finalForm");
 
-        $form->addGroup("Jak často navštěvujete následující stránky?");
+        $form->addGroup("Znáte následující stránky?");
         $websites_container = $form->addContainer("website");
 
 

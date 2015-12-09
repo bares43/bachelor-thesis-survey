@@ -130,7 +130,7 @@ class Page extends Database {
             $query->andWhere($query->expr()->in("website.language",$filter->getLanguages()));
         }
 
-        if($filter->isPriority() !== null){
+        if($filter->isPriority() !== null && $filter->isPriority()){
             $query->andWhere($query->expr()->eq("page.priority",$filter->isPriority()?1:0));
         }
 

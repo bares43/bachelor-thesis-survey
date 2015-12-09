@@ -209,16 +209,17 @@ class SurveyPresenter extends Presenter {
         }
 
 
-        if($this->new_question_holder->getPageHolder()->getCurrentWireframe()->text_mode === \App\Model\Wireframe::TEXT_BOX) $this->template->help_gray = true;
+        if($this->new_question_holder->getPageHolder()->getCurrentWireframe()->text_mode === \App\Model\Wireframe::TEXT_BOX) $this->template->help_box = true;
         if($this->new_question_holder->getPageHolder()->getCurrentWireframe()->text_mode === \App\Model\Wireframe::TEXT_LOREM) $this->template->help_lorem = true;
-        if($this->new_question_holder->getPageHolder()->getCurrentWireframe()->text_mode === \App\Model\Wireframe::IMAGE_BLUR) $this->template->help_blur = true;
-        if($this->new_question_holder->getPageHolder()->getCurrentWireframe()->text_mode === \App\Model\Wireframe::IMAGE_BOX) $this->template->help_box = true;
+        if($this->new_question_holder->getPageHolder()->getCurrentWireframe()->image_mode === \App\Model\Wireframe::IMAGE_BLUR) $this->template->help_blur = true;
+        if($this->new_question_holder->getPageHolder()->getCurrentWireframe()->image_mode === \App\Model\Wireframe::IMAGE_BOX) $this->template->help_box = true;
 
 //        $this->setView($new_question->getQuestionType());
 //   echo $this->subquestion_service->questionTypeToString($new_question->getQuestionType());exit;
 //echo "tst";exit;
         $this->template->type = $this->subquestion_service->questionTypeToString($new_question->getQuestionType());
         $this->template->showAppeal = true;
+        $this->template->showHelp = true;
         $this->template->respondent_subquestions_count = $new_question->getRespondentSubquestionsCount();
         $this->template->max_questions_for_respondent_reached = $new_question->getRespondentSubquestionsCount() >= $this->context->getParameters()["max_questions_for_respondent"];
     }
@@ -324,11 +325,11 @@ class SurveyPresenter extends Presenter {
             $period = $params["period"];
             if($period !== null){
                 $this->entity_category_service->addCategoryToRespondent($category_id, $respondent->id_respondent, $period);
+            }
 
-                if(array_key_exists("items",$params)){
-                    foreach($params->items as $item){
-                        $this->entity_category_service->addCategoryToRespondent($item, $respondent->id_respondent, \App\Model\EntityCategory::MOSTLY);
-                    }
+            if(array_key_exists("items",$params)){
+                foreach($params->items as $item){
+                    $this->entity_category_service->addCategoryToRespondent($item, $respondent->id_respondent, \App\Model\EntityCategory::MOSTLY);
                 }
             }
         }

@@ -212,13 +212,24 @@ class Question extends Service {
                     ));
                     $question_type = key($options_wireframes);
                 }
+                /** Náhodná page dle nastavení respondenta */
+                if($page_holder === null || $page_holder->getPage() === null && count($categories) > 0) {
+                    $page_holder = $this->page_service->getPageHolderByFilter(new \App\Filter\Page(
+                        array(
+                            \App\Filter\Page::EXCLUDE_ID_PAGE=>$pages_ids,
+                            \App\Filter\Page::LANGUAGES=>$languages,
+                            \App\Filter\Page::CATEGORIES=>$categories
+                        )
+                    ));
+                    $question_type = array_rand($options_wireframes);
+                }
             }
 
             /**
              * Respondent ještě nezodpověděl žádné otázky a nebo se dosud nepodařilo vybrat otázku
              * Zobrazit pouze prioritní pages, odfiltrovat X posledních pages, respektovat nastavení respondenta
              */
-            if($page_holder === null){
+            if($page_holder === null || $page_holder->getPage() === null){
                 $page_holder = $this->page_service->getPageHolderByFilter(new \App\Filter\Page(
                     array(
                         \App\Filter\Page::PRIORITY=>true,
@@ -235,7 +246,7 @@ class Question extends Service {
          * Ještě neznáme respondenta nebo se dosud nepodařilo vybrat otázku
          * Náhodná prioritní page s náhodným typem otázky, kromě otázek na barvy
          */
-        if($page_holder === null){
+        if($page_holder === null || $page_holder->getPage() === null){
             $page_holder = $this->page_service->getPageHolderByFilter(new \App\Filter\Page(
                 array(
                     \App\Filter\Page::PRIORITY=>true,
@@ -321,6 +332,9 @@ class Question extends Service {
                 $ids_page_related[] = $subquestion->getSubquestion()->id_page_related;
             }
         }
+
+        if(count($ids_page_related) === 0) $ids_page_related[] = null;
+
         return $this->page_service->getRelatedPagesByFilter(new PageRelated(
             array(
                 PageRelated::DUEL=>true,
