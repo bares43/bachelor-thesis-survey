@@ -9,8 +9,8 @@
 namespace App\Presenters;
 
 
+use App\Base\Presenter;
 use App\Service\Code;
-use Nette\Application\UI\Presenter;
 
 class ActionPresenter extends Presenter {
 

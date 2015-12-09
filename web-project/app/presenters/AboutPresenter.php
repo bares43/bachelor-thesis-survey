@@ -7,10 +7,11 @@
  */
 namespace App\Presenters;
 
+use App\Base\Presenter;
 use Nette;
 use App\Model;
 
-class AboutPresenter extends Nette\Application\UI\Presenter {
+class AboutPresenter extends Presenter {
 
 
 }

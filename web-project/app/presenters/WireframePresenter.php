@@ -8,9 +8,10 @@
 
 namespace App\Presenters;
 
+use App\Base\Presenter;
 use Nette;
 
-class WireframePresenter extends Nette\Application\UI\Presenter
+class WireframePresenter extends Presenter
 {
 
     public function renderDefault()

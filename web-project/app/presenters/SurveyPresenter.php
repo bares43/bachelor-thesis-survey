@@ -8,6 +8,7 @@
 
 namespace App\Presenters;
 
+use App\Base\Presenter;
 use App\Filter\PageRelated;
 use App\Forms\ColorForm;
 use App\Forms\ColorSelectForm;
@@ -32,7 +33,7 @@ use Nette;
 use Nette\Application\UI\Form;
 use Nette\Mail\Message;
 
-class SurveyPresenter extends Nette\Application\UI\Presenter {
+class SurveyPresenter extends Presenter {
 
     /** @var Website @inject */
     public $website_service;
@@ -82,7 +83,7 @@ class SurveyPresenter extends Nette\Application\UI\Presenter {
     /** @var NewQuestion */
     private $new_question_holder;
 
-    protected function startup() {
+    public function startup() {
         parent::startup();
         $this->sessionSection = $this->getSession()->getSection("survey");
     }

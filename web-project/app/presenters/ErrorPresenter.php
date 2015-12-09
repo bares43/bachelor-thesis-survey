@@ -2,11 +2,12 @@
 
 namespace App\Presenters;
 
+use App\Base\Presenter;
 use Nette;
 use Tracy\ILogger;
 
 
-class ErrorPresenter extends Nette\Application\UI\Presenter
+class ErrorPresenter extends Presenter
 {
 	/** @var ILogger */
 	private $logger;

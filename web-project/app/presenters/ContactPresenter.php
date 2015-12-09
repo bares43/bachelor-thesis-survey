@@ -7,13 +7,14 @@
  */
 namespace App\Presenters;
 
+use App\Base\Presenter;
 use Latte\Engine;
 use Nette;
 use App\Model;
 use \App\Forms\ContactForm;
 use Nette\Mail\Message;
 
-class ContactPresenter extends Nette\Application\UI\Presenter {
+class ContactPresenter extends Presenter {
 
     /**
      * @param Nette\Application\UI\Form $form

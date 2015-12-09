@@ -9,8 +9,8 @@
 namespace App\Presenters;
 
 
+use App\Base\Presenter;
 use App\Service\Respondent;
-use Nette\Application\UI\Presenter;
 
 class HighscorePresenter extends Presenter{
 
