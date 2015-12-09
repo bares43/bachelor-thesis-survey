@@ -123,7 +123,7 @@ class Question extends Service {
             /** @var \App\Holder\Subquestion[] $subquestions */
             $subquestions = $this->getSubquestionHoldersByIdRespondent($respondent->id_respondent);
 
-            $new_question->setRespondentSubquestionsCount(count($subquestions)-1);
+            $new_question->setRespondentSubquestionsCount(count($subquestions));
 
             $rand = rand(1,100);
 
