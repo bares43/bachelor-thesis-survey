@@ -500,11 +500,12 @@ class SurveyPresenter extends Presenter {
         $options = array();
         if($subquestion->id_page_related !== null){
             $related = $this->page_service->getRelatedPagesByFilter(new PageRelated(array(
-                PageRelated::IDS_PAGE_RELATED=>array($subquestion->id_page_related)
+                PageRelated::IDS_PAGE_RELATED=>array($subquestion->id_page_related),
+                \App\Base\Filter::GROUP_BY=>true
             )));
             if(count($related) === 1 && $related[0] !== null){
                 $pages = $related[0]->getPagesRelatedAsArray();
-                $options = array($pages[0]->getPage()->id_page=>"",$pages[1]->getPage()->id_page);
+                $options = array($pages[0]->getPage()->id_page=>"",$pages[1]->getPage()->id_page=>"");
             }
         }
 //        $pages = $this->page_service->getRelatedPages($id_page);
