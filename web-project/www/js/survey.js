@@ -10,7 +10,7 @@ $(document).ready(function(){
             e.preventDefault();
             e.stopImmediatePropagation();
             appeal.show();
-            $(this).val("Opravdu nechci sdělovat svoje údaje");
+            $(this).val("Opravdu přejít k otázkám");
         }
     });
 

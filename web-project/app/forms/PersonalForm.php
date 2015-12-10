@@ -114,7 +114,7 @@ class PersonalForm {
         $form->addTextArea("message","Vzkaz");
 
         $form->addSubmit("validate","Pokračovat")->setAttribute("class","btn btn-primary");
-        $form->addSubmit("nonvalidate","Nechci o sobě sdělovat údaje")->setValidationScope(FALSE)->setAttribute("class","btn btn-default");
+        $form->addSubmit("nonvalidate","Přejít rovnou k otázkám")->setValidationScope(FALSE)->setAttribute("class","btn btn-default");
 
         return $form;
     }
