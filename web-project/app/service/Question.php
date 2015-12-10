@@ -183,6 +183,8 @@ class Question extends Service {
                         $page_holder = $this->page_service->getPageHolderByFilter($filter);
                         if($page_holder !== null && $page_holder->getPage() !== null){
                             $question = $last_subquestion->getQuestion();
+                        }else{
+                            $question_type = null;
                         }
                     }
                 }
