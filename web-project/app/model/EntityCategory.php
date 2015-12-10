@@ -19,6 +19,7 @@ class EntityCategory extends BaseEntity {
     const PERIOD_DAILY = 1;
     const PERIOD_FEW_TIMES_A_WEEK = 2;
     const PERIOD_FEW_TIMES_A_MONTH = 3;
+    const PERIOD_FEW_TIMES_A_YEAR = 5;
     const MOSTLY = 4;
 
     /**

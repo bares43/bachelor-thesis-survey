@@ -84,7 +84,8 @@ class PersonalForm {
             EntityCategory::PERIOD_NEVER=>"vůbec",
             EntityCategory::PERIOD_DAILY=>"denně",
             EntityCategory::PERIOD_FEW_TIMES_A_WEEK=>"několikrát týdně",
-            EntityCategory::PERIOD_FEW_TIMES_A_MONTH=>"několikrát měsíčně"
+            EntityCategory::PERIOD_FEW_TIMES_A_MONTH=>"několikrát měsíčně",
+            EntityCategory::PERIOD_FEW_TIMES_A_YEAR=>"několikrát ročně"
         );
 
         $categories_container = $form->addContainer("category");
