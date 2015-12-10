@@ -563,6 +563,14 @@ class SurveyPresenter extends Presenter {
             }
         }
 
+        if($values->email !== null){
+            $respondent = $this->respondent_service->get($this->sessionSection->id_respondent);
+            if($respondent !== null){
+                $respondent->email = $values->email;
+                $this->respondent_service->save($respondent);
+            }
+        }
+
 
         $this->sessionSection->cannot_final = true;
 
