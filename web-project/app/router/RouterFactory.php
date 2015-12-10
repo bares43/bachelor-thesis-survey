@@ -30,7 +30,18 @@ class RouterFactory
 					'kontakt'=>'Contact'
 				)
 			),
-			'action' => 'default'
+			'action' => array(
+				Route::VALUE => 'default',
+				Route::FILTER_TABLE => array(
+					'otazka' => 'question',
+					'informace-o-respondentovi' => 'personal',
+					'pokracovani-v-dotazniku' => 'continue',
+					'zadne-dalsi-otazky' => 'noQuestions',
+					'identifikace-webu' => 'final',
+					'vysledky' => 'results',
+					'novy-respondent' => 'newRespondent'
+				)
+			)
 		));
 		return $router;
 	}
