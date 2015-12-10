@@ -92,10 +92,12 @@ class Page extends Database {
 
         if($filter->isRequiredColor()){
             $query->andWhere($query->expr()->isNotNull("page.dominant_color"));
+            $query->andWhere($query->expr()->gt($query->expr()->length($query->expr()->trim("page.dominant_color")),0));
         }
 
         if($filter->isRequiredTextColor()){
             $query->andWhere($query->expr()->isNotNull("page.dominant_text_color"));
+            $query->andWhere($query->expr()->gt($query->expr()->length($query->expr()->trim("page.dominant_text_color")),0));
         }
 
         if($filter->getTextMode() !== null){

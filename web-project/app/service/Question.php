@@ -152,12 +152,11 @@ class Question extends Service {
                 $last_subquestion = end($subquestions);
 
                 /** Poslední page, pokud byla zodpovězena špatně, jen s jiným typem otázky */
-                if ((($rand >= 1 && $rand <= 30) || ($rand >= 70 && $rand <= 90)) && $last_subquestion->getSubquestion()->correct !== null && !$last_subquestion->getSubquestion()->correct) {
+                if ((($rand >= 1 && $rand <= 30) || ($rand >= 50 && $rand <= 79)) && ($last_subquestion->getSubquestion()->correct === null || !$last_subquestion->getSubquestion()->correct)) {
 
                     $cnt = 3;
                     $page_holder = null;
-                    while($page_holder === null && $cnt > 0){
-                        --$cnt;
+                    while(($page_holder === null || $page_holder->getPage() === null) && $cnt > 0){
                         $filter = new \App\Filter\Page();
                         $filter->setIdPage($last_subquestion->getPage()->id_page);
                         $filter->setExcludeIdWireframe($wireframes_ids);
@@ -166,7 +165,7 @@ class Question extends Service {
                         if($cnt === 3 && in_array($last_subquestion->getSubquestion()->question_type,array_keys($options_wireframes))){
                             $question_type = array_rand($options_colors);
                             $filter->setRequiredColor(true);
-                            $filter->setRequiredTextColor(true);
+//                            $filter->setRequiredTextColor(true);
                         }
                         /** Byl zobrazen wireframe bez obrázku - zobrazí se wireframe kde jsou místo obrázků šedé boxy */
                         else if($cnt === 2 && in_array($last_subquestion->getSubquestion()->question_type,array_keys($options_wireframes)) && $last_subquestion->getWireframe()->image_mode === \App\Model\Wireframe::IMAGE_REMOVE){
@@ -179,8 +178,10 @@ class Question extends Service {
                             $filter->setImageMode(\App\Model\Wireframe::IMAGE_BLUR);
                         }
 
+                        --$cnt;
+
                         $page_holder = $this->page_service->getPageHolderByFilter($filter);
-                        if($page_holder !== null){
+                        if($page_holder !== null && $page_holder->getPage() !== null){
                             $question = $last_subquestion->getQuestion();
                         }
                     }
@@ -203,7 +204,7 @@ class Question extends Service {
 
                 }
                 /** Náhodná prioritní page, kromě již zobrazených, nerespektuji nastavneí responenta */
-                else if($rand >= 21 && $rand <= 35){
+                else if($rand >= 31 && $rand <= 49){
                     $page_holder = $this->page_service->getPageHolderByFilter(new \App\Filter\Page(
                         array(
                             \App\Filter\Page::PRIORITY=>true,
