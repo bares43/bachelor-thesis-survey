@@ -18,6 +18,8 @@ Base layout
 **/
 html {
   overflow-x: auto; }
+  html.big .container {
+    width: 1280px; }
 
 body {
   margin: 0;
@@ -222,5 +224,7 @@ form table td textarea {
     color: red; }
   #page-results table tr:hover {
     background-color: #dfdfdf; }
+  #page-results table tr td, #page-results table tr th {
+    padding: 4px; }
 
 /*# sourceMappingURL=layout.css.map */

@@ -11,6 +11,7 @@ namespace App\Holder;
 
 use App\Base\IHolder;
 use App\Model\Question;
+use App\Model\RespondentWebsite;
 use App\Model\Subquestion;
 
 class ResultsQuestion implements IHolder{
@@ -34,6 +35,11 @@ class ResultsQuestion implements IHolder{
      * @var \App\Model\Website
      */
     private $website;
+
+    /**
+     * @var RespondentWebsite
+     */
+    private $respondent_website;
 
     /**
      * @return Question
@@ -91,6 +97,18 @@ class ResultsQuestion implements IHolder{
         $this->website = $website;
     }
 
+    /**
+     * @return RespondentWebsite
+     */
+    public function getRespondentWebsite() {
+        return $this->respondent_website;
+    }
 
+    /**
+     * @param RespondentWebsite $respondent_website
+     */
+    public function setRespondentWebsite($respondent_website) {
+        $this->respondent_website = $respondent_website;
+    }
 
 }

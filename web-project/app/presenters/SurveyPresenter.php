@@ -305,8 +305,8 @@ class SurveyPresenter extends Presenter {
         $respondent = new \App\Model\Respondent();
         $respondent->gender = $values->gender;
         $respondent->age = $values->age;
-        $respondent->english = $values->english === 1;
-        $respondent->it = $values->it === 1;
+        if($values->english !== null) $respondent->english = $values->english === 1;
+        if($values->it !== null) $respondent->it = $values->it === 1;
         if(is_array($values->device)){
             $respondent->device_phone = in_array(\App\Model\Respondent::DEVICE_PHONE, $values->device);
             $respondent->device_tablet = in_array(\App\Model\Respondent::DEVICE_TABLET, $values->device);

@@ -149,19 +149,19 @@ class Respondent extends Database {
         // total gender unknown
         $query->addSelect("countif('gender','is','null') as total_gender_unknown");
         // total 15
-        $query->addSelect("countif('gender','=','\"".Model\Respondent::AGE_15."\"') as total_15");
+        $query->addSelect("countif('age','=','\"".Model\Respondent::AGE_15."\"') as total_15");
         // total 15_20
-        $query->addSelect("countif('gender','=','\"".Model\Respondent::AGE_15_20."\"') as total_15_20");
+        $query->addSelect("countif('age','=','\"".Model\Respondent::AGE_15_20."\"') as total_15_20");
         // total 21_30
-        $query->addSelect("countif('gender','=','\"".Model\Respondent::AGE_21_30."\"') as total_21_30");
+        $query->addSelect("countif('age','=','\"".Model\Respondent::AGE_21_30."\"') as total_21_30");
         // total 31_45
-        $query->addSelect("countif('gender','=','\"".Model\Respondent::AGE_31_45."\"') as total_31_45");
+        $query->addSelect("countif('age','=','\"".Model\Respondent::AGE_31_45."\"') as total_31_45");
         // total 46_60
-        $query->addSelect("countif('gender','=','\"".Model\Respondent::AGE_46_60."\"') as total_46_60");
+        $query->addSelect("countif('age','=','\"".Model\Respondent::AGE_46_60."\"') as total_46_60");
         // total 60
-        $query->addSelect("countif('gender','=','\"".Model\Respondent::AGE_60."\"') as total_60");
+        $query->addSelect("countif('age','=','\"".Model\Respondent::AGE_60."\"') as total_60");
         // total age unknown
-        $query->addSelect("countif('gender','is','null') as total_age_unknown");
+        $query->addSelect("countif('age','is','null') as total_age_unknown");
         // total english
         $query->addSelect("countif('english','=','1') as total_english");
         // total it

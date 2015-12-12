@@ -22,12 +22,18 @@
 $primary-color : #3397C7;
 $seconadry-color : #7db9e8;
 $page-width : 970px;
+$page-big-width : 1280px;
 
 /**
 Base layout
 **/
 html {
   overflow-x: auto;
+  &.big {
+    .container {
+      width: $page-big-width;
+    }
+  }
 }
 body {
   margin: 0;
@@ -317,6 +323,9 @@ form {
       }
       &:hover {
         background-color: #dfdfdf;
+      }
+      td, th {
+        padding: 4px;
       }
     }
   }

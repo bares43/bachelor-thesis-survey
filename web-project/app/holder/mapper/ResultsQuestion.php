@@ -26,16 +26,17 @@ class ResultsQuestion implements IMapper{
         if(isset($result["question_id_question"])){
             $holder->setQuestion(Service::populateEntity($result, \App\Model\Question::getClassName(), "question"));
         }
-
         if(isset($result["subquestion_id_subquestion"])){
             $holder->setSubquestion(Service::populateEntity($result, \App\Model\Subquestion::getClassName(), "subquestion"));
         }
-
         if(isset($result["page_id_page"])){
             $holder->setPage(Service::populateEntity($result, \App\Model\Page::getClassName(), "page"));
         }
         if(isset($result["website_id_website"])){
             $holder->setWebsite(Service::populateEntity($result, \App\Model\Website::getClassName(), "website"));
+        }
+        if(isset($result["respondent_website_id_respondent_website"])){
+            $holder->setRespondentWebsite(Service::populateEntity($result, \App\Model\RespondentWebsite::getClassName(), "respondent_website"));
         }
 
 

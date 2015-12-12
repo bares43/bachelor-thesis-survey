@@ -55,6 +55,12 @@ class ResultsRespondentsBase implements IMapper{
             $holder->setTotalAgeUnknown((int)$result["total_age_unknown"]);
         }
 
+        if(isset($result["total_english"])){
+            $holder->setTotalEnglish((int)$result["total_english"]);
+        }
+        if(isset($result["total_it"])){
+            $holder->setTotalIt((int)$result["total_it"]);
+        }
         if(isset($result["total_computer"])){
             $holder->setTotalComputer((int)$result["total_computer"]);
         }

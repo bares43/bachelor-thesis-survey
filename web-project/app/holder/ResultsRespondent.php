@@ -39,14 +39,29 @@ class ResultsRespondent implements IHolder{
      */
     private $devicec_most_name;
 
+    /**
+     * @var int
+     */
     private $total_questions;
 
+    /**
+     * @var int
+     */
     private $total_subquestions;
 
+    /**
+     * @var int
+     */
     private $total_correct_subquestions;
 
+    /**
+     * @var int
+     */
     private $total_wrong_subquestions;
 
+    /**
+     * @var int
+     */
     private $total_unknown_subquestions;
 
     /**
@@ -68,14 +83,13 @@ class ResultsRespondent implements IHolder{
      */
     public function getAgeName() {
         if($this->age_name === null && $this->getRespondent() !== null){
-            switch($this->getRespondent()->gender){
+            switch($this->getRespondent()->age){
                 case Respondent::AGE_15: $this->age_name = "< 15"; break;
                 case Respondent::AGE_15_20: $this->age_name = "15-20"; break;
                 case Respondent::AGE_21_30: $this->age_name = "21-30"; break;
                 case Respondent::AGE_31_45: $this->age_name = "31-45"; break;
                 case Respondent::AGE_46_60: $this->age_name = "46-60"; break;
                 case Respondent::AGE_60: $this->age_name = "> 60"; break;
-//                default: $this->age_name = "neznámé";
             }
         }
         return $this->age_name;
@@ -89,7 +103,6 @@ class ResultsRespondent implements IHolder{
             switch($this->getRespondent()->gender){
                 case Respondent::GENDER_MALE: $this->gender_name = "muž"; break;
                 case Respondent::GENDER_FEMALE: $this->gender_name = "žena"; break;
-//                default: $this->gender_name = "neznámé";
             }
         }
         return $this->gender_name;
@@ -121,73 +134,78 @@ class ResultsRespondent implements IHolder{
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getTotalQuestions() {
         return $this->total_questions;
     }
 
     /**
-     * @param mixed $total_questions
+     * @param int $total_questions
      */
     public function setTotalQuestions($total_questions) {
         $this->total_questions = $total_questions;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getTotalSubquestions() {
         return $this->total_subquestions;
     }
 
     /**
-     * @param mixed $total_subquestions
+     * @param int $total_subquestions
      */
     public function setTotalSubquestions($total_subquestions) {
         $this->total_subquestions = $total_subquestions;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getTotalCorrectSubquestions() {
         return $this->total_correct_subquestions;
     }
 
     /**
-     * @param mixed $total_correct_subquestions
+     * @param int $total_correct_subquestions
      */
     public function setTotalCorrectSubquestions($total_correct_subquestions) {
         $this->total_correct_subquestions = $total_correct_subquestions;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getTotalWrongSubquestions() {
         return $this->total_wrong_subquestions;
     }
 
     /**
-     * @param mixed $total_wrong_subquestions
+     * @param int $total_wrong_subquestions
      */
     public function setTotalWrongSubquestions($total_wrong_subquestions) {
         $this->total_wrong_subquestions = $total_wrong_subquestions;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getTotalUnknownSubquestions() {
         return $this->total_unknown_subquestions;
     }
 
     /**
-     * @param mixed $total_unknown_subquestions
+     * @param int $total_unknown_subquestions
      */
     public function setTotalUnknownSubquestions($total_unknown_subquestions) {
         $this->total_unknown_subquestions = $total_unknown_subquestions;
     }
 
+    public function getTotalCorrectSubquestionsPercents() {
+        if($this->getTotalSubquestions() === 0) return 0;
+
+        return round(($this->getTotalCorrectSubquestions() / $this->getTotalSubquestions())*100,2);
+    }
 }
