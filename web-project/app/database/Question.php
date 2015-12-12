@@ -8,6 +8,7 @@
 namespace App\Database;
 
 use App\Base\Database;
+use App\Holder\Mapper\ResultsQuestion;
 use Doctrine\ORM\Query\Expr\Join;
 use Kdyby\Doctrine\EntityManager;
 use Nette;
@@ -92,5 +93,26 @@ class Question extends Database {
         $mapper = new \App\Holder\Mapper\Subquestion();
 
         return $this->populateMapper($query, $mapper);
+    }
+
+    /**
+     * @return \App\Holder\ResultsQuestion[]
+     */
+    public function getResultsSubquestion() {
+        $query = $this->entityManager->getRepository($this->repositoryName)->createQueryBuilder();
+
+        $query->select("subquestion");
+        $query->addSelect("question");
+
+        $query->from(Model\Subquestion::getClassName(),"subquestion");
+
+        $query->join(Model\Question::getClassName(),"question",Join::WITH,"subquestion.id_question = question.id_question")->addSelect("question");
+        $query->join(Model\Page::getClassName(),"page",Join::WITH,"question.id_page = page.id_page")->addSelect("page");
+        $query->join(Model\Website::getClassName(),"website",Join::WITH,"page.id_website = website.id_website")->addSelect("website");
+
+
+        $query->orderBy("subquestion.id_subquestion","desc");
+
+        return $this->getHolders($query, new ResultsQuestion());
     }
 }

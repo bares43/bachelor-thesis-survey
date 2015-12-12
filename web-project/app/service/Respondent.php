@@ -53,4 +53,25 @@ class Respondent extends Service {
     public function getHighscore() {
         return $this->database->getHighscore();
     }
+
+    /**
+     * @return \App\Holder\ResultsBase
+     */
+    public function getResultsBase() {
+        return $this->database->getResultsBase();
+    }
+
+    /**
+     * @return \App\Holder\ResultsRespondentsBase
+     */
+    public function getResultsRespondentsBase() {
+        return $this->database->getResultsRespondentsBase();
+    }
+
+    /**
+     * @return \App\Holder\ResultsRespondent[]
+     */
+    public function getResultsRespondent() {
+        return $this->database->getResultsRespondent();
+    }
 }

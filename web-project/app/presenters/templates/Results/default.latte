@@ -1,0 +1,209 @@
+{block title}Výsledky{/block}
+{block content}
+<div id="page-results" class="text-container">
+    <h2 class="text-center">Výsledky</h2>
+
+    <h3>Obecné</h3>
+    <table>
+        <tr>
+            <td width="750">Celkem respondentů</td>
+            <td width="100" class="text-right">{$base->getTotalRespondents()}</td>
+        </tr>
+        <tr>
+            <td>Celkem zobrazeno otázek</td>
+            <td class="text-right">{$base->getTotalQuestions()}</td>
+        </tr>
+        <tr>
+            <td>Celkem zobrazeno podotázek (c/1/0)</td>
+            <td class="text-right">
+                {$base->getTotalSubquestions()} /
+                <span class="correct">{$base->getTotalCorrectSubeustions()}</span> /
+                <span class="wrong">{$base->getTotalWrongSubquestions()}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Průměrná délka odpovědi</td>
+            <td class="text-right">{$base->getAvgSeconds()}</td>
+        </tr>
+
+    </table>
+
+    <h3>Respondenti obecně</h3>
+    <table>
+        <tbody>
+            <tr>
+                <th colspan="2" class="text-center">Pohlaví</th>
+            </tr>
+            <tr>
+                <td width="750">Muž</td>
+                <td width="100" class="text-right">
+                    {$base_respondents->getTotalMale()}
+                </td>
+            </tr>
+            <tr>
+                <td>Žena</td>
+                <td class="text-right">
+                    {$base_respondents->getTotalFemale()}
+                </td>
+            </tr>
+            <tr>
+                <td>Neznámé</td>
+                <td class="text-right">{$base_respondents->getTotalGenderUnknown()}</td>
+            </tr>
+            <tr>
+                <th colspan="2" class="text-center">Věk</th>
+            </tr>
+            <tr>
+                <td>pod 15</td>
+                <td class="text-right">{$base_respondents->getTotal15()}</td>
+            </tr>
+            <tr>
+                <td>15-20</td>
+                <td class="text-right">{$base_respondents->getTotal1520()}</td>
+            </tr>
+            <tr>
+                <td>21-30</td>
+                <td class="text-right">{$base_respondents->getTotal2130()}</td>
+            </tr>
+            <tr>
+                <td>31-45</td>
+                <td class="text-right">{$base_respondents->getTotal3145()}</td>
+            </tr>
+            <tr>
+                <td>46-60</td>
+                <td class="text-right">{$base_respondents->getTotal4660()}</td>
+            </tr>
+            <tr>
+                <td>nad 60</td>
+                <td class="text-right">{$base_respondents->getTotal60()}</td>
+            </tr>
+            <tr>
+                <td>Neznámé</td>
+                <td class="text-right">{$base_respondents->getTotalAgeUnknown()}</td>
+            </tr>
+            <tr>
+                <td>Anglické stránky</td>
+                <td class="text-right">{$base_respondents->getTotalEnglish()}</td>
+            </tr>
+            <tr>
+                <td>Obor IT</td>
+                <td class="text-right">{$base_respondents->getTotalIT()}</td>
+            </tr>
+            <tr>
+                <th colspan="2" class="text-center">Přístup na internet</th>
+            </tr>
+            <tr>
+                <td>Počítač</td>
+                <td class="text-right">{$base_respondents->getTotalComputer()}</td>
+            </tr>
+            <tr>
+                <td>Smartphone</td>
+                <td class="text-right">{$base_respondents->getTotalPhone()}</td>
+            </tr>
+            <tr>
+                <td>Tablet</td>
+                <td class="text-right">{$base_respondents->getTotalTablet()}</td>
+            </tr>
+            <tr>
+                <td>Neznámé</td>
+                <td class="text-right">{$base->getTotalRespondents() - $base_respondents->getTotalComputer() - $base_respondents->getTotalPhone() - $base_respondents->getTotalTablet()}</td>
+            </tr>
+            <tr>
+                <th colspan="2" class="text-center">Nejčastější přístup na internet</th>
+            </tr>
+            <tr>
+                <td>Počítač</td>
+                <td class="text-right">{$base_respondents->getTotalMostComputer()}</td>
+            </tr>
+            <tr>
+                <td>Smartphone</td>
+                <td class="text-right">{$base_respondents->getTotalMostPhone()}</td>
+            </tr>
+            <tr>
+                <td>Tablet</td>
+                <td class="text-right">{$base_respondents->getTotalMostTablet()}</td>
+            </tr>
+            <tr>
+                <td>Neznámé</td>
+                <td class="text-right">{$base_respondents->getTotalMostDeviceUnknown()}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Respondenti</h3>
+    <table>
+        <thead>
+        <tr>
+            <th width="20">id</th>
+            <th width="100" class="text-center">datum</th>
+            <th width="50" class="text-center">věk</th>
+            <th width="70" class="text-center">pohlaví</th>
+            <th width="70" class="text-center">angličtina</th>
+            <th width="50" class="text-center">IT</th>
+            <th width="70" class="text-center">zařízení</th>
+            <th width="90" class="text-center">nejčastější</th>
+            <th width="150" class="text-center">navštěvované<br />stránky</th>
+            <th width="90" class="text-center">otázek/vč. podotázek</th>
+            <th width="90" class="text-center">výsledky (1/0/null)</th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $respondents as $respondent}
+            <tr>
+                <td>{$respondent->getRespondent()->id_respondent}</td>
+                <td class="text-center">{$respondent->getRespondent()->datetime|date}</td>
+                <td class="text-center">{$respondent->getAgeName()}</td>
+                <td class="text-center">{$respondent->getGenderName()}</td>
+                <td class="text-center">{if $respondent->getRespondent()->english}ano{/if}</td>
+                <td class="text-center">{if $respondent->getRespondent()->it}ano{/if}</td>
+                <td class="text-center">{$respondent->getDevicesName()|upper}</td>
+                <td class="text-center">{$respondent->getDevicecMostName()|upper}</td>
+                <td class="text-center">{$respondent->getRespondent()->sites}</td>
+                <td class="text-center">{$respondent->getTotalQuestions()} / {$respondent->getTotalSubquestions()}</td>
+                <td class="text-center"><span class="correct">{$respondent->getTotalCorrectSubquestions()}</span> / <span class="wrong">{$respondent->getTotalWrongSubquestions()}</span> / {$respondent->getTotalUnknownSubquestions()}</td>
+            </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    
+    <h3>Odpověd</h3>
+
+
+    <table>
+        <thead>
+        <tr>
+            <th width="40" class="text-center">id</th>
+            <th width="40" class="text-center">rodič</th>
+            <th width="100" class="text-center">datum</th>
+            <th width="160" class="text-center">web</th>
+            <th width="40" class="text-center">správně</th>
+            <th width="180" class="text-center">odpověď</th>
+            <th width="200" class="text-center">důvod</th>
+            <th width="20" class="text-center">typ</th>
+            <th width="70" class="text-center">čas</th>
+        </tr>
+        </thead>
+        <tbody>
+            {var $even = true}
+            {var $last = null}
+            {foreach $subquestions as $subquestion}
+                {if $last !== $subquestion->getSubquestion()->id_question}
+                    {var $even = !$even}
+                {/if}
+                {var $last = $subquestion->getSubquestion()->id_question}
+                <tr n:class="$even ? even">
+                    <td class="text-center">{$subquestion->getSubquestion()->id_subquestion}</td>
+                    <td class="text-center">{$subquestion->getSubquestion()->id_question}</td>
+                    <td class="text-center">{$subquestion->getSubquestion()->datetime|date}</td>
+                    <td class="text-center">{$subquestion->getWebsite()->name}</td>
+                    <td class="text-center">{if $subquestion->getSubquestion()->correct}<span class="correct">ano</span>{elseif !$subquestion->getSubquestion()->correct && $subquestion->getSubquestion()->correct !== null}<span class="wrong">ne</span>{/if}</td>
+                    <td class="text-center">{$subquestion->getSubquestion()->answer}</td>
+                    <td class="text-center">{$subquestion->getSubquestion()->reason}</td>
+                    <td class="text-center">{$subquestion->getSubquestion()->question_type}</td>
+                    <td class="text-center">{$subquestion->getSubquestion()->seconds}</td>
+                </tr>
+            {/foreach}
+        </tbody>
+    </table>
+
+</div>

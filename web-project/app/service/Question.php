@@ -346,4 +346,11 @@ class Question extends Service {
             )
         ));
     }
+
+    /**
+     * @return \App\Holder\ResultsQuestion[]
+     */
+    public function getResultsSubquestion() {
+        return $this->database->getResultsSubquestion();
+    }
 }
