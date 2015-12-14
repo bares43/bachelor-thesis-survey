@@ -110,11 +110,10 @@ class Question extends Database {
         $query->join(Model\Page::getClassName(),"page",Join::WITH,"question.id_page = page.id_page")->addSelect("page");
         $query->join(Model\Website::getClassName(),"website",Join::WITH,"page.id_website = website.id_website")->addSelect("website");
         $query->join(Model\Respondent::getClassName(),"respondent",Join::WITH,"question.id_respondent = respondent.id_respondent")->addSelect("respondent");
-//        $query->join(Model\RespondentWebsite::getClassName(),"respondent_website",Join::WITH,"respondent.id_respondent = respondent_website.id_respondent","website.id_website = respondent_website.id_website")->addSelect("respondent_website");
-        $query->leftJoin(Model\RespondentWebsite::getClassName(),"respondent_website",Join::WITH,$query->expr()->andX(
-            $query->expr()->eq('respondent.id_respondent', 'respondent_website.id_respondent'),
-            $query->expr()->eq('website.id_website', 'respondent_website.id_website')
-        ))->addSelect("respondent_website");
+        $query->leftJoin(Model\RespondentWebsite::getClassName(),"respondentwebsite",Join::WITH,$query->expr()->andX(
+            $query->expr()->eq('respondent.id_respondent', 'respondentwebsite.id_respondent'),
+            $query->expr()->eq('website.id_website', 'respondentwebsite.id_website')
+        ))->addSelect("respondentwebsite");
 
 
         $query->orderBy("subquestion.id_subquestion","desc");

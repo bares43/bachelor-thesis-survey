@@ -23,9 +23,9 @@ class Base {
         $seconds -= $minutes*60;
 
         $res = "";
-        $res .= $hours > 0 ? $hours."H " : "";
-        $res .= $minutes > 0 ? $minutes."M " : "";
-        $res .= $seconds."S";
+        $res .= $hours > 0 ? $hours."h " : "";
+        $res .= $minutes > 0 ? $minutes."m " : "";
+        $res .= ($seconds > 0 || $res === "") ? $seconds."s" : "";
 
         return $res;
     }

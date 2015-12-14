@@ -35,8 +35,11 @@ class ResultsQuestion implements IMapper{
         if(isset($result["website_id_website"])){
             $holder->setWebsite(Service::populateEntity($result, \App\Model\Website::getClassName(), "website"));
         }
-        if(isset($result["respondent_website_id_respondent_website"])){
-            $holder->setRespondentWebsite(Service::populateEntity($result, \App\Model\RespondentWebsite::getClassName(), "respondent_website"));
+        if(isset($result["respondent_id_respondent"])){
+            $holder->setRespondent(Service::populateEntity($result, \App\Model\Respondent::getClassName(), "respondent"));
+        }
+        if(isset($result["respondentwebsite_id_respondent_website"])){
+            $holder->setRespondentWebsite(Service::populateEntity($result, \App\Model\RespondentWebsite::getClassName(), "respondentwebsite"));
         }
 
 
