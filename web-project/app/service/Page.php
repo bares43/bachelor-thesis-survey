@@ -75,4 +75,11 @@ class Page extends Service {
     public function getRelatedPagesByFilter(\App\Filter\PageRelated $filter) {
         return $this->page_related_database->getRelatedPagesByFilter($filter);
     }
+
+    /**
+     * @return \App\Holder\ResultsPage[]
+     */
+    public function getResultsPages() {
+        return $this->database->getResultsPages();
+    }
 }

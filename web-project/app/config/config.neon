@@ -32,6 +32,7 @@ services:
 	respondents_websites: App\Service\RespondentWebsite()
 	respondents_page_duels: App\Service\RespondentPageDuel()
 	codes: App\Service\Code()
+	users: App\Service\User()
 	db_websites: App\Database\Website()
 	db_categories: App\Database\Category()
 	db_pages: App\Database\Page()
@@ -44,6 +45,8 @@ services:
 	db_respondents_websites: App\Database\RespondentWebsite()
 	db_respondents_page_duels: App\Database\RespondentPageDuel()
 	db_codes: App\Database\Code()
+	db_users: App\Database\User()
+	authenticator: App\Auth\Authenticator
 
 extensions:
 	console: Kdyby\Console\DI\ConsoleExtension

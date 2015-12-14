@@ -8,6 +8,7 @@
 namespace App\Database;
 
 use App\Base\Database;
+use App\Holder\Mapper\ResultsPage;
 use Doctrine\ORM\Query\Expr\Join;
 use Kdyby\Doctrine\EntityManager;
 use Nette;
@@ -167,5 +168,29 @@ class Page extends Database {
         $mapper = new \App\Holder\Mapper\Page();
 
         return $this->getHolder($query, $mapper);
+    }
+
+    /**
+     * @return \App\Holder\ResultsPage[]
+     */
+    public function getResultsPages() {
+        $query = $this->entityManager->getRepository($this->repositoryName)->createQueryBuilder();
+
+        $query->select("page");
+        $query->addSelect("count(distinct subquestion.id_subquestion) as total_subquestions");
+        $query->addSelect("countif('correct','=','1') as total_correct_subquestions");
+
+        $query->from(Model\Page::getClassName(),"page");
+
+        $query->join(Model\Website::getClassName(),"website",Join::WITH,"page.id_website = website.id_website")->addSelect("website");
+        $query->leftJoin(Model\Question::getClassName(),"question",Join::WITH,"page.id_page = question.id_page");
+        $query->leftJoin(Model\Subquestion::getClassName(),"subquestion",Join::WITH,"question.id_question = subquestion.id_question");
+
+        $query->andWhere($query->expr()->eq("website.visible",1));
+        $query->andWhere($query->expr()->eq("page.visible",1));
+
+        $query->groupBy("page.id_page");
+
+        return $this->getHolders($query, new ResultsPage());
     }
 }

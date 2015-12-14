@@ -81,36 +81,6 @@ class ResultsRespondent implements IHolder{
     /**
      * @return string
      */
-    public function getAgeName() {
-        if($this->age_name === null && $this->getRespondent() !== null){
-            switch($this->getRespondent()->age){
-                case Respondent::AGE_15: $this->age_name = "< 15"; break;
-                case Respondent::AGE_15_20: $this->age_name = "15-20"; break;
-                case Respondent::AGE_21_30: $this->age_name = "21-30"; break;
-                case Respondent::AGE_31_45: $this->age_name = "31-45"; break;
-                case Respondent::AGE_46_60: $this->age_name = "46-60"; break;
-                case Respondent::AGE_60: $this->age_name = "> 60"; break;
-            }
-        }
-        return $this->age_name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getGenderName() {
-        if($this->gender_name === null && $this->getRespondent() !== null){
-            switch($this->getRespondent()->gender){
-                case Respondent::GENDER_MALE: $this->gender_name = "muž"; break;
-                case Respondent::GENDER_FEMALE: $this->gender_name = "žena"; break;
-            }
-        }
-        return $this->gender_name;
-    }
-
-    /**
-     * @return string
-     */
     public function getDevicesName() {
         if($this->devices_name === null && $this->getRespondent() !== null){
             $devices = array();
@@ -121,16 +91,6 @@ class ResultsRespondent implements IHolder{
             $this->devices_name = implode(" / ", $devices);
         }
         return $this->devices_name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDevicecMostName() {
-        if($this->devicec_most_name === null && $this->getRespondent() !== null){
-            $this->devicec_most_name = $this->getRespondent()->device_most;
-        }
-        return $this->devicec_most_name;
     }
 
     /**

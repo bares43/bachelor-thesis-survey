@@ -9,7 +9,8 @@
 namespace App\Base;
 
 
-use App\Model\RespondentWebsite;
+use App\Utils\Base;
+use App\Utils\Respondent;
 
 class Presenter extends \Nette\Application\UI\Presenter{
 
@@ -20,32 +21,32 @@ class Presenter extends \Nette\Application\UI\Presenter{
         if(array_key_exists("google_analytics_code", $this->context->getParameters())){
             $this->template->google_analytics_code = $this->context->getParameters()["google_analytics_code"];
         }
+
+        if($this->getUser()->isLoggedIn()){
+            $this->template->show_logout = true;
+        }
     }
 
     protected function beforeRender()
     {
         $this->template->addFilter('time', function ($seconds) {
-            $seconds = round($seconds);
-            $hours = floor($seconds/3600);
-            $seconds -= $hours*3600;
-            $minutes = floor($seconds/60);
-            $seconds -= $minutes*60;
+            return Base::getSecondsToString($seconds);
+        });
 
-            $res = "";
-            $res .= $hours > 0 ? $hours."H " : "";
-            $res .= $minutes > 0 ? $minutes."M " : "";
-            $res .= $seconds."S";
-
-            return $res;
+        $this->template->addFilter('bool2string', function ($bool) {
+            return Base::getBooleanToString($bool);
         });
 
         $this->template->addFilter('respondentWebsitePeriod', function($period){
-            switch($period){
-                case RespondentWebsite::PERIOD_DONT_KNOW: return "neznám";
-                case RespondentWebsite::PERIOD_KNOW_AND_VISIT: return "znám a navštěvuji";
-                case RespondentWebsite::PERIOD_KNOW_THAT_EXISTS: return "vím, že existuje";
-                default: return "";
-            }
+            return Respondent::getRespondentWebsitePeriodLabel($period);
+        });
+
+        $this->template->addFilter('respondentAgeLabel', function($age){
+            return Respondent::getAgeLabel($age);
+        });
+
+        $this->template->addFilter('respondentGenderLabel', function($gender){
+            return Respondent::getGenderLabel($gender);
         });
     }
 }

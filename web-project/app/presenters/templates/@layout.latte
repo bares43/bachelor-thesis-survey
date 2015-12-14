@@ -53,6 +53,10 @@
     <li {ifCurrent Help:}class="active"{/ifCurrent}><a n:href="Help:">Nápověda</a></li>
     <li {ifCurrent About:}class="active"{/ifCurrent}><a n:href="About:">O projektu</a></li>
     <li {ifCurrent Contact:}class="active"{/ifCurrent}><a n:href="Contact:">Kontakt</a></li>
+    {ifset $show_logout}
+        <li {ifCurrent Results:}class="active"{/ifCurrent}><a n:href="Results:">Výsledky</a></li>
+        <li><a n:href="Sign:logout">Odhlásit se</a></li>
+    {/ifset}
   </ul>
 
 
