@@ -128,7 +128,7 @@ CREATE TABLE `respondent_page_duel` (
 
 DROP TABLE IF EXISTS `respondent_website`;
 CREATE TABLE `respondent_website` (
-  `id_respondent_website` tinyint(4) NOT NULL AUTO_INCREMENT,
+  `id_respondent_website` int(11) NOT NULL AUTO_INCREMENT,
   `id_respondent` int(11) NOT NULL,
   `id_website` int(11) NOT NULL,
   `period` int(11) NOT NULL,
