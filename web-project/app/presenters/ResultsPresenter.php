@@ -12,6 +12,7 @@ use App\Base\Presenter;
 use App\Service\Page;
 use App\Service\Question;
 use App\Service\Respondent;
+use App\Service\Subquestion;
 
 class ResultsPresenter extends Presenter {
 
@@ -24,6 +25,9 @@ class ResultsPresenter extends Presenter {
     /** @var  Page @inject */
     public $page_service;
 
+    /** @var  Subquestion @inject */
+    public $subquestion_service;
+
     public function startup() {
 
         parent::startup();
@@ -31,6 +35,27 @@ class ResultsPresenter extends Presenter {
         if(!$this->getUser()->isLoggedIn()){
             $this->redirect('Sign:login');
         }
+    }
+
+    public function actionEvaluate($id_subquestion, $correct) {
+        if($id_subquestion !== null && ($correct === "correct" || $correct === "wrong")){
+            $subquestion = $this->subquestion_service->get($id_subquestion);
+            if($subquestion !== null){
+                $subquestion->correct = $correct === "correct";
+                $this->subquestion_service->save($subquestion);
+
+                $this->setView("subquestioncorrect");
+                $this->template->correct = $subquestion->correct;
+
+            }else{
+
+                $this->terminate();
+            }
+        }else{
+
+            $this->terminate();
+        }
+
     }
 
     public function renderDefault() {

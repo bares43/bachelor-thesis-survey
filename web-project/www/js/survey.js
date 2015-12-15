@@ -114,4 +114,21 @@ $(document).ready(function(){
     }
 
     $('[data-toggle="tooltip"]').tooltip();
+
+
+    $(".evaluate").on("click", function(e){
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        var link = $(this);
+        $.get(
+            link.attr("href"),
+            {
+                id_subquestion : link.data("id"),
+                correct : link.data("correct")
+            },
+            function(data){
+                link.parent().replaceWith(data);
+            }
+        );
+    });
 });
