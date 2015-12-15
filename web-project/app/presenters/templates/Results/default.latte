@@ -152,7 +152,7 @@
         {foreach $respondents as $respondent}
             <tr>
                 <td>{$respondent->getRespondent()->id_respondent}</td>
-                <td class="text-center">{$respondent->getRespondent()->datetime|date:"d.m.y H:m"}</td>
+                <td class="text-center">{$respondent->getRespondent()->datetime|date:"d.m.y H:i"}</td>
                 <td class="text-center">{$respondent->getRespondent()->age|respondentAgeLabel}</td>
                 <td class="text-center">{$respondent->getRespondent()->gender|respondentGenderLabel}</td>
                 <td class="text-center">{$respondent->getRespondent()->english|bool2string}</td>
@@ -198,7 +198,7 @@
                     <td class="text-center">{$subquestion->getSubquestion()->id_subquestion}</td>
                     <td class="text-center">{$subquestion->getSubquestion()->id_question}</td>
                     <td class="text-center" ><span {if $subquestion->getRespondent()->nickname || $subquestion->getRespondent()->email} data-toggle="tooltip" data-placement="bottom" title="{$subquestion->getRespondent()->nickname} {$subquestion->getRespondent()->email}"{/if}>{$subquestion->getQuestion()->id_respondent}</span></td>
-                    <td class="text-center">{$subquestion->getSubquestion()->datetime|date:"d.m.y H:m"}</td>
+                    <td class="text-center">{$subquestion->getSubquestion()->datetime|date:"d.m.y H:i"}</td>
                     <td class="text-center">{$subquestion->getWebsite()->name}</td>
                     <td class="text-center">{if $subquestion->getSubquestion()->correct}<span class="correct">ano</span>{elseif !$subquestion->getSubquestion()->correct && $subquestion->getSubquestion()->correct !== null}<span class="wrong">ne</span>{/if}</td>
                     <td class="text-center">{$subquestion->getSubquestion()->answer}</td>
