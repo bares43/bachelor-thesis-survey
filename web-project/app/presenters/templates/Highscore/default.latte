@@ -30,7 +30,7 @@
                         <td>{$row->getRespondent()->nickname}</td>
                         <td>{$row->getDate()|date:'j. n. Y'}</td>
                         <td>{$row->getTotalQuestions()}</td>
-                        <td class="strong">{$row->getTotalCorrect()}</td>
+                        <td>{$row->getTotalCorrect()}</td>
                         <td class="strong">{$row->getScore()}</td>
                         {var $lastCorrect = $row->getScore()}
                     </tr>
