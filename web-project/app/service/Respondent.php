@@ -55,23 +55,31 @@ class Respondent extends Service {
     }
 
     /**
-     * @return \App\Holder\ResultsBase
+     * @return \App\Holder\Results\Base\Base
      */
     public function getResultsBase() {
         return $this->database->getResultsBase();
     }
 
     /**
-     * @return \App\Holder\ResultsRespondentsBase
+     * @return \App\Holder\Results\Base\RespondentsBase[]
      */
     public function getResultsRespondentsBase() {
         return $this->database->getResultsRespondentsBase();
     }
 
     /**
-     * @return \App\Holder\ResultsRespondent[]
+     * @return \App\Holder\Results\Base\Respondent[]
      */
     public function getResultsRespondent() {
         return $this->database->getResultsRespondent();
+    }
+
+    /**
+     * @param $id_respondent
+     * @return \App\Holder\Results\Respondent\Base
+     */
+    public function getResultsRespondentDetail($id_respondent) {
+        return $this->database->getResultsRespondentDetail($id_respondent);
     }
 }

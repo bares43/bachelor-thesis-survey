@@ -77,7 +77,7 @@ class Page extends Service {
     }
 
     /**
-     * @return \App\Holder\ResultsPage[]
+     * @return \App\Holder\Results\Base\Page
      */
     public function getResultsPages() {
         return $this->database->getResultsPages();

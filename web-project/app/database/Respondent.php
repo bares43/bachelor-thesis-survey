@@ -9,9 +9,9 @@ namespace App\Database;
 
 use App\Base\Database;
 use App\Holder\Highscore;
-use App\Holder\ResultsBase;
-use App\Holder\ResultsRespondent;
-use App\Holder\ResultsRespondentsBase;
+use App\Holder\Base;
+use App\Holder\ResultsBaseRespondent;
+use App\Holder\ResultsBaseRespondentsBase;
 use Kdyby\Doctrine\Dql\Join;
 use Kdyby\Doctrine\EntityManager;
 use Nette;
@@ -85,7 +85,7 @@ class Respondent extends Database {
     }
 
     /**
-     * @return ResultsBase
+     * @return \App\Holder\Results\Base\Base
      */
     public function getResultsBase() {
         $query = $this->entityManager->getRepository($this->repositoryName)->createQueryBuilder();
@@ -131,16 +131,15 @@ class Respondent extends Database {
         $query->leftJoin(Model\Question::getClassName(),"question",Join::WITH,"question.id_respondent = respondent.id_respondent");
         $query->leftJoin(Model\Subquestion::getClassName(),"subquestion",Join::WITH,"subquestion.id_question = question.id_question");
 
-        return $this->getHolder($query, new \App\Holder\Mapper\ResultsBase());
+        return $this->getHolder($query, new \App\Holder\Mapper\Results\Base\Base());
     }
 
     /**
-     * @return ResultsRespondentsBase
+     * @return \App\Holder\Results\Base\RespondentsBase[]
      */
     public function getResultsRespondentsBase() {
         $query = $this->entityManager->getRepository($this->repositoryName)->createQueryBuilder();
 
-//        $query->select("respondent");
 
         // total male
         $query->addSelect("countif('gender','=','\"".Model\Respondent::GENDER_MALE."\"') as total_male");
@@ -183,18 +182,11 @@ class Respondent extends Database {
 
         $query->from(Model\Respondent::getClassName(),"respondent");
 
-
-//        $query->join(Model\Question::getClassName(),"question",Join::WITH,"question.id_respondent = respondent.id_respondent");
-//        $query->join(Model\Subquestion::getClassName(),"subquestion",Join::WITH,"subquestion.id_question = question.id_question");
-
-
-//        $query->groupBy("respondent.id_respondent");
-
-        return $this->getHolder($query, new \App\Holder\Mapper\ResultsRespondentsBase());
+        return $this->getHolder($query, new \App\Holder\Mapper\Results\Base\RespondentsBase());
     }
 
     /**
-     * @return ResultsRespondent[]
+     * @return \App\Holder\Results\Base\Respondent[]
      */
     public function getResultsRespondent() {
         $query = $this->entityManager->getRepository($this->repositoryName)->createQueryBuilder();
@@ -218,6 +210,35 @@ class Respondent extends Database {
         $query->orderBy("respondent.id_respondent","desc");
 
 
-        return $this->getHolders($query, new \App\Holder\Mapper\ResultsRespondent());
+        return $this->getHolders($query, new \App\Holder\Mapper\Results\Base\Respondent());
+    }
+
+    /**
+     * @param $id_respondent
+     * @return \App\Holder\Results\Respondent\Base
+     */
+    public function getResultsRespondentDetail($id_respondent) {
+        $query = $this->entityManager->getRepository($this->repositoryName)->createQueryBuilder();
+
+        $query->select("respondent");
+        $query->addSelect("count(distinct question.id_question) as total_questions");
+        $query->addSelect("count(distinct subquestion.id_subquestion) as total_subquestions");
+        $query->addSelect("countif('correct','=','1') as total_correct_subquestions");
+        $query->addSelect("countif('correct','=','0') as total_wrong_subquestions");
+        $query->addSelect("countif('correct','is','null') as total_unknown_subquestions");
+        $query->addSelect("avg(subquestion.seconds) avg_seconds");
+        $query->addSelect("sum(subquestion.seconds) total_seconds");
+
+
+        $query->from(Model\Respondent::getClassName(),"respondent");
+
+        $query->leftJoin(Model\Question::getClassName(),"question",Join::WITH,"question.id_respondent = respondent.id_respondent");
+        $query->leftJoin(Model\Subquestion::getClassName(),"subquestion",Join::WITH,"subquestion.id_question = question.id_question");
+
+
+        $query->where($query->expr()->eq("respondent.id_respondent",$id_respondent));
+
+
+        return $this->getHolder($query, new \App\Holder\Mapper\Results\Respondent\Base());
     }
 }

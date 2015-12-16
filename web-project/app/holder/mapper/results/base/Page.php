@@ -6,21 +6,21 @@
  * Time: 1:20
  */
 
-namespace App\Holder\Mapper;
+namespace App\Holder\Mapper\Results\Base;
 
 
 use App\Base\IHolder;
 use App\Base\IMapper;
 use App\Base\Service;
 
-class ResultsPage implements IMapper{
+class Page implements IMapper{
 
     /**
      * @param $result
      * @return IHolder
      */
     public function populate($result) {
-        $holder = new \App\Holder\ResultsPage();
+        $holder = new \App\Holder\Results\Base\Page();
 
         if(isset($result["page_id_page"])){
             $holder->setPage(Service::populateEntity($result, \App\Model\Page::getClassName(), "page"));

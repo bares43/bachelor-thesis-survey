@@ -6,17 +6,16 @@
  * Time: 1:19
  */
 
-namespace App\Holder;
+namespace App\Holder\Results\Base;
 
 
 use App\Base\IHolder;
-use App\Model\Page;
 use App\Model\Website;
 
-class ResultsPage implements IHolder{
+class Page implements IHolder{
 
     /**
-     * @var Page
+     * @var \App\Model\Page
      */
     private $page;
 
@@ -36,14 +35,14 @@ class ResultsPage implements IHolder{
     private $total_correct_subquestions;
 
     /**
-     * @return Page
+     * @return \App\Model\Page
      */
     public function getPage() {
         return $this->page;
     }
 
     /**
-     * @param Page $page
+     * @param \App\Model\Page $page
      */
     public function setPage($page) {
         $this->page = $page;

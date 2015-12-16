@@ -96,7 +96,7 @@ class Question extends Database {
     }
 
     /**
-     * @return \App\Holder\ResultsQuestion[]
+     * @return \App\Holder\Results\Base\Question[]
      */
     public function getResultsSubquestion() {
         $query = $this->entityManager->getRepository($this->repositoryName)->createQueryBuilder();
@@ -118,6 +118,6 @@ class Question extends Database {
 
         $query->orderBy("subquestion.id_subquestion","desc");
 
-        return $this->getHolders($query, new ResultsQuestion());
+        return $this->getHolders($query, new \App\Holder\Mapper\Results\Base\Question());
     }
 }

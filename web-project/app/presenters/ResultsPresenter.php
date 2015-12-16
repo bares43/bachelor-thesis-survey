@@ -37,6 +37,24 @@ class ResultsPresenter extends Presenter {
         }
     }
 
+
+    public function renderDefault() {
+        $this->template->base = $this->respondent_service->getResultsBase();
+        $this->template->base_respondents = $this->respondent_service->getResultsRespondentsBase();
+        $this->template->respondents = $this->respondent_service->getResultsRespondent();
+        $this->template->subquestions = $this->question_service->getResultsSubquestion();
+        $this->template->pages = $this->page_service->getResultsPages();
+    }
+
+    public function renderRespondent($id_respondent) {
+        if($id_respondent === null) $this->redirect("Results:");
+
+        $respondent = $this->respondent_service->getResultsRespondentDetail($id_respondent);
+        if(!$respondent) $this->redirect("Results:");
+
+        $this->template->respondent = $respondent;
+    }
+
     public function actionEvaluate($id_subquestion, $correct) {
         if($id_subquestion !== null && ($correct === "correct" || $correct === "wrong")){
             $subquestion = $this->subquestion_service->get($id_subquestion);
@@ -58,12 +76,5 @@ class ResultsPresenter extends Presenter {
 
     }
 
-    public function renderDefault() {
-        $this->template->base = $this->respondent_service->getResultsBase();
-        $this->template->base_respondents = $this->respondent_service->getResultsRespondentsBase();
-        $this->template->respondents = $this->respondent_service->getResultsRespondent();
-        $this->template->subquestions = $this->question_service->getResultsSubquestion();
-        $this->template->pages = $this->page_service->getResultsPages();
-    }
 
 }

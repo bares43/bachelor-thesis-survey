@@ -1,0 +1,106 @@
+{block title}Výsledky{/block}
+{block htmlClass}big{/block}
+{block content}
+<div id="page-results" class="text-container">
+    <h2 class="text-center">Výsledky - respondent</h2>
+
+    <h3>Základní info</h3>
+
+    <table style="margin: auto">
+        <tr>
+            <td width="250">id</td>
+            <td width="450" class="text-right">{$respondent->getRespondent()->id_respondent}</td>
+        </tr>
+        <tr>
+            <td>pohlaví</td>
+            <td class="text-right">{$respondent->getRespondent()->gender|respondentGenderLabel}</td>
+        </tr>
+        <tr>
+            <td>věk</td>
+            <td class="text-right">{$respondent->getRespondent()->age|respondentAgeLabel}</td>
+        </tr>
+        <tr>
+            <td>nick</td>
+            <td class="text-right">{$respondent->getRespondent()->nickname}</td>
+        </tr>
+        <tr>
+            <td>email</td>
+            <td class="text-right">{$respondent->getRespondent()->email}</td>
+        </tr>
+        <tr>
+            <td>datum</td>
+            <td class="text-right">{$respondent->getRespondent()->datetime|date:"d.m.y H:i"}</td>
+        </tr>
+        <tr>
+            <td>angličtina</td>
+            <td class="text-right">{$respondent->getRespondent()->english|bool2string}</td>
+        </tr>
+        <tr>
+            <td>it</td>
+            <td class="text-right">{$respondent->getRespondent()->it|bool2string}</td>
+        </tr>
+        <tr>
+            <td>počítač</td>
+            <td class="text-right">{$respondent->getRespondent()->device_computer|bool2string}</td>
+        </tr>
+        <tr>
+            <td>tablet</td>
+            <td class="text-right">{$respondent->getRespondent()->device_tablet|bool2string}</td>
+        </tr>
+        <tr>
+            <td>smartphone</td>
+            <td class="text-right">{$respondent->getRespondent()->device_phone|bool2string}</td>
+        </tr>
+        <tr>
+            <td>nejčastější zařízení</td>
+            <td class="text-right">{$respondent->getRespondent()->device_most}</td>
+        </tr>
+        <tr>
+            <td>zpráva</td>
+            <td class="text-right">{$respondent->getRespondent()->message}</td>
+        </tr>
+        <tr>
+            <td>navštěvované weby</td>
+            <td class="text-right">{$respondent->getRespondent()->sites}</td>
+        </tr>
+        <tr>
+            <td>user agent</td>
+            <td class="text-right">{$respondent->getRespondent()->user_agent}</td>
+        </tr>
+        <tr>
+            <th class="text-center" colspan="2">výsledky</th>
+        </tr>
+        <tr>
+            <td>otázek</td>
+            <td class="text-right">{$respondent->getTotalQuestions()}</td>
+        </tr>
+        <tr>
+            <td>podotázek</td>
+            <td class="text-right">{$respondent->getTotalSubquestions()}</td>
+        </tr>
+        <tr>
+            <td>dobře</td>
+            <td class="correct text-right">{$respondent->getTotalCorrectSubquestions()}</td>
+        </tr>
+        <tr>
+            <td>špatně</td>
+            <td class="wrong text-right">{$respondent->getTotalWrongSubquestions()}</td>
+        </tr>
+        <tr>
+            <td>nevyhodnoceno</td>
+            <td class="text-right">{$respondent->getTotalUnknownSubquestions()}</td>
+        </tr>
+        <tr>
+            <td>úspěšnost</td>
+            <td class="text-right">{$respondent->getTotalCorrectSubquestionsPercents()} %</td>
+        </tr>
+        <tr>
+            <td>průměrný čas</td>
+            <td class="text-right">{$respondent->getAvgSeconds()|time}</td>
+        </tr>
+        <tr>
+            <td>celkový čas</td>
+            <td class="text-right">{$respondent->getTotalSeconds()|time}</td>
+        </tr>
+    </table>
+</div>

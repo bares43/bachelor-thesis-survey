@@ -348,7 +348,7 @@ class Question extends Service {
     }
 
     /**
-     * @return \App\Holder\ResultsQuestion[]
+     * @return \App\Holder\Results\Base\Question[]
      */
     public function getResultsSubquestion() {
         return $this->database->getResultsSubquestion();

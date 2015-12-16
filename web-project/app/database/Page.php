@@ -171,7 +171,7 @@ class Page extends Database {
     }
 
     /**
-     * @return \App\Holder\ResultsPage[]
+     * @return \App\Holder\Results\Base\Page
      */
     public function getResultsPages() {
         $query = $this->entityManager->getRepository($this->repositoryName)->createQueryBuilder();
@@ -189,8 +189,10 @@ class Page extends Database {
         $query->andWhere($query->expr()->eq("website.visible",1));
         $query->andWhere($query->expr()->eq("page.visible",1));
 
+        $query->orderBy("website.id_website");
+
         $query->groupBy("page.id_page");
 
-        return $this->getHolders($query, new ResultsPage());
+        return $this->getHolders($query, new \App\Holder\Mapper\Results\Base\Page());
     }
 }
