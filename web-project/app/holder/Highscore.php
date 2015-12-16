@@ -36,6 +36,11 @@ class Highscore implements IHolder{
     private $date;
 
     /**
+     * @var float
+     */
+    private $score;
+
+    /**
      * @return Respondent
      */
     public function getRespondent() {
@@ -90,4 +95,19 @@ class Highscore implements IHolder{
     public function setDate($date) {
         $this->date = $date;
     }
+
+    /**
+     * @return float
+     */
+    public function getScore() {
+        return round($this->score,2);
+    }
+
+    /**
+     * @param float $score
+     */
+    public function setScore($score) {
+        $this->score = $score;
+    }
+
 }

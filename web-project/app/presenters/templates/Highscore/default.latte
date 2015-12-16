@@ -12,15 +12,16 @@
                 <th width="20" class="text-center">#</th>
                 <th width="250" class="text-center">Nickname</th>
                 <th width="150" class="text-center">Datum</th>
-                <th width="150" class="text-center">Počet otázek</th>
-                <th width="150" class="text-center">Správně</th>
+                <th width="100" class="text-center">Počet otázek</th>
+                <th width="100" class="text-center">Správně</th>
+                <th width="100" class="text-center">Score</th>
             </tr>
             </thead>
             <tbody>
                 {var $position = 1}
                 {var $lastCorrect = null}
                 {foreach $highscore as $row}
-                    {if $row->getTotalCorrect() < $lastCorrect}
+                    {if $row->getScore() < $lastCorrect}
                         {var $position = $position + 1}
                     {/if}
 
@@ -30,7 +31,8 @@
                         <td>{$row->getDate()|date:'j. n. Y'}</td>
                         <td>{$row->getTotalQuestions()}</td>
                         <td class="strong">{$row->getTotalCorrect()}</td>
-                        {var $lastCorrect = $row->getTotalCorrect()}
+                        <td class="strong">{$row->getScore()}</td>
+                        {var $lastCorrect = $row->getScore()}
                     </tr>
                 {/foreach}
             </tbody>

@@ -39,6 +39,10 @@ class Highscore implements IMapper{
             $holder->setTotalCorrect((int)$result["count_correct"]);
         }
 
+        if(isset($result["score"])){
+            $holder->setScore((float)$result["score"]);
+        }
+
         return $holder;
     }
 }

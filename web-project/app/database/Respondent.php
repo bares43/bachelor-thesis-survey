@@ -64,6 +64,8 @@ class Respondent extends Database {
         $query->addSelect("max(subquestion.datetime) as date");
         $query->addSelect("count(subquestion.id_subquestion) as count_questions");
         $query->addSelect("countif('correct','=','1') as count_correct");
+        $query->addSelect("(countif('correct','=','1') * (1+(countif('correct','=','1')/count(subquestion.id_subquestion)))) as score");
+
 
         $query->from(Model\Respondent::getClassName(),"respondent");
 
@@ -76,7 +78,7 @@ class Respondent extends Database {
 
         $query->groupBy("respondent.id_respondent");
 
-        $query->orderBy("count_correct","desc");
+        $query->orderBy("score","desc");
 
 
         $mapper = new \App\Holder\Mapper\Highscore();
