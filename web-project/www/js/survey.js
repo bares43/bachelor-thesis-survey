@@ -131,4 +131,10 @@ $(document).ready(function(){
             }
         );
     });
+
+    $('textarea, input:text, input[type=email]').on("keydown",function (e) {
+        if (e.ctrlKey && e.keyCode == 13) {
+            $(this).closest("form").submit();
+        }
+    });
 });
