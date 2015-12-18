@@ -118,7 +118,7 @@ class Question extends Database {
 
 
         if($filter !== null){
-            if($filter->getIdRespondent() !== null){
+            if($filter->getIdRespondent() !== null && $filter->getIdRespondent() > 0){
                 $query->andWhere($query->expr()->eq("respondent.id_respondent",$filter->getIdRespondent()));
             }
         }

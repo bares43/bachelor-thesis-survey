@@ -24,6 +24,6 @@ class Subquestions extends Filter{
      * @return int
      */
     public function getIdRespondent() {
-        return $this->get(self::ID_RESPONDENT);
+        return (int)$this->get(self::ID_RESPONDENT);
     }
 }

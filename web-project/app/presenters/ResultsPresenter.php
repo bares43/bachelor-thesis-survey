@@ -48,7 +48,12 @@ class ResultsPresenter extends Presenter {
         $this->template->base = $this->respondent_service->getResultsBase();
         $this->template->base_respondents = $this->respondent_service->getResultsRespondentsBase();
         $this->template->respondents = $this->respondent_service->getResultsRespondent();
-        $this->template->subquestions = $this->question_service->getResultsSubquestion();
+//
+//        $subquestions = $this->getComponent("subquestions");
+//        $subquestions->setSubquestions($this->question_service->getResultsSubquestion());
+//        $this->template->subquestions = $subquestions;
+
+//        $this->template->subquestions = $this->question_service->getResultsSubquestion();
         $this->template->pages = $this->page_service->getResultsPages();
     }
 
@@ -88,6 +93,12 @@ class ResultsPresenter extends Presenter {
             $this->terminate();
         }
 
+    }
+
+    public function createComponentSubquestions() {
+        $subquestions = new \App\Components\Subquestions($this->question_service);
+//        $subquestions->redrawControl();
+        return $subquestions;
     }
 
 

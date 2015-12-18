@@ -167,56 +167,58 @@
         {/foreach}
         </tbody>
     </table>
-    
-    <h3>Odpovědi</h3>
 
-    <table>
-        <thead>
-        <tr>
-            <th width="40" class="text-center">id</th>
-            <th width="40" class="text-center">rodič</th>
-            <th width="40" class="text-center">resp.</th>
-            <th width="140" class="text-center">čas</th>
-            <th width="160" class="text-center">web</th>
-            <th width="50" class="text-center">správně</th>
-            <th width="180" class="text-center">odpověď</th>
-            <th width="180" class="text-center">důvod</th>
-            <th width="20" class="text-center">typ</th>
-            <th width="160" class="text-center">zná?</th>
-            <th width="150" class="text-center">čas</th>
-        </tr>
-        </thead>
-        <tbody>
-            {var $even = true}
-            {var $last = null}
-            {foreach $subquestions as $subquestion}
-                {if $last !== $subquestion->getSubquestion()->id_question}
-                    {var $even = !$even}
-                {/if}
-                {var $last = $subquestion->getSubquestion()->id_question}
-                <tr n:class="$even ? even">
-                    <td class="text-center">{$subquestion->getSubquestion()->id_subquestion}</td>
-                    <td class="text-center">{$subquestion->getSubquestion()->id_question}</td>
-                    <td class="text-center" ><a n:href="Results:respondent $subquestion->getRespondent()->id_respondent" {if $subquestion->getRespondent()->nickname || $subquestion->getRespondent()->email} data-toggle="tooltip" data-placement="bottom" title="{$subquestion->getRespondent()->nickname} {$subquestion->getRespondent()->email}"{/if}>{$subquestion->getQuestion()->id_respondent}</a></td>
-                    <td class="text-center">{$subquestion->getSubquestion()->datetime|date:"d.m.y H:i"}</td>
-                    <td class="text-center">{$subquestion->getWebsite()->name}</td>
-                    <td class="text-center">
-                        {if $subquestion->getSubquestion()->correct}<span class="correct">ano</span>
-                        {elseif !$subquestion->getSubquestion()->correct && $subquestion->getSubquestion()->correct !== null}<span class="wrong">ne</span>
-                        {else}
-                            <a class="evaluate" n:href="Results:evaluate" data-id="{$subquestion->getSubquestion()->id_subquestion}" data-correct="correct">ano</a>
-                            <a class="evaluate" n:href="Results:evaluate" data-id="{$subquestion->getSubquestion()->id_subquestion}" data-correct="wrong">ne</a>
-                        {/if}
-                    </td>
-                    <td class="text-center">{$subquestion->getSubquestion()->answer}</td>
-                    <td class="text-center">{$subquestion->getSubquestion()->reason}</td>
-                    <td class="text-center">{$subquestion->getSubquestion()->question_type}</td>
-                    <td class="text-center">{if $subquestion->getRespondentWebsite() !== null}{$subquestion->getRespondentWebsite()->period|respondentWebsitePeriod}{/if}</td>
-                    <td class="text-right">{$subquestion->getSubquestion()->seconds|time}</td>
-                </tr>
-            {/foreach}
-        </tbody>
-    </table>
+    {control subquestions}
+    
+    {*<h3>Odpovědi</h3>*}
+
+    {*<table>*}
+        {*<thead>*}
+        {*<tr>*}
+            {*<th width="40" class="text-center">id</th>*}
+            {*<th width="40" class="text-center">rodič</th>*}
+            {*<th width="40" class="text-center">resp.</th>*}
+            {*<th width="140" class="text-center">čas</th>*}
+            {*<th width="160" class="text-center">web</th>*}
+            {*<th width="50" class="text-center">správně</th>*}
+            {*<th width="180" class="text-center">odpověď</th>*}
+            {*<th width="180" class="text-center">důvod</th>*}
+            {*<th width="20" class="text-center">typ</th>*}
+            {*<th width="160" class="text-center">zná?</th>*}
+            {*<th width="150" class="text-center">čas</th>*}
+        {*</tr>*}
+        {*</thead>*}
+        {*<tbody>*}
+            {*{var $even = true}*}
+            {*{var $last = null}*}
+            {*{foreach $subquestions as $subquestion}*}
+                {*{if $last !== $subquestion->getSubquestion()->id_question}*}
+                    {*{var $even = !$even}*}
+                {*{/if}*}
+                {*{var $last = $subquestion->getSubquestion()->id_question}*}
+                {*<tr n:class="$even ? even">*}
+                    {*<td class="text-center">{$subquestion->getSubquestion()->id_subquestion}</td>*}
+                    {*<td class="text-center">{$subquestion->getSubquestion()->id_question}</td>*}
+                    {*<td class="text-center" ><a n:href="Results:respondent $subquestion->getRespondent()->id_respondent" {if $subquestion->getRespondent()->nickname || $subquestion->getRespondent()->email} data-toggle="tooltip" data-placement="bottom" title="{$subquestion->getRespondent()->nickname} {$subquestion->getRespondent()->email}"{/if}>{$subquestion->getQuestion()->id_respondent}</a></td>*}
+                    {*<td class="text-center">{$subquestion->getSubquestion()->datetime|date:"d.m.y H:i"}</td>*}
+                    {*<td class="text-center">{$subquestion->getWebsite()->name}</td>*}
+                    {*<td class="text-center">*}
+                        {*{if $subquestion->getSubquestion()->correct}<span class="correct">ano</span>*}
+                        {*{elseif !$subquestion->getSubquestion()->correct && $subquestion->getSubquestion()->correct !== null}<span class="wrong">ne</span>*}
+                        {*{else}*}
+                            {*<a class="evaluate" n:href="Results:evaluate" data-id="{$subquestion->getSubquestion()->id_subquestion}" data-correct="correct">ano</a>*}
+                            {*<a class="evaluate" n:href="Results:evaluate" data-id="{$subquestion->getSubquestion()->id_subquestion}" data-correct="wrong">ne</a>*}
+                        {*{/if}*}
+                    {*</td>*}
+                    {*<td class="text-center">{$subquestion->getSubquestion()->answer}</td>*}
+                    {*<td class="text-center">{$subquestion->getSubquestion()->reason}</td>*}
+                    {*<td class="text-center">{$subquestion->getSubquestion()->question_type}</td>*}
+                    {*<td class="text-center">{if $subquestion->getRespondentWebsite() !== null}{$subquestion->getRespondentWebsite()->period|respondentWebsitePeriod}{/if}</td>*}
+                    {*<td class="text-right">{$subquestion->getSubquestion()->seconds|time}</td>*}
+                {*</tr>*}
+            {*{/foreach}*}
+        {*</tbody>*}
+    {*</table>*}
 
     <h3>Stránky</h3>
     <table>
