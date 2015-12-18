@@ -12,6 +12,7 @@ use App\Base\Filter;
 class Subquestions extends Filter{
 
     const ID_RESPONDENT = "idrespondent";
+    const SECONDS = "seconds";
 
     /**
      * @param int $id_respondent
@@ -25,5 +26,19 @@ class Subquestions extends Filter{
      */
     public function getIdRespondent() {
         return (int)$this->get(self::ID_RESPONDENT);
+    }
+
+    /**
+     * @param int[] $seconds
+     */
+    public function setSeconds($seconds) {
+        $this->set(self::SECONDS, $seconds);
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getSeconds() {
+        return $this->get(self::SECONDS);
     }
 }

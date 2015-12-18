@@ -132,53 +132,6 @@ $(document).ready(function(){
         );
     });
 
-    $("form .duplicable").each(function(i,v){
-        var plus = $("<span></span>").text("+").addClass('plus');
-
-        plus.on("click", function(){
-            addFilter($(this));
-        });
-
-        $(v).after(plus);
-    });
-
-    function addFilter(input){
-        var parent = input.closest("tr");
-        parent.find(".plus").remove();
-
-        var cl = parent.clone();
-
-        var plus = $("<span></span>").text("+").addClass('plus');
-
-        plus.on("click", function(){
-            addFilter(cl.find(".duplicable"));
-        });
-
-        cl.find(".duplicable").after(plus);
-
-        //var minus = $("<span></span>").text("-").addClass('minus');
-        //
-        //minus.on("click", function(){
-        //    addFilter(cl.find(".duplicable"));
-        //});
-        //
-        //cl.find(".duplicable").after(minus);
-
-        var name = /^\w+/.exec(cl.find(".duplicable").attr("name"));
-
-        console.log(name[0]);
-
-        var cnt = input.closest("form").find("[name^='"+name+"']").length+1
-
-        cl.find(".duplicable").attr("name",name+"["+cnt+"]");
-
-        parent.after(cl);
-    }
-
-    //function removeFilter(input){
-    //    input.closest("tr").remove();
-    //}
-
     $('textarea, input:text, input[type=email]').on("keydown",function (e) {
         if (e.ctrlKey && e.keyCode == 13) {
             $(this).closest("form").submit();

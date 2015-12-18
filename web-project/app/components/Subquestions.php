@@ -55,38 +55,84 @@ class Subquestions extends Component{
      * @param Form $form
      */
     public function filterFormSubmited(Form $form) {
-        $value = $form->getValues();
+        $values = $form->getValues();
 
 
-//        var_dump($form->httpData);
-//
-//        var_dump($value);exit;
+        $filter_seconds = array();
+        if($values->seconds){
+            $items = explode(",",$values->seconds);
 
-        $this->filter->setIdRespondent($value->id_respondent);
+            foreach($items as $seconds){
+
+                if(preg_match('/([<>]?=?)(.+)/',$seconds, $match)){
+                    if($match[1]){
+                        $filter_seconds[$match[1]] = $match[2];
+                    }else{
+                        $filter_seconds[] = $match[2];
+                    }
+                }
+            }
+
+            $this->filter->setSeconds($filter_seconds);
+        }
+
+        $this->filter->setIdRespondent($values->id_respondent);
 
         $this->redrawControl();
     }
 
     protected function createComponentFilterForm(){
 
-        $form = new Form();
+        $form = new \Nette\Application\UI\Form;
 
         $form->addGroup('Filtrování');
 
         $form->addText('id_respondent','Respondent');
+        $form->addText('seconds','Čas');
 
-        $seconds = $form->addContainer('time');
-        $seconds->addText(0,'Čas')->setAttribute('class','duplicable');
+//        $seconds = $form->addDynamic('seconds', function(Container $sec){
+//           $sec->addText('seconds','Čas');
+//        },0);
+//
 
         $form->addGroup('Řazení');
-        $order = $form->addContainer('order')->addContainer(0);
-        $order->addSelect('by','Položka',array('čas','typ'));
-        $order->addSelect('dir','Směr',array('asc','desc'));
+
+        $order = $form->addDynamic('order', function(Container $order){
+            $order->addSelect('by','Položka',array('čas','typ'));
+            $order->addSelect('dir','Směr',array('asc','desc'));
+            $order->addSubmit('remove', 'Odstranit')
+                ->setAttribute("class","ajax")
+                ->setValidationScope(FALSE)
+                ->onClick[] = array($this, 'removeOrder');
+        });
+        $order->addSubmit('addOrder', 'Přidat řazení')
+            ->setValidationScope(FALSE)
+            ->setAttribute("class","ajax")
+            ->onClick[] = array($this, 'addOrder');
 
         $form->onSuccess[] = $this->filterFormSubmited;
 
         $form->addSubmit('filter','Filtrovat')->setAttribute('class','ajax');
 
         return $form;
+    }
+
+    public function addOrder(SubmitButton $button)
+    {
+        $users = $button->parent;
+
+        // count how many containers were filled
+        if ($users->isAllFilled()) {
+            // add one container to replicator
+            $button->parent->createOne();
+        }
+
+//        $this->redrawControl();
+    }
+    public function removeOrder(SubmitButton $button)
+    {
+        $users = $button->parent->parent;
+        $users->remove($button->parent, TRUE);
+//        $this->redrawControl();
     }
 }

@@ -9,6 +9,7 @@ namespace App\Database;
 
 use App\Base\Database;
 use App\Holder\Mapper\ResultsQuestion;
+use App\Utils\Base;
 use Doctrine\ORM\Query\Expr\Join;
 use Kdyby\Doctrine\EntityManager;
 use Nette;
@@ -120,6 +121,27 @@ class Question extends Database {
         if($filter !== null){
             if($filter->getIdRespondent() !== null && $filter->getIdRespondent() > 0){
                 $query->andWhere($query->expr()->eq("respondent.id_respondent",$filter->getIdRespondent()));
+            }
+
+            if(is_array($filter->getSeconds()) && count($filter->getSeconds()) > 0){
+                if(Base::array_is_assoc($filter->getSeconds())){
+                    foreach($filter->getSeconds() as $operator => $value){
+                        switch($operator){
+                            case ">":
+                                $query->andWhere($query->expr()->gt("subquestion.seconds",$value)); break;
+                            case ">=":
+                                $query->andWhere($query->expr()->gte("subquestion.seconds",$value)); break;
+                            case "<":
+                                $query->andWhere($query->expr()->lt("subquestion.seconds",$value)); break;
+                            case "<=":
+                                $query->andWhere($query->expr()->lte("subquestion.seconds",$value)); break;
+                            case "=":
+                                $query->andWhere($query->expr()->eq("subquestion.seconds",$value)); break;
+                        }
+                    }
+                }else{
+                    $query->andWhere($query->expr()->in("subquestion.seconds",$filter->getSeconds()));
+                }
             }
         }
 
