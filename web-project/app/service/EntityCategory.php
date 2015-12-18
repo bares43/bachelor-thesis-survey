@@ -9,6 +9,7 @@
 namespace App\Service;
 
 use App\Base\Service;
+use App\Filter\Results\RespondentCategory;
 
 class EntityCategory extends Service {
 
@@ -49,5 +50,13 @@ class EntityCategory extends Service {
      */
     public function save($entity) {
         $this->database->save($entity);
+    }
+
+    /**
+     * @param RespondentCategory $filter
+     * @return \App\Holder\Results\Respondent\Category[]
+     */
+    public function getResultsRespondentCategory($filter) {
+        return $this->database->getResultsRespondentCategory($filter);
     }
 }

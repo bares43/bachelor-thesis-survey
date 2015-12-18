@@ -214,6 +214,8 @@ form table td textarea {
   #page-highscore table tr.current {
     background-color: #dfdfdf; }
 
+#page-results h3 {
+  text-align: center; }
 #page-results table tr {
   border-bottom: 1px solid black; }
   #page-results table tr.even {

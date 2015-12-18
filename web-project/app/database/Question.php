@@ -96,9 +96,10 @@ class Question extends Database {
     }
 
     /**
+     * @param \App\Filter\Results\Subquestions $filter
      * @return \App\Holder\Results\Base\Question[]
      */
-    public function getResultsSubquestion() {
+    public function getResultsSubquestion($filter = null) {
         $query = $this->entityManager->getRepository($this->repositoryName)->createQueryBuilder();
 
         $query->select("subquestion");
@@ -115,6 +116,12 @@ class Question extends Database {
             $query->expr()->eq('website.id_website', 'respondentwebsite.id_website')
         ))->addSelect("respondentwebsite");
 
+
+        if($filter !== null){
+            if($filter->getIdRespondent() !== null){
+                $query->andWhere($query->expr()->eq("respondent.id_respondent",$filter->getIdRespondent()));
+            }
+        }
 
         $query->orderBy("subquestion.id_subquestion","desc");
 

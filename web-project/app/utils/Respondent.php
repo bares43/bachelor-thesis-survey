@@ -1,5 +1,6 @@
 <?php
 namespace App\Utils;
+use App\Model\EntityCategory;
 use App\Model\RespondentWebsite;
 
 /**
@@ -80,5 +81,16 @@ class Respondent {
         if($tablet) $devices[] = \App\Model\Respondent::DEVICE_TABLET;
 
         return implode(" / ", $devices);
+    }
+
+    public static function getRespondentCategoryPeriodLabel($period) {
+        switch($period){
+            case EntityCategory::PERIOD_NEVER: return "vůbec";
+            case EntityCategory::PERIOD_DAILY: return "denně";
+            case EntityCategory::PERIOD_FEW_TIMES_A_WEEK: return "několikrát týdně";
+            case EntityCategory::PERIOD_FEW_TIMES_A_MONTH: return "několikrát měsíčně";
+            case EntityCategory::PERIOD_FEW_TIMES_A_YEAR: return "něklikrát ročně";
+            case EntityCategory::MOSTLY: return "nejvíce";
+        }
     }
 }

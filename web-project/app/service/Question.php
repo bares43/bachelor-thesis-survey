@@ -348,9 +348,10 @@ class Question extends Service {
     }
 
     /**
+     * @param \App\Filter\Results\Subquestions $filter
      * @return \App\Holder\Results\Base\Question[]
      */
-    public function getResultsSubquestion() {
-        return $this->database->getResultsSubquestion();
+    public function getResultsSubquestion($filter = null) {
+        return $this->database->getResultsSubquestion($filter);
     }
 }

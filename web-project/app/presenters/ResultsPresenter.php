@@ -9,6 +9,9 @@
 namespace App\Presenters;
 
 use App\Base\Presenter;
+use App\Filter\Results\RespondentCategory;
+use App\Filter\Results\Subquestions;
+use App\Service\EntityCategory;
 use App\Service\Page;
 use App\Service\Question;
 use App\Service\Respondent;
@@ -27,6 +30,9 @@ class ResultsPresenter extends Presenter {
 
     /** @var  Subquestion @inject */
     public $subquestion_service;
+
+    /** @var  EntityCategory @inject */
+    public $entity_category_service;
 
     public function startup() {
 
@@ -53,6 +59,14 @@ class ResultsPresenter extends Presenter {
         if(!$respondent) $this->redirect("Results:");
 
         $this->template->respondent = $respondent;
+
+        $this->template->subquestions = $this->question_service->getResultsSubquestion(new Subquestions(array(
+            Subquestions::ID_RESPONDENT => $id_respondent
+        )));
+
+        $this->template->categories = $this->entity_category_service->getResultsRespondentCategory(new RespondentCategory(array(
+            RespondentCategory::ID_RESPONDENT => $id_respondent
+        )));
     }
 
     public function actionEvaluate($id_subquestion, $correct) {

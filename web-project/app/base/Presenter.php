@@ -48,5 +48,9 @@ class Presenter extends \Nette\Application\UI\Presenter{
         $this->template->addFilter('respondentGenderLabel', function($gender){
             return Respondent::getGenderLabel($gender);
         });
+
+        $this->template->addFilter('respondentCategoryPeriodLabel', function($period){
+            return Respondent::getRespondentCategoryPeriodLabel($period);
+        });
     }
 }
