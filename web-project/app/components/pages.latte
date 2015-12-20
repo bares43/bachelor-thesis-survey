@@ -1,0 +1,43 @@
+{snippet}
+    <h3>Stránky</h3>
+
+    {control filterForm}
+
+    <table>
+        <thead>
+        <tr>
+            <th width="40" class="text-center">id</th>
+            <th width="40" class="text-center">rodič</th>
+            <th width="250" class="text-center">web</th>
+            <th width="250" class="text-center">stránka</th>
+            <th width="70" class="text-center">prioritní</th>
+            <th width="60" class="text-center">barva</th>
+            <th width="150" class="text-center">počet otázek</th>
+            <th width="150" class="text-center">správně</th>
+            <th width="150" class="text-center">úspěšnost</th>
+        </tr>
+        </thead>
+        <tbody>
+        {var $even = true}
+        {var $last = null}
+        {foreach $pages as $page}
+            {if $last !== $page->getPage()->id_website}
+                {var $even = !$even}
+            {/if}
+            {var $last = $page->getPage()->id_website}
+            <tr class="data{if $even} even{/if}">
+                <td class="text-center">{$page->getPage()->id_page}</td>
+                <td class="text-center">{$page->getPage()->id_website}</td>
+                <td class="text-center">{$page->getWebsite()->name}</td>
+                <td class="text-center">{$page->getPage()->name}</td>
+                <td class="text-center {if $page->getPage()->priority}correct{/if}">{$page->getPage()->priority|bool2string}</td>
+                <td{if $page->getPage()->dominant_color !== null && strlen(trim($page->getPage()->dominant_color))>0} style="background-color: #{$page->getPage()->dominant_color};"{/if}>&nbsp;</td>
+                <td class="text-center">{$page->getTotalSubquestions()}</td>
+                <td class="text-center">{$page->getTotalCorrectSubquestions()}</td>
+                <td class="text-center {if $page->getTotalCorrectSubquestionsPercentages()>=50}correct{else}wrong{/if}">{$page->getTotalCorrectSubquestionsPercentages()} %</td>
+            </tr>
+        {/foreach}
+        </tbody>
+    </table>
+
+{/snippet}

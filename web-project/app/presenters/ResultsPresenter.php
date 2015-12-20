@@ -16,6 +16,7 @@ use App\Service\Page;
 use App\Service\Question;
 use App\Service\Respondent;
 use App\Service\Subquestion;
+use App\Service\Website;
 
 class ResultsPresenter extends Presenter {
 
@@ -34,6 +35,9 @@ class ResultsPresenter extends Presenter {
     /** @var  EntityCategory @inject */
     public $entity_category_service;
 
+    /** @var Website @inject */
+    public $website_service;
+
     public function startup() {
 
         parent::startup();
@@ -47,7 +51,6 @@ class ResultsPresenter extends Presenter {
     public function renderDefault() {
         $this->template->base = $this->respondent_service->getResultsBase();
         $this->template->base_respondents = $this->respondent_service->getResultsRespondentsBase();
-        $this->template->respondents = $this->respondent_service->getResultsRespondent();
 //
 //        $subquestions = $this->getComponent("subquestions");
 //        $subquestions->setSubquestions($this->question_service->getResultsSubquestion());
@@ -66,7 +69,7 @@ class ResultsPresenter extends Presenter {
         $this->template->respondent = $respondent;
 
         $this->template->subquestions = $this->question_service->getResultsSubquestion(new Subquestions(array(
-            Subquestions::ID_RESPONDENT => $id_respondent
+            Subquestions::ID_RESPONDENTS => $id_respondent
         )));
 
         $this->template->categories = $this->entity_category_service->getResultsRespondentCategory(new RespondentCategory(array(
@@ -96,9 +99,18 @@ class ResultsPresenter extends Presenter {
     }
 
     public function createComponentSubquestions() {
-        $subquestions = new \App\Components\Subquestions($this->question_service);
-//        $subquestions->redrawControl();
+        $subquestions = new \App\Components\Subquestions($this->question_service, $this->website_service, $this->page_service);
         return $subquestions;
+    }
+
+    public function createComponentRespondents() {
+        $respondents = new \App\Components\Respondents($this->respondent_service);
+        return $respondents;
+    }
+
+    public function createComponentPages() {
+        $pages = new \App\Components\Pages($this->page_service);
+        return $pages;
     }
 
 

@@ -188,9 +188,10 @@ class Respondent extends Database {
     }
 
     /**
+     * @param \App\Filter\Results\Respondents $filter
      * @return \App\Holder\Results\Base\Respondent[]
      */
-    public function getResultsRespondent() {
+    public function getResultsRespondent($filter = null) {
         $query = $this->entityManager->getRepository($this->repositoryName)->createQueryBuilder();
 
         $query->select("respondent");
@@ -199,6 +200,7 @@ class Respondent extends Database {
         $query->addSelect("countif('correct','=','1') as total_correct_subquestions");
         $query->addSelect("countif('correct','=','0') as total_wrong_subquestions");
         $query->addSelect("countif('correct','is','null') as total_unknown_subquestions");
+        $query->addSelect("round((countif('correct','=','1') / count(distinct subquestion.id_subquestion))*100,2) as total_correct_subquestions_percents");
 
 
         $query->from(Model\Respondent::getClassName(),"respondent");
@@ -206,10 +208,32 @@ class Respondent extends Database {
         $query->leftJoin(Model\Question::getClassName(),"question",Join::WITH,"question.id_respondent = respondent.id_respondent");
         $query->leftJoin(Model\Subquestion::getClassName(),"subquestion",Join::WITH,"subquestion.id_question = question.id_question");
 
+        if($filter !== null){
+            $this->createNumberCondition($filter->getRespondents(), $query, "respondent.id_respondent");
+            $this->createNumberCondition($filter->getPercentages(), $query, "round((countif('correct','=','1') / count(distinct subquestion.id_subquestion))*100,2)", true);
+            $this->createNumberCondition($filter->getQuestions(), $query, "count(distinct question.id_question)", true);
+            $this->createNumberCondition($filter->getSubquestions(), $query, "count(distinct subquestion.id_subquestion)", true);
+            $this->createNumberCondition($filter->getCorrects(), $query, "countif('correct','=','1')", true);
+            $this->createNumberCondition($filter->getWrongs(), $query, "countif('correct','=','0')", true);
+            $this->createNumberCondition($filter->getUnknowns(), $query, "countif('correct','is','null')", true);
+
+            $this->createNumberCondition($filter->getDatetimes(), $query, "date(respondent.datetime)");
+            $this->createNumberCondition($filter->getAges(), $query, "respondent.age");
+            $this->createNumberCondition($filter->getGenders(), $query, "respondent.gender");
+            $this->createNumberCondition($filter->getEnglishes(), $query, "respondent.english");
+            $this->createNumberCondition($filter->getIts(), $query, "respondent.it");
+
+            $this->createStringCondition($filter->getWebsites(), $query, "respondent.sites");
+
+            if(is_array($filter->getOrderBy()) && count($filter->getOrderBy()) > 0){
+                $this->createOrders($filter->getOrderBy(), $query);
+            }else{
+                $query->orderBy("respondent.id_respondent","desc");
+            }
+
+        }
 
         $query->groupBy("respondent.id_respondent");
-
-        $query->orderBy("respondent.id_respondent","desc");
 
 
         return $this->getHolders($query, new \App\Holder\Mapper\Results\Base\Respondent());
@@ -239,7 +263,6 @@ class Respondent extends Database {
 
 
         $query->where($query->expr()->eq("respondent.id_respondent",$id_respondent));
-
 
         return $this->getHolder($query, new \App\Holder\Mapper\Results\Respondent\Base());
     }

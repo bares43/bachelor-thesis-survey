@@ -9,6 +9,7 @@ namespace App\Database;
 
 use App\Base\Database;
 use App\Holder\Mapper\ResultsQuestion;
+use App\Utils\Arr;
 use App\Utils\Base;
 use Doctrine\ORM\Query\Expr\Join;
 use Kdyby\Doctrine\EntityManager;
@@ -119,34 +120,61 @@ class Question extends Database {
 
 
         if($filter !== null){
-            if($filter->getIdRespondent() !== null && $filter->getIdRespondent() > 0){
-                $query->andWhere($query->expr()->eq("respondent.id_respondent",$filter->getIdRespondent()));
-            }
+//            if($filter->getIdRespondents() !== null && $filter->getIdRespondents() > 0){
+//                $query->andWhere($query->expr()->eq("respondent.id_respondent",$filter->getIdRespondents()));
+//            }
 
-            if(is_array($filter->getSeconds()) && count($filter->getSeconds()) > 0){
-                if(Base::array_is_assoc($filter->getSeconds())){
-                    foreach($filter->getSeconds() as $operator => $value){
-                        switch($operator){
-                            case ">":
-                                $query->andWhere($query->expr()->gt("subquestion.seconds",$value)); break;
-                            case ">=":
-                                $query->andWhere($query->expr()->gte("subquestion.seconds",$value)); break;
-                            case "<":
-                                $query->andWhere($query->expr()->lt("subquestion.seconds",$value)); break;
-                            case "<=":
-                                $query->andWhere($query->expr()->lte("subquestion.seconds",$value)); break;
-                            case "=":
-                                $query->andWhere($query->expr()->eq("subquestion.seconds",$value)); break;
-                        }
-                    }
-                }else{
-                    $query->andWhere($query->expr()->in("subquestion.seconds",$filter->getSeconds()));
-                }
-            }
+            $this->createNumberCondition($filter->getIdRespondents(), $query, "respondent.id_respondent");
+            $this->createNumberCondition($filter->getSeconds(), $query, "subquestion.seconds");
+            $this->createNumberCondition($filter->getTypes(), $query, "subquestion.question_type");
+            $this->createNumberCondition($filter->getCorrects(), $query, "subquestion.correct");
+            $this->createNumberCondition($filter->getKnowns(), $query, "respondentwebsite.period");
+            $this->createNumberCondition($filter->getPages(), $query, "page.id_page");
+            $this->createNumberCondition($filter->getWebsites(), $query, "website.id_website");
+            $this->createNumberCondition($filter->getDatetimes(), $query, "subquestion.datetime");
+            $this->createNumberCondition($filter->getIds(), $query, "subquestion.id_subquestion");
+            $this->createNumberCondition($filter->getIdsQuestions(), $query, "question.id_question");
+
+            $this->createStringCondition($filter->getAnswer(), $query, "subquestion.answer", "subquestion.answer");
+            $this->createStringCondition($filter->getReason(), $query, "subquestion.reason", "subquestion.answer");
+
+//            if($filter->getReason() !== null){
+//                if(preg_match('/^%.+%$/', $filter->getReason())){
+//                    $query->andWhere($query->expr()->like("subquestion.reason", "'".$filter->getReason()."'"));
+//                }else{
+//                    $query->andWhere($query->expr()->eq("subquestion.reason", "'".$filter->getReason()."'"));
+//                }
+//            }
+
+//            if(is_array($filter->getSeconds()) && count($filter->getSeconds()) > 0){
+//                if(Arr::is_assoc($filter->getSeconds())){
+//                    foreach($filter->getSeconds() as $operator => $value){
+//                        switch($operator){
+//                            case ">":
+//                                $query->andWhere($query->expr()->gt("subquestion.seconds",$value)); break;
+//                            case ">=":
+//                                $query->andWhere($query->expr()->gte("subquestion.seconds",$value)); break;
+//                            case "<":
+//                                $query->andWhere($query->expr()->lt("subquestion.seconds",$value)); break;
+//                            case "<=":
+//                                $query->andWhere($query->expr()->lte("subquestion.seconds",$value)); break;
+//                            case "=":
+//                                $query->andWhere($query->expr()->eq("subquestion.seconds",$value)); break;
+//                        }
+//                    }
+//                }else{
+//                    $query->andWhere($query->expr()->in("subquestion.seconds",$filter->getSeconds()));
+//                }
+//            }
         }
 
-        $query->orderBy("subquestion.id_subquestion","desc");
+        if(is_array($filter->getOrderBy()) && count($filter->getOrderBy()) > 0){
+            $this->createOrders($filter->getOrderBy(), $query);
+        }else{
+            $query->orderBy("subquestion.id_subquestion","desc");
+        }
 
         return $this->getHolders($query, new \App\Holder\Mapper\Results\Base\Question());
     }
+
 }

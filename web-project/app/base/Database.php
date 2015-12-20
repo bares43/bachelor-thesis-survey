@@ -8,6 +8,7 @@
 
 namespace App\Base;
 
+use App\Utils\Arr;
 use Doctrine\ORM\AbstractQuery;
 use Kdyby\Doctrine\Entities\BaseEntity;
 use Kdyby\Doctrine\EntityManager;
@@ -32,10 +33,11 @@ class Database extends Nette\Object {
         $entityManager->getConfiguration()->addCustomNumericFunction("least",'App\Doctrine\Least');
         $entityManager->getConfiguration()->addCustomNumericFunction("rand",'App\Doctrine\Rand');
         $entityManager->getConfiguration()->addCustomNumericFunction("countif",'App\Doctrine\CountIf');
+        $entityManager->getConfiguration()->addCustomNumericFunction("round",'App\Doctrine\Round');
+        $entityManager->getConfiguration()->addCustomNumericFunction("date",'App\Doctrine\Date');
         $this->entityManager = $entityManager;
         $this->repositoryName = $repositoryName;
     }
-
     /**
      * @return BaseEntity[]
      */
@@ -111,5 +113,67 @@ class Database extends Nette\Object {
         return $this->populateMapper($query, $mapper);
     }
 
+    /**
+     * @param array $filter_arr
+     * @param QueryBuilder $query
+     * @param string $column
+     * @param boolean $having
+     */
+    public function createNumberCondition($filter_arr, $query, $column, $having = false) {
+        if(is_array($filter_arr) && count($filter_arr) > 0){
+            $expressions = array();
+            if(Arr::is_assoc($filter_arr)){
+                foreach($filter_arr as $operator => $value){
+                    switch($operator){
+                        case ">":
+                            $expressions[] = $query->expr()->gt($column,$value); break;
+                        case ">=":
+                            $expressions[] = $query->expr()->gte($column,$value); break;
+                        case "<":
+                            $expressions[] = $query->expr()->lt($column,$value); break;
+                        case "<=":
+                            $expressions[] = $query->expr()->lte($column,$value); break;
+                        case "=":
+                            $expressions[] = $query->expr()->eq($column,$value); break;
+                    }
+                }
+            }else{
+                $expressions[] = $query->expr()->in($column,$filter_arr);
+            }
 
+            foreach($expressions as $expr){
+                if($having){
+                    $query->andHaving($expr);
+                }else{
+                    $query->andWhere($expr);
+                }
+            }
+        }
+    }
+
+
+    /**
+     * @param string $filter_str
+     * @param QueryBuilder $query
+     * @param string $column
+     */
+    public function createStringCondition($filter_str, $query, $column) {
+        if ($filter_str !== null) {
+            if (preg_match('/^%.+%$/', $filter_str)) {
+                $query->andWhere($query->expr()->like($column, "'" . $filter_str . "'"));
+            } else {
+                $query->andWhere($query->expr()->eq($column, "'" . $filter_str . "'"));
+            }
+        }
+    }
+
+    /**
+     * @param array $order_arr
+     * @param QueryBuilder $query
+     */
+    public function createOrders($order_arr, $query) {
+        foreach($order_arr as $by => $dir){
+            $query->addOrderBy($by, $dir);
+        }
+    }
 }

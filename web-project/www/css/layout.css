@@ -216,17 +216,33 @@ form table td textarea {
 
 #page-results h3 {
   text-align: center; }
-#page-results table tr {
+#page-results form td {
+  padding: 0px;
+  line-height: 25px; }
+#page-results form input[type=text] {
+  height: 25px;
+  line-height: 25px; }
+#page-results form table tr {
+  border: none; }
+
+table td, table th {
+  padding: 4px; }
+table tr.data {
   border-bottom: 1px solid black; }
-  #page-results table tr.even {
+  table tr.data.even {
     background-color: #e9e9e9; }
-  #page-results table tr .correct {
+  table tr.data.highlighted {
+    background-color: #3397C7 !important;
+    color: white; }
+    table tr.data.highlighted a {
+      color: black; }
+  table tr.data a {
+    color: #3397C7; }
+  table tr.data .correct {
     color: green; }
-  #page-results table tr .wrong {
+  table tr.data .wrong {
     color: red; }
-  #page-results table tr:hover {
+  table tr.data:hover {
     background-color: #dfdfdf; }
-  #page-results table tr td, #page-results table tr th {
-    padding: 4px; }
 
 /*# sourceMappingURL=layout.css.map */

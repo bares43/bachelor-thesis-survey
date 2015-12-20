@@ -312,24 +312,49 @@ form {
   h3 {
     text-align: center;
   }
-  table {
-    tr {
-      border-bottom:1px solid black;
-      &.even {
-        background-color: #e9e9e9;
-      }
-      .correct {
-        color: green;
-      }
-      .wrong {
-        color: red;
-      }
-      &:hover {
-        background-color: #dfdfdf;
-      }
-      td, th {
-        padding: 4px;
+  form {
+    td {
+      padding:0px;
+      line-height: 25px;
+    }
+    input[type=text] {
+      height: 25px;
+      line-height: 25px;;
+    }
+    table {
+      tr {
+        border: none;
       }
     }
+  }
+}
+table {
+  td, th {
+    padding: 4px;
+  }
+  tr.data {
+    border-bottom:1px solid black;
+    &.even {
+        background-color: #e9e9e9;
+      }
+    &.highlighted {
+        background-color: $primary-color !important;
+        color: white;
+        a {
+          color: black;
+        }
+      }
+    a {
+        color: $primary-color;
+      }
+    .correct {
+        color: green;
+      }
+    .wrong {
+        color: red;
+      }
+    &:hover {
+        background-color: #dfdfdf;
+      }
   }
 }

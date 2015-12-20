@@ -44,9 +44,5 @@ class Base {
         }
     }
 
-    public static function array_is_assoc(array $array)
-    {
-        $keys = array_keys($array);
-        return array_keys($keys) !== $keys;
-    }
+
 }

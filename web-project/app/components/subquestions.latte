@@ -16,7 +16,7 @@
         <th width="180" class="text-center">důvod</th>
         <th width="20" class="text-center">typ</th>
         <th width="160" class="text-center">zná?</th>
-        <th width="150" class="text-center">čas</th>
+        <th width="150" class="text-center">sekundy</th>
     </tr>
     </thead>
     <tbody>
@@ -27,7 +27,7 @@
             {var $even = !$even}
         {/if}
         {var $last = $subquestion->getSubquestion()->id_question}
-        <tr n:class="$even ? even">
+        <tr class="data{if $even} even{/if}">
             <td class="text-center">{$subquestion->getSubquestion()->id_subquestion}</td>
             <td class="text-center">{$subquestion->getSubquestion()->id_question}</td>
             <td class="text-center" ><a href="{plink Results:respondent $subquestion->getRespondent()->id_respondent}" {if $subquestion->getRespondent()->nickname || $subquestion->getRespondent()->email} data-toggle="tooltip" data-placement="bottom" title="{$subquestion->getRespondent()->nickname} {$subquestion->getRespondent()->email}"{/if}>{$subquestion->getQuestion()->id_respondent}</a></td>

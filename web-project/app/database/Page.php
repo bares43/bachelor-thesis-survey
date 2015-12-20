@@ -171,9 +171,10 @@ class Page extends Database {
     }
 
     /**
+     * @param \App\Filter\Results\Pages $filter
      * @return \App\Holder\Results\Base\Page
      */
-    public function getResultsPages() {
+    public function getResultsPages($filter) {
         $query = $this->entityManager->getRepository($this->repositoryName)->createQueryBuilder();
 
         $query->select("page");
@@ -189,10 +190,29 @@ class Page extends Database {
         $query->andWhere($query->expr()->eq("website.visible",1));
         $query->andWhere($query->expr()->eq("page.visible",1));
 
+        if($filter !== null){
+            $this->createNumberCondition($filter->getIdsPages(), $query, "page.id_page");
+        }
+
         $query->orderBy("website.id_website");
 
         $query->groupBy("page.id_page");
 
         return $this->getHolders($query, new \App\Holder\Mapper\Results\Base\Page());
+    }
+
+    /**
+     * @return \App\Holder\Page
+     */
+    public function getBasePageHolders() {
+        $query = $this->entityManager->getRepository($this->repositoryName)->createQueryBuilder();
+
+        $query->select("page");
+
+        $query->from(Model\Page::getClassName(),"page");
+
+        $query->join(Model\Website::getClassName(),"website",Join::WITH,"page.id_website = website.id_website")->addSelect("website");
+
+        return $this->getHolders($query, new \App\Holder\Mapper\Page());
     }
 }

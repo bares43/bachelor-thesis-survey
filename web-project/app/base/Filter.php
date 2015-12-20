@@ -15,6 +15,8 @@ class Filter {
 
     const GROUP_BY = "groupby";
 
+    const ORDER_BY = "orderby";
+
     private $params = array();
 
     /**
@@ -75,4 +77,17 @@ class Filter {
         return $this->get(self::GROUP_BY);
     }
 
+    /**
+     * @param array $order_by
+     */
+    public function setOrderBy($order_by) {
+        $this->set(self::ORDER_BY, $order_by);
+    }
+
+    /**
+     * @return array
+     */
+    public function getOrderBy() {
+        return $this->get(self::ORDER_BY);
+    }
 }

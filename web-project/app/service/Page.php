@@ -77,9 +77,17 @@ class Page extends Service {
     }
 
     /**
+     * @param \App\Filter\Results\Pages $filter
      * @return \App\Holder\Results\Base\Page
      */
-    public function getResultsPages() {
-        return $this->database->getResultsPages();
+    public function getResultsPages($filter = null) {
+        return $this->database->getResultsPages($filter);
+    }
+
+    /**
+     * @return \App\Holder\Page
+     */
+    public function getBasePageHolders() {
+        return $this->database->getBasePageHolders();
     }
 }

@@ -1,0 +1,42 @@
+{snippet}
+<h3>Respondenti</h3>
+
+{control filterForm}
+
+<table>
+    <thead>
+    <tr>
+        <th width="40">id</th>
+        <th width="140" class="text-center">čas</th>
+        <th width="100" class="text-center">věk</th>
+        <th width="70" class="text-center">pohlaví</th>
+        <th width="70" class="text-center">angličtina</th>
+        <th width="70" class="text-center">IT</th>
+        <th width="70" class="text-center">zařízení</th>
+        <th width="90" class="text-center">nejčastější</th>
+        <th width="285" class="text-center">navštěvované stránky</th>
+        <th width="100" class="text-center">otázek/vč. podotázek</th>
+        <th width="100" class="text-center">výsledky (1/0/null)</th>
+        <th width="25" class="text-center">%</th>
+    </tr>
+    </thead>
+    <tbody>
+    {foreach $respondents as $respondent}
+        <tr class="data">
+            <td><a href="{plink Results:respondent $respondent->getRespondent()->id_respondent}">{$respondent->getRespondent()->id_respondent}</a></td>
+            <td class="text-center">{$respondent->getRespondent()->datetime|date:"d.m.y H:i"}</td>
+            <td class="text-center">{$respondent->getRespondent()->age|respondentAgeLabel}</td>
+            <td class="text-center">{$respondent->getRespondent()->gender|respondentGenderLabel}</td>
+            <td class="text-center">{$respondent->getRespondent()->english|bool2string}</td>
+            <td class="text-center">{$respondent->getRespondent()->it|bool2string}</td>
+            <td class="text-center">{$respondent->getDevicesName()|upper}</td>
+            <td class="text-center">{$respondent->getRespondent()->device_most|upper}</td>
+            <td class="text-center">{$respondent->getRespondent()->sites}</td>
+            <td class="text-center">{$respondent->getTotalQuestions()} / {$respondent->getTotalSubquestions()}</td>
+            <td class="text-center"><span class="correct">{$respondent->getTotalCorrectSubquestions()}</span> / <span class="wrong">{$respondent->getTotalWrongSubquestions()}</span> / {$respondent->getTotalUnknownSubquestions()}</td>
+            <td class="text-right">{$respondent->getTotalCorrectSubquestionsPercents()}</td>
+        </tr>
+    {/foreach}
+    </tbody>
+</table>
+{/snippet}

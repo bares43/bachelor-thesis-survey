@@ -137,6 +137,10 @@ $(document).ready(function(){
             $(this).closest("form").submit();
         }
     });
+
+    $(document).on("click","#page-results tr", function(){
+       $(this).toggleClass("highlighted");
+    });
 });
 
 $(function () {

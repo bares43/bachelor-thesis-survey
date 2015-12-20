@@ -69,10 +69,11 @@ class Respondent extends Service {
     }
 
     /**
+     * @param \App\Filter\Results\Respondents $filter
      * @return \App\Holder\Results\Base\Respondent[]
      */
-    public function getResultsRespondent() {
-        return $this->database->getResultsRespondent();
+    public function getResultsRespondent($filter = null) {
+        return $this->database->getResultsRespondent($filter);
     }
 
     /**
