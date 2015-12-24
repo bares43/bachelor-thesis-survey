@@ -153,6 +153,7 @@ CREATE TABLE `subquestion` (
   `seconds` int(11) DEFAULT NULL,
   `datetime` datetime DEFAULT NULL,
   `id_page_related` int(11) DEFAULT NULL,
+  `visible` tinyint(1) DEFAULT 1,
   PRIMARY KEY (`id_subquestion`),
   KEY `id_question_idx` (`id_question`),
   KEY `id_page_related` (`id_page_related`),

@@ -132,6 +132,22 @@ $(document).ready(function(){
         );
     });
 
+    $(document).on("click",".visibility",function(e){
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        var link = $(this);
+        $.get(
+            link.attr("href"),
+            {
+                id_subquestion : link.data("id"),
+                visibility : link.data("visibility")
+            },
+            function(data){
+                link.parent().replaceWith(data);
+            }
+        );
+    });
+
     $('textarea, input:text, input[type=email]').on("keydown",function (e) {
         if (e.ctrlKey && e.keyCode == 13) {
             $(this).closest("form").submit();

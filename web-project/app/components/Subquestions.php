@@ -116,11 +116,14 @@ class Subquestions extends FilterComponent{
         }
 
         if($values->know){
-//            var_dump($values->know);exit;
             $this->filter->setKnowns(Filter::createFilterArray($values->know));
         }
 
-//        var_dump(Filter::createFilterArray($values->know));exit;
+        if($values->visible === "1"){
+            $this->filter->setVisibility(true);
+        }elseif($values->visible === "0"){
+            $this->filter->setVisibility(false);
+        }
 
         if($values->order){
             $order_arr = array();
@@ -162,6 +165,7 @@ class Subquestions extends FilterComponent{
         $form->addText('reason','Důvod');
         $form->addText('type','Typ');
         $form->addText('seconds','Sekundy');
+        $form->addText('visible','Viditelnost');
         $form->addCheckboxList('know','Zná?',array(
            null=>"nevyplněno",
            RespondentWebsite::PERIOD_DONT_KNOW=>'neznám',

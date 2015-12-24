@@ -15,8 +15,9 @@
         <th width="180" class="text-center">odpověď</th>
         <th width="180" class="text-center">důvod</th>
         <th width="20" class="text-center">typ</th>
-        <th width="160" class="text-center">zná?</th>
-        <th width="150" class="text-center">sekundy</th>
+        <th width="130" class="text-center">zná?</th>
+        <th width="120" class="text-center">sekundy</th>
+        <th width="60" class="text-center">viditelná</th>
     </tr>
     </thead>
     <tbody>
@@ -46,6 +47,10 @@
             <td class="text-center">{$subquestion->getSubquestion()->question_type}</td>
             <td class="text-center">{if $subquestion->getRespondentWebsite() !== null}{$subquestion->getRespondentWebsite()->period|respondentWebsitePeriod}{/if}</td>
             <td class="text-right">{$subquestion->getSubquestion()->seconds|time}</td>
+            <td class="text-center">
+                <a class="visibility{if $subquestion->getSubquestion()->visible} correct{/if}" href="{plink Results:visibility}" data-id="{$subquestion->getSubquestion()->id_subquestion}" data-visibility="true">ano</a>
+                <a class="visibility{if !$subquestion->getSubquestion()->visible && $subquestion->getSubquestion()->visible !== null} wrong{/if}" href="{plink Results:visibility}" data-id="{$subquestion->getSubquestion()->id_subquestion}" data-visibility="false">ne</a>
+            </td>
         </tr>
     {/foreach}
     </tbody>

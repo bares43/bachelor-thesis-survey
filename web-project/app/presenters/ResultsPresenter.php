@@ -98,6 +98,28 @@ class ResultsPresenter extends Presenter {
 
     }
 
+    public function actionVisibility($id_subquestion, $visibility) {
+        if($id_subquestion !== null && ($visibility === "true" || $visibility === "false")){
+            $subquestion = $this->subquestion_service->get($id_subquestion);
+            if($subquestion !== null){
+                $subquestion->visible = $visibility === "true";
+                $this->subquestion_service->save($subquestion);
+
+                $this->setView("subquestionvisibility");
+                $this->template->visibility = $subquestion->visible;
+                $this->template->id_subquestion = $subquestion->id_subquestion;
+
+            }else{
+
+                $this->terminate();
+            }
+        }else{
+
+            $this->terminate();
+        }
+
+    }
+
     public function createComponentSubquestions() {
         $subquestions = new \App\Components\Subquestions($this->question_service, $this->website_service, $this->page_service);
         return $subquestions;

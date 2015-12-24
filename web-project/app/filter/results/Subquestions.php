@@ -23,6 +23,7 @@ class Subquestions extends Filter{
     const REASON = "reason";
     const TYPES = "types";
     const KNOWNS = "knowns";
+    const VISIBILITY = "visibility";
 
     /**
      * @param int[] $id_respondents
@@ -190,5 +191,19 @@ class Subquestions extends Filter{
      */
     public function getKnowns() {
         return $this->get(self::KNOWNS);
+    }
+
+    /**
+     * @param bool $visibility
+     */
+    public function setVisibility($visibility) {
+        $this->set(self::VISIBILITY, $visibility);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getVisibility() {
+        return $this->get(self::VISIBILITY);
     }
 }

@@ -138,6 +138,10 @@ class Question extends Database {
             $this->createStringCondition($filter->getAnswer(), $query, "subquestion.answer", "subquestion.answer");
             $this->createStringCondition($filter->getReason(), $query, "subquestion.reason", "subquestion.answer");
 
+            if($filter->getVisibility() !== null){
+                $query->andWhere($query->expr()->eq($filter->getVisibility() ? 1 : 0,"subquestion.visible"));
+            }
+
 //            if($filter->getReason() !== null){
 //                if(preg_match('/^%.+%$/', $filter->getReason())){
 //                    $query->andWhere($query->expr()->like("subquestion.reason", "'".$filter->getReason()."'"));
