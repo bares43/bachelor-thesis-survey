@@ -86,6 +86,10 @@ class SurveyPresenter extends Presenter {
     public function startup() {
         parent::startup();
         $this->sessionSection = $this->getSession()->getSection("survey");
+
+        if(array_key_exists("close_survey",$this->context->getParameters("close_survey")) && $this->context->getParameters()["close_survey"] && $this->action !== "close"){
+            $this->redirect("Survey:close");
+        }
     }
 
     /**

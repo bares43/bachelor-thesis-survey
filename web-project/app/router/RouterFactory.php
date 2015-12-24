@@ -39,7 +39,8 @@ class RouterFactory
 					'zadne-dalsi-otazky' => 'noQuestions',
 					'identifikace-webu' => 'final',
 					'vysledky' => 'results',
-					'novy-respondent' => 'newRespondent'
+					'novy-respondent' => 'newRespondent',
+					'uzavreno' => 'close'
 				)
 			)
 		));
