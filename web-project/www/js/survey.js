@@ -161,4 +161,12 @@ $(document).ready(function(){
 
 $(function () {
     $.nette.init();
+
+    $.nette.ext("#page-results form",{
+        before : function(a,b){
+            var button = $(b.nette.el);
+            var loader = $("<span></span>").addClass("progress");
+            button.after(loader);
+        }
+    })
 });

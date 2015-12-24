@@ -245,4 +245,15 @@ table tr.data {
   table tr.data:hover {
     background-color: #dfdfdf; }
 
+.progress {
+  background-image: url("../images/ajax-loader.gif");
+  width: 56px;
+  height: 21px;
+  display: inline-block;
+  float: right;
+  position: relative;
+  top: 5px;
+  left: 5px;
+  margin-bottom: 0; }
+
 /*# sourceMappingURL=layout.css.map */
