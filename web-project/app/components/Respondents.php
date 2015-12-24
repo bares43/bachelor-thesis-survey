@@ -40,10 +40,12 @@ class Respondents extends FilterComponent {
     }
 
     public function render() {
+        $respondents = $this->respondent_service->getResultsRespondent($this->filter);
 
         $template = $this->prepareTemplate();
 
-        $template->respondents = $this->respondent_service->getResultsRespondent($this->filter);
+        $template->respondents = $respondents;
+        $template->count = count($respondents);
 
         $template->render();
     }

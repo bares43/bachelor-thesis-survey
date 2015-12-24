@@ -56,9 +56,12 @@ class Subquestions extends FilterComponent{
     }
 
     public function render() {
+        $subquestions = $this->question_service->getResultsSubquestion($this->filter);
+
         $template = $this->prepareTemplate();
 
-        $template->subquestions = $this->question_service->getResultsSubquestion($this->filter);
+        $template->subquestions = $subquestions;
+        $template->count = count($subquestions);
 
         $template->render();
     }

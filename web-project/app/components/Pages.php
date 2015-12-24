@@ -41,9 +41,12 @@ class Pages extends FilterComponent{
     }
 
     public function render() {
+        $pages = $this->page_service->getResultsPages($this->filter);
+
         $template = $this->prepareTemplate();
 
-        $template->pages = $this->page_service->getResultsPages($this->filter);
+        $template->pages = $pages;
+        $template->count = count($pages);
 
         $template->render();
     }
