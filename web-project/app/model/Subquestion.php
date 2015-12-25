@@ -21,6 +21,10 @@ class Subquestion extends BaseEntity {
     const QUESTION_TYPE_COLOR = 4;
     const QUESTION_TYPE_COLOR_SELECT = 5;
 
+    const CORRECT = 1;
+    const WRONG = 0;
+    const ALMOST = 2;
+
     /**
      * @ORM\Id()
      * @ORM\Column(type="integer")
@@ -49,7 +53,7 @@ class Subquestion extends BaseEntity {
     public $answer;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="integer")
      */
     public $correct;
 

@@ -16,6 +16,7 @@ class Pages extends Filter{
     const IDS_PAGES = "idspages";
     const SUBQUESTIONS = "subquestions";
     const CORRECT = "correct";
+    const ALMOST = "almost";
     const PERCENTAGES = "percentages";
 
     /**
@@ -58,6 +59,20 @@ class Pages extends Filter{
      */
     public function getCorrect() {
         return $this->get(self::CORRECT);
+    }
+
+    /**
+     * @param int[] $almost
+     */
+    public function setAlmost($almost) {
+        $this->set(self::ALMOST, $almost);
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getAlmost() {
+        return $this->get(self::ALMOST);
     }
 
     /**

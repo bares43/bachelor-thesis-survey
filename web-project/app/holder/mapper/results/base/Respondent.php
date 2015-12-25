@@ -39,6 +39,9 @@ class Respondent implements IMapper{
         if(isset($result["total_wrong_subquestions"])){
             $holder->setTotalWrongSubquestions((int)$result["total_wrong_subquestions"]);
         }
+        if(isset($result["total_almost_subquestions"])){
+            $holder->setTotalAlmostSubquestions((int)$result["total_almost_subquestions"]);
+        }
         if(isset($result["total_unknown_subquestions"])){
             $holder->setTotalUnknownSubquestions((int)$result["total_unknown_subquestions"]);
         }

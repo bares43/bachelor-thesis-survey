@@ -15,11 +15,13 @@
             <td class="text-right">{$base->getTotalQuestions()}</td>
         </tr>
         <tr class="data">
-            <td>Celkem zobrazeno podotázek (c/1/0)</td>
+            <td>Celkem zobrazeno podotázek (c/1/2/0/null)</td>
             <td class="text-right">
                 {$base->getTotalSubquestions()} /
                 <span class="correct">{$base->getTotalCorrectSubeustions()}</span> /
-                <span class="wrong">{$base->getTotalWrongSubquestions()}</span>
+                <span class="almost">{$base->getTotalAlmostSubquestions()}</span> /
+                <span class="wrong">{$base->getTotalWrongSubquestions()}</span> /
+                {$base->getTotalSubquestions() - $base->getTotalCorrectSubeustions() - $base->getTotalAlmostSubquestions() - $base->getTotalWrongSubquestions()}
             </td>
         </tr>
         <tr class="data">

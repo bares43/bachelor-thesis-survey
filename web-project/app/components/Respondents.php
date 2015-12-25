@@ -82,6 +82,10 @@ class Respondents extends FilterComponent {
             $this->filter->setWrongs(Filter::createFilterArray($values->wrong));
         }
 
+        if ($values->almost) {
+            $this->filter->setAlmosts(Filter::createFilterArray($values->almost));
+        }
+
         if ($values->unknown) {
             $this->filter->setUnknowns(Filter::createFilterArray($values->unknown));
         }
@@ -94,27 +98,27 @@ class Respondents extends FilterComponent {
             $this->filter->setDatetimes(Filter::createFilterArray($values->datetime));
         }
 
-        if($values->age){
+        if ($values->age) {
             $this->filter->setAges(Filter::createFilterArray($values->age));
         }
 
-        if($values->devices){
+        if ($values->devices) {
             $this->filter->setDevices(Filter::createFilterArray($values->devices));
         }
 
-        if($values->device_most){
+        if ($values->device_most) {
             $this->filter->setDevicesMost(Filter::createFilterArray($values->device_most));
         }
 
-        if($values->gender){
+        if ($values->gender) {
             $this->filter->setGenders(Filter::createFilterArray($values->gender));
         }
 
-        if($values->english){
+        if ($values->english) {
             $this->filter->setEnglishes(Filter::createFilterArray($values->english));
         }
 
-        if($values->it){
+        if ($values->it) {
             $this->filter->setIts(Filter::createFilterArray($values->it));
         }
 
@@ -166,12 +170,12 @@ class Respondents extends FilterComponent {
             1 => "ano",
             0 => "ne"
         ));
-        $form->addCheckboxList('devices', 'Zařízení',array(
+        $form->addCheckboxList('devices', 'Zařízení', array(
             \App\Model\Respondent::DEVICE_COMPUTER => "počítač",
             \App\Model\Respondent::DEVICE_PHONE => "smartphone",
             \App\Model\Respondent::DEVICE_TABLET => "tablet"
         ));
-        $form->addCheckboxList('device_most', 'Nejčastější zařízení',array(
+        $form->addCheckboxList('device_most', 'Nejčastější zařízení', array(
             "null" => "neznámé",
             \App\Model\Respondent::DEVICE_COMPUTER => "počítač",
             \App\Model\Respondent::DEVICE_PHONE => "smartphone",
@@ -182,6 +186,7 @@ class Respondents extends FilterComponent {
         $form->addText('subquestions', 'Podotázek');
         $form->addText('correct', 'Správně');
         $form->addText('wrong', 'Špatně');
+        $form->addText('almost', 'Téměř');
         $form->addText('unknown', 'Nevyhodnoceno');
         $form->addText('percentages', 'Procenta');
 
@@ -192,6 +197,7 @@ class Respondents extends FilterComponent {
             'total_subquestions' => 'počet podotázek',
             'total_correct_subquestions' => 'správně',
             'total_wrong_subquestions' => 'špatně',
+            'total_almost_subquestions' => 'téměř',
             'total_unknown_subquestions' => 'nevyhodnoceno',
             'total_correct_subquestions_percents' => 'úspěšnost'
         ));

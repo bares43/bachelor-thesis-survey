@@ -78,14 +78,15 @@ class ResultsPresenter extends Presenter {
     }
 
     public function actionEvaluate($id_subquestion, $correct) {
-        if($id_subquestion !== null && ($correct === "correct" || $correct === "wrong")){
+        if($id_subquestion !== null && in_array((int)$correct,array(\App\Model\Subquestion::CORRECT,\App\Model\Subquestion::ALMOST,\App\Model\Subquestion::WRONG))){
             $subquestion = $this->subquestion_service->get($id_subquestion);
             if($subquestion !== null){
-                $subquestion->correct = $correct === "correct";
+                $subquestion->correct = (int)$correct;
                 $this->subquestion_service->save($subquestion);
 
                 $this->setView("subquestioncorrect");
                 $this->template->correct = $subquestion->correct;
+                $this->template->id_subquestion = $subquestion->id_subquestion;
 
             }else{
 

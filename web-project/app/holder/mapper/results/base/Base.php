@@ -36,6 +36,9 @@ class Base implements IMapper{
         if(isset($result["total_wrong_subquestions"])){
             $holder->setTotalWrongSubquestions((int)$result["total_wrong_subquestions"]);
         }
+        if(isset($result["total_almost_subquestions"])){
+            $holder->setTotalAlmostSubquestions((int)$result["total_almost_subquestions"]);
+        }
         if(isset($result["avg_seconds"])){
             $holder->setAvgSeconds((float)$result["avg_seconds"]);
         }

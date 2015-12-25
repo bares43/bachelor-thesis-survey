@@ -27,6 +27,7 @@ class Respondents extends Filter{
     const SUBQUESTIONS = "subquestions";
     const CORRECTS = "corrects";
     const WRONGS = "wrongs";
+    const ALMOSTS = "almosts";
     const UNKNOWNS = "unknowns";
     const PERCENTAGES = "percentages";
 
@@ -229,6 +230,20 @@ class Respondents extends Filter{
      */
     public function getUnknowns() {
         return $this->get(self::UNKNOWNS);
+    }
+
+    /**
+     * @param int[] $almosts
+     */
+    public function setAlmosts($almosts) {
+        $this->set(self::ALMOSTS, $almosts);
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getAlmosts() {
+        return $this->get(self::ALMOSTS);
     }
 
     /**

@@ -340,7 +340,7 @@ table {
     &.highlighted {
         background-color: $primary-color !important;
         color: white;
-        a {
+        a:not(.correct):not(.wrong):not(.almost) {
           color: black;
         }
       }
@@ -348,11 +348,14 @@ table {
         color: $primary-color;
       }
     .correct {
-        color: green;
+        color: #90e00d;
       }
     .wrong {
-        color: red;
+        color: #e0310d;
       }
+    .almost {
+        color: #e0a10d;
+    }
     &:hover {
         background-color: #dfdfdf;
       }

@@ -35,6 +35,11 @@ class Page implements IHolder{
     private $total_correct_subquestions;
 
     /**
+     * @var int
+     */
+    private $total_almost_subquestions;
+
+    /**
      * @var float
      */
     private $total_correct_subquestions_percents;
@@ -107,6 +112,20 @@ class Page implements IHolder{
      */
     public function setTotalCorrectSubquestionsPercents($total_correct_subquestions_percents) {
         $this->total_correct_subquestions_percents = $total_correct_subquestions_percents;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalAlmostSubquestions() {
+        return $this->total_almost_subquestions;
+    }
+
+    /**
+     * @param int $total_almost_subquestions
+     */
+    public function setTotalAlmostSubquestions($total_almost_subquestions) {
+        $this->total_almost_subquestions = $total_almost_subquestions;
     }
 
 }

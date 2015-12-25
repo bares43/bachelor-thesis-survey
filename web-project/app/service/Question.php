@@ -152,7 +152,7 @@ class Question extends Service {
                 $last_subquestion = end($subquestions);
 
                 /** Poslední page, pokud byla zodpovězena špatně, jen s jiným typem otázky */
-                if ((($rand >= 1 && $rand <= 30) || ($rand >= 50 && $rand <= 79)) && ($last_subquestion->getSubquestion()->correct === null || !$last_subquestion->getSubquestion()->correct)) {
+                if ((($rand >= 1 && $rand <= 30) || ($rand >= 50 && $rand <= 79)) && ($last_subquestion->getSubquestion()->correct === null || $last_subquestion->getSubquestion()->correct === \App\Model\Subquestion::WRONG)) {
 
                     $cnt = 3;
                     $page_holder = null;

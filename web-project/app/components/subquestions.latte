@@ -11,13 +11,13 @@ Počet položek: {$count}
         <th width="40" class="text-center">id</th>
         <th width="40" class="text-center">rodič</th>
         <th width="40" class="text-center">resp.</th>
-        <th width="140" class="text-center">čas</th>
+        <th width="120" class="text-center">čas</th>
         <th width="160" class="text-center">web</th>
-        <th width="50" class="text-center">správně</th>
-        <th width="180" class="text-center">odpověď</th>
-        <th width="180" class="text-center">důvod</th>
+        <th width="120" class="text-center">správně</th>
+        <th width="160" class="text-center">odpověď</th>
+        <th width="160" class="text-center">důvod</th>
         <th width="20" class="text-center">typ</th>
-        <th width="130" class="text-center">zná?</th>
+        <th width="110" class="text-center">zná?</th>
         <th width="120" class="text-center">sekundy</th>
         <th width="60" class="text-center">viditelná</th>
     </tr>
@@ -37,12 +37,9 @@ Počet položek: {$count}
             <td class="text-center">{$subquestion->getSubquestion()->datetime|date:"d.m.y H:i"}</td>
             <td class="text-center">{$subquestion->getWebsite()->name}</td>
             <td class="text-center">
-                {if $subquestion->getSubquestion()->correct}<span class="correct">ano</span>
-                {elseif !$subquestion->getSubquestion()->correct && $subquestion->getSubquestion()->correct !== null}<span class="wrong">ne</span>
-                {else}
-                    <a class="evaluate" href="{plink Results:evaluate}" data-id="{$subquestion->getSubquestion()->id_subquestion}" data-correct="correct">ano</a>
-                    <a class="evaluate" href="{plink Results:evaluate}" data-id="{$subquestion->getSubquestion()->id_subquestion}" data-correct="wrong">ne</a>
-                {/if}
+                <a class="evaluate{if $subquestion->getSubquestion()->correct == \App\Model\Subquestion::CORRECT} correct{/if}" href="{plink Results:evaluate}" data-id="{$subquestion->getSubquestion()->id_subquestion}" data-correct="{\App\Model\Subquestion::CORRECT}">ano</a>
+                <a class="evaluate{if $subquestion->getSubquestion()->correct == \App\Model\Subquestion::ALMOST} almost{/if}" href="{plink Results:evaluate}" data-id="{$subquestion->getSubquestion()->id_subquestion}" data-correct="{\App\Model\Subquestion::ALMOST}">téměř</a>
+                <a class="evaluate{if $subquestion->getSubquestion()->correct == \App\Model\Subquestion::WRONG} wrong{/if}" href="{plink Results:evaluate}" data-id="{$subquestion->getSubquestion()->id_subquestion}" data-correct="{\App\Model\Subquestion::WRONG}">ne</a>
             </td>
             <td class="text-center">{$subquestion->getSubquestion()->answer}</td>
             <td class="text-center">{$subquestion->getSubquestion()->reason}</td>

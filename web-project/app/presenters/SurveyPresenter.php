@@ -277,7 +277,7 @@ class SurveyPresenter extends Presenter {
         $total_not_evaluated = 0;
 
         foreach($subquestions as $subquestion){
-            if($subquestion->getSubquestion()->correct){
+            if($subquestion->getSubquestion()->correct === \App\Model\Subquestion::CORRECT){
                 $total_correct++;
             }
             elseif($subquestion->getSubquestion()->correct === null){
@@ -402,7 +402,7 @@ class SurveyPresenter extends Presenter {
 
         $values = $form->getValues();
 
-        $subquestion->correct = $values->id_pages === (int)$id_page;
+        $subquestion->correct = $values->id_pages === (int)$id_page ? \App\Model\Subquestion::CORRECT : \App\Model\Subquestion::WRONG;
         $subquestion->answer = $values->id_pages;
 
         $this->subquestion_service->save($subquestion);
@@ -451,7 +451,7 @@ class SurveyPresenter extends Presenter {
 
         $values = $form->getValues();
 
-        $subquestion->correct = $values->id_pages === (int)$id_page;
+        $subquestion->correct = $values->id_pages === (int)$id_page ? \App\Model\Subquestion::CORRECT : \App\Model\Subquestion::WRONG;
         $subquestion->answer = $values->id_pages;
 
         $this->subquestion_service->save($subquestion);
@@ -520,7 +520,7 @@ class SurveyPresenter extends Presenter {
 
         $values = $form->getValues();
 
-        $subquestion->correct = $values->id_pages === (int)$id_page;
+        $subquestion->correct = $values->id_pages === (int)$id_page ? \App\Model\Subquestion::CORRECT : \App\Model\Subquestion::WRONG;
         $subquestion->answer = $values->id_pages;
 
         $this->subquestion_service->save($subquestion);

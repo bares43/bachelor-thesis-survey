@@ -104,6 +104,8 @@ class Respondent extends Database {
         $query->addSelect("countif('correct','=','1') as total_correct_subquestions");
         // total wrong subquestions
         $query->addSelect("countif('correct','=','0') as total_wrong_subquestions");
+        // total almost subquestions
+        $query->addSelect("countif('correct','=','2') as total_almost_subquestions");
         // avg seconds
         $query->addSelect("avg(subquestion.seconds) as avg_seconds");
         // total male
@@ -199,6 +201,7 @@ class Respondent extends Database {
         $query->addSelect("count(distinct subquestion.id_subquestion) as total_subquestions");
         $query->addSelect("countif('correct','=','1') as total_correct_subquestions");
         $query->addSelect("countif('correct','=','0') as total_wrong_subquestions");
+        $query->addSelect("countif('correct','=','2') as total_almost_subquestions");
         $query->addSelect("countif('correct','is','null') as total_unknown_subquestions");
         $query->addSelect("round((countif('correct','=','1') / count(distinct subquestion.id_subquestion))*100,2) as total_correct_subquestions_percents");
 
@@ -215,6 +218,7 @@ class Respondent extends Database {
             $this->createNumberCondition($filter->getSubquestions(), $query, "count(distinct subquestion.id_subquestion)", true);
             $this->createNumberCondition($filter->getCorrects(), $query, "countif('correct','=','1')", true);
             $this->createNumberCondition($filter->getWrongs(), $query, "countif('correct','=','0')", true);
+            $this->createNumberCondition($filter->getAlmosts(), $query, "countif('correct','=','2')", true);
             $this->createNumberCondition($filter->getUnknowns(), $query, "countif('correct','is','null')", true);
 
             $this->createNumberCondition($filter->getDatetimes(), $query, "date(respondent.datetime)");

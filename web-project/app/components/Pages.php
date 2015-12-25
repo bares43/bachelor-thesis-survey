@@ -70,6 +70,10 @@ class Pages extends FilterComponent{
             $this->filter->setCorrect(Filter::createFilterArray($values->correct));
         }
 
+        if($values->almost){
+            $this->filter->setAlmost(Filter::createFilterArray($values->almost));
+        }
+
         if($values->percentages){
             $this->filter->setPercentages(Filter::createFilterArray($values->percentages));
         }
@@ -99,6 +103,7 @@ class Pages extends FilterComponent{
         $form->addText('id','Id');
         $form->addText('subquestions','Počet otázek');
         $form->addText('correct','Počet správně');
+        $form->addText('almost','Počet téměř');
         $form->addText('percentages','Úspěšnost');
 
         $this->addOrder($form, array(

@@ -1,5 +1,5 @@
 <td class="text-center">
-    {if $correct}<span class="correct">ano</span>
-    {elseif !$correct && $correct !== null}<span class="wrong">ne</span>
-    {/if}
+    <a class="evaluate{if $correct == \App\Model\Subquestion::CORRECT} correct{/if}" href="{plink Results:evaluate}" data-id="{$id_subquestion}" data-correct="{\App\Model\Subquestion::CORRECT}">ano</a>
+    <a class="evaluate{if $correct == \App\Model\Subquestion::ALMOST} almost{/if}" href="{plink Results:evaluate}" data-id="{$id_subquestion}" data-correct="{\App\Model\Subquestion::ALMOST}">téměř</a>
+    <a class="evaluate{if $correct == \App\Model\Subquestion::WRONG} wrong{/if}" href="{plink Results:evaluate}" data-id="{$id_subquestion}" data-correct="{\App\Model\Subquestion::WRONG}">ne</a>
 </td>

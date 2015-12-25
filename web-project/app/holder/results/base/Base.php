@@ -43,6 +43,11 @@ class Base implements IHolder{
      */
     private $total_wrong_subquestions;
 
+    /**
+     * @var int
+     */
+    private $total_almost_subquestions;
+
     /** @var  int */
     private $total_null_subquestions;
 
@@ -199,6 +204,20 @@ class Base implements IHolder{
      */
     public function setAvgSuccess($avg_success) {
         $this->avg_success = $avg_success;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalAlmostSubquestions() {
+        return $this->total_almost_subquestions;
+    }
+
+    /**
+     * @param int $total_almost_subquestions
+     */
+    public function setTotalAlmostSubquestions($total_almost_subquestions) {
+        $this->total_almost_subquestions = $total_almost_subquestions;
     }
 
 }
