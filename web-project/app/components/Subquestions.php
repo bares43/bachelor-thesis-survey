@@ -40,6 +40,11 @@ class Subquestions extends FilterComponent{
     private $filter;
 
     /**
+     * @var int
+     */
+    private $id_respondent = null;
+
+    /**
      * Subquestions constructor.
      * @param Question $question_service
      * @param Website $website_service
@@ -55,7 +60,15 @@ class Subquestions extends FilterComponent{
         $this->page_service = $page_service;
     }
 
-    public function render() {
+    /**
+     * @param int|null $id_respondent
+     */
+    public function render($id_respondent = null) {
+        if($id_respondent !== null){
+            $this->filter->setIdRespondents(array($id_respondent));
+            $this->id_respondent = $id_respondent;
+        }
+
         $subquestions = $this->question_service->getResultsSubquestion($this->filter);
 
         $template = $this->prepareTemplate();
@@ -161,7 +174,10 @@ class Subquestions extends FilterComponent{
 
         $form->addText('id','Id');
         $form->addText('id_question','Rodič');
-        $form->addText('id_respondent','Respondent');
+        $input_respondent = $form->addText('id_respondent','Respondent');
+        if($this->id_respondent !== null){
+            $input_respondent->setDefaultValue($this->id_respondent);
+        }
         $form->addText('datetime','Čas');
         $form->addText('correct','Správně');
         $form->addText('answer','Odpověď');

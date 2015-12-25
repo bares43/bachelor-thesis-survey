@@ -51,12 +51,6 @@ class ResultsPresenter extends Presenter {
     public function renderDefault() {
         $this->template->base = $this->respondent_service->getResultsBase();
         $this->template->base_respondents = $this->respondent_service->getResultsRespondentsBase();
-//
-//        $subquestions = $this->getComponent("subquestions");
-//        $subquestions->setSubquestions($this->question_service->getResultsSubquestion());
-//        $this->template->subquestions = $subquestions;
-
-//        $this->template->subquestions = $this->question_service->getResultsSubquestion();
         $this->template->pages = $this->page_service->getResultsPages();
     }
 
@@ -67,10 +61,6 @@ class ResultsPresenter extends Presenter {
         if(!$respondent) $this->redirect("Results:");
 
         $this->template->respondent = $respondent;
-
-        $this->template->subquestions = $this->question_service->getResultsSubquestion(new Subquestions(array(
-            Subquestions::ID_RESPONDENTS => $id_respondent
-        )));
 
         $this->template->categories = $this->entity_category_service->getResultsRespondentCategory(new RespondentCategory(array(
             RespondentCategory::ID_RESPONDENT => $id_respondent
