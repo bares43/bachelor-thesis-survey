@@ -61,50 +61,18 @@ class Pages extends FilterComponent{
         if($values->id){
             $this->filter->setIdsPages(Filter::createFilterArray($values->id));
         }
-//
-//        if($values->seconds){
-//            $this->filter->setSeconds(Filter::createFilterArray($values->seconds));
-//        }
-//
-//        if($values->id){
-//            $this->filter->setIds(Filter::createFilterArray($values->id));
-//        }
-//
-//        if($values->id_question){
-//            $this->filter->setIdsQuestions(Filter::createFilterArray($values->id_question));
-//        }
-//
-//        if($values->datetime){
-//            $this->filter->setDatetimes(Filter::createFilterArray($values->datetime));
-//        }
-//
-//        if($values->id_page){
-//            $this->filter->setPages(Filter::createFilterArray($values->id_page));
-//        }
-//
-//        if($values->id_website){
-//            $this->filter->setWebsites(Filter::createFilterArray($values->id_website));
-//        }
-//
-//        if($values->type){
-//            $this->filter->setTypes(Filter::createFilterArray($values->type));
-//        }
-//
-//        if($values->correct){
-//            $this->filter->setCorrects(Filter::createFilterArray($values->correct));
-//        }
-//
-//        if($values->answer){
-//            $this->filter->setAnswer($values->answer);
-//        }
-//
-//        if($values->reason){
-//            $this->filter->setReason($values->reason);
-//        }
 
-//        if($values->known){
-//            $this->filter->setKnowns(Filter::createFilterArray($values->known));
-//        }
+        if($values->subquestions){
+            $this->filter->setSubquestions(Filter::createFilterArray($values->subquestions));
+        }
+
+        if($values->correct){
+            $this->filter->setCorrect(Filter::createFilterArray($values->correct));
+        }
+
+        if($values->percentages){
+            $this->filter->setPercentages(Filter::createFilterArray($values->percentages));
+        }
 
         if($values->order){
             $order_arr = array();
@@ -129,23 +97,14 @@ class Pages extends FilterComponent{
         $form->addGroup('Filtrování');
 
         $form->addText('id','Id');
-//        $form->addText('datetime','Čas');
-//        $form->addText('age','Věk');
-//        $form->addText('gender','Pohlaví');
-//        $form->addText('english','Angličtina');
-//        $form->addText('it','It');
-//        $form->addText('devices','Zařízení');
-//        $form->addText('device_most','Nejčastější zařízení');
-//        $form->addText('websites','Navštěvované stránky');
-//        $form->addText('questions','Otázek');
-//        $form->addText('subquestions','Podotázek');
-//        $form->addText('correct','Správně');
-//        $form->addText('wrong','Špatně');
-//        $form->addText('unknown','Nevyhodnoceno');
-//        $form->addText('pecentages','Procenta');
+        $form->addText('subquestions','Počet otázek');
+        $form->addText('correct','Počet správně');
+        $form->addText('percentages','Úspěšnost');
 
         $this->addOrder($form, array(
-
+            'total_subquestions'=>'počet otázek',
+            'total_correct_subquestions'=>'počet správně',
+            'total_correct_subquestions_percents'=>'úspěšnost'
         ));
 
         $form->onSuccess[] = $this->filterFormSubmited;

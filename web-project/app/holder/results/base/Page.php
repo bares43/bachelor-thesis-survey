@@ -35,6 +35,11 @@ class Page implements IHolder{
     private $total_correct_subquestions;
 
     /**
+     * @var float
+     */
+    private $total_correct_subquestions_percents;
+
+    /**
      * @return \App\Model\Page
      */
     public function getPage() {
@@ -90,9 +95,18 @@ class Page implements IHolder{
         $this->total_correct_subquestions = $total_correct_subquestions;
     }
 
-    public function getTotalCorrectSubquestionsPercentages() {
-        if($this->getTotalSubquestions() === 0) return 0;
-
-        return round(($this->getTotalCorrectSubquestions() / $this->getTotalSubquestions())*100,2);
+    /**
+     * @return float
+     */
+    public function getTotalCorrectSubquestionsPercents() {
+        return $this->total_correct_subquestions_percents;
     }
+
+    /**
+     * @param float $total_correct_subquestions_percents
+     */
+    public function setTotalCorrectSubquestionsPercents($total_correct_subquestions_percents) {
+        $this->total_correct_subquestions_percents = $total_correct_subquestions_percents;
+    }
+
 }

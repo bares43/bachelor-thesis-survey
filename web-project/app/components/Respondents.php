@@ -98,6 +98,14 @@ class Respondents extends FilterComponent {
             $this->filter->setAges(Filter::createFilterArray($values->age));
         }
 
+        if($values->devices){
+            $this->filter->setDevices(Filter::createFilterArray($values->devices));
+        }
+
+        if($values->device_most){
+            $this->filter->setDevicesMost(Filter::createFilterArray($values->device_most));
+        }
+
         if($values->gender){
             $this->filter->setGenders(Filter::createFilterArray($values->gender));
         }
@@ -135,31 +143,40 @@ class Respondents extends FilterComponent {
         $form->addText('id', 'Id');
         $form->addText('datetime', 'Čas');
         $form->addCheckboxList('age', 'Věk', array(
-            null => "neznámé",
-            \App\Model\Respondent::AGE_15 => "<15",
-            \App\Model\Respondent::AGE_15_20 => "15-20",
-            \App\Model\Respondent::AGE_21_30 => "21-30",
-            \App\Model\Respondent::AGE_31_45 => "31-45",
-            \App\Model\Respondent::AGE_46_60 => "46-60",
-            \App\Model\Respondent::AGE_60 => ">60",
+            "null" => "neznámé",
+            \App\Model\Respondent::AGE_15 => \App\Utils\Respondent::getAgeLabel(\App\Model\Respondent::AGE_15),
+            \App\Model\Respondent::AGE_15_20 => \App\Utils\Respondent::getAgeLabel(\App\Model\Respondent::AGE_15_20),
+            \App\Model\Respondent::AGE_21_30 => \App\Utils\Respondent::getAgeLabel(\App\Model\Respondent::AGE_21_30),
+            \App\Model\Respondent::AGE_31_45 => \App\Utils\Respondent::getAgeLabel(\App\Model\Respondent::AGE_31_45),
+            \App\Model\Respondent::AGE_46_60 => \App\Utils\Respondent::getAgeLabel(\App\Model\Respondent::AGE_46_60),
+            \App\Model\Respondent::AGE_60 => \App\Utils\Respondent::getAgeLabel(\App\Model\Respondent::AGE_60),
         ));
         $form->addCheckboxList('gender', 'Pohlaví', array(
-            null => "neznámé",
+            "null" => "neznámé",
             \App\Model\Respondent::GENDER_MALE => "muž",
             \App\Model\Respondent::GENDER_FEMALE => "žena"
         ));
         $form->addCheckboxList('english', 'Angličtina', array(
-            null => "neznámé",
+            "null" => "neznámé",
             1 => "ano",
             0 => "ne"
         ));
         $form->addCheckboxList('it', 'It', array(
-            null => "neznámé",
+            "null" => "neznámé",
             1 => "ano",
             0 => "ne"
         ));
-        $form->addText('devices', 'Zařízení');
-        $form->addText('device_most', 'Nejčastější zařízení');
+        $form->addCheckboxList('devices', 'Zařízení',array(
+            \App\Model\Respondent::DEVICE_COMPUTER => "počítač",
+            \App\Model\Respondent::DEVICE_PHONE => "smartphone",
+            \App\Model\Respondent::DEVICE_TABLET => "tablet"
+        ));
+        $form->addCheckboxList('device_most', 'Nejčastější zařízení',array(
+            "null" => "neznámé",
+            \App\Model\Respondent::DEVICE_COMPUTER => "počítač",
+            \App\Model\Respondent::DEVICE_PHONE => "smartphone",
+            \App\Model\Respondent::DEVICE_TABLET => "tablet"
+        ));
         $form->addText('websites', 'Navštěvované stránky');
         $form->addText('questions', 'Otázek');
         $form->addText('subquestions', 'Podotázek');

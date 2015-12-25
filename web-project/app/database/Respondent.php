@@ -219,11 +219,33 @@ class Respondent extends Database {
 
             $this->createNumberCondition($filter->getDatetimes(), $query, "date(respondent.datetime)");
             $this->createNumberCondition($filter->getAges(), $query, "respondent.age");
+            $this->createNumberCondition($filter->getDevicesMost(), $query, "respondent.device_most");
             $this->createNumberCondition($filter->getGenders(), $query, "respondent.gender");
             $this->createNumberCondition($filter->getEnglishes(), $query, "respondent.english");
             $this->createNumberCondition($filter->getIts(), $query, "respondent.it");
 
             $this->createStringCondition($filter->getWebsites(), $query, "respondent.sites");
+
+            if($filter->getDevices() !== null){
+                $exprs = array();
+                foreach ($filter->getDevices() as $device) {
+                    switch($device){
+                        case Model\Respondent::DEVICE_COMPUTER:
+                            $exprs[] = "respondent.device_computer = 1";
+                            break;
+                        case Model\Respondent::DEVICE_PHONE:
+                            $exprs[] = "respondent.device_phone = 1";
+                            break;
+                        case Model\Respondent::DEVICE_TABLET:
+                            $exprs[] = "respondent.device_tablet = 1";
+                            break;
+                    }
+                }
+
+                if(count($exprs) > 0){
+                    $query->andWhere(implode(" or ",$exprs));
+                }
+            }
 
             if(is_array($filter->getOrderBy()) && count($filter->getOrderBy()) > 0){
                 $this->createOrders($filter->getOrderBy(), $query);

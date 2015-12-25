@@ -120,9 +120,6 @@ class Question extends Database {
 
 
         if($filter !== null){
-//            if($filter->getIdRespondents() !== null && $filter->getIdRespondents() > 0){
-//                $query->andWhere($query->expr()->eq("respondent.id_respondent",$filter->getIdRespondents()));
-//            }
 
             $this->createNumberCondition($filter->getIdRespondents(), $query, "respondent.id_respondent");
             $this->createNumberCondition($filter->getSeconds(), $query, "subquestion.seconds");
@@ -142,34 +139,6 @@ class Question extends Database {
                 $query->andWhere($query->expr()->eq($filter->getVisibility() ? 1 : 0,"subquestion.visible"));
             }
 
-//            if($filter->getReason() !== null){
-//                if(preg_match('/^%.+%$/', $filter->getReason())){
-//                    $query->andWhere($query->expr()->like("subquestion.reason", "'".$filter->getReason()."'"));
-//                }else{
-//                    $query->andWhere($query->expr()->eq("subquestion.reason", "'".$filter->getReason()."'"));
-//                }
-//            }
-
-//            if(is_array($filter->getSeconds()) && count($filter->getSeconds()) > 0){
-//                if(Arr::is_assoc($filter->getSeconds())){
-//                    foreach($filter->getSeconds() as $operator => $value){
-//                        switch($operator){
-//                            case ">":
-//                                $query->andWhere($query->expr()->gt("subquestion.seconds",$value)); break;
-//                            case ">=":
-//                                $query->andWhere($query->expr()->gte("subquestion.seconds",$value)); break;
-//                            case "<":
-//                                $query->andWhere($query->expr()->lt("subquestion.seconds",$value)); break;
-//                            case "<=":
-//                                $query->andWhere($query->expr()->lte("subquestion.seconds",$value)); break;
-//                            case "=":
-//                                $query->andWhere($query->expr()->eq("subquestion.seconds",$value)); break;
-//                        }
-//                    }
-//                }else{
-//                    $query->andWhere($query->expr()->in("subquestion.seconds",$filter->getSeconds()));
-//                }
-//            }
         }
 
         if(is_array($filter->getOrderBy()) && count($filter->getOrderBy()) > 0){

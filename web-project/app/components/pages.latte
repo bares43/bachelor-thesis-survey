@@ -35,7 +35,7 @@
                 <td{if $page->getPage()->dominant_color !== null && strlen(trim($page->getPage()->dominant_color))>0} style="background-color: #{$page->getPage()->dominant_color};"{/if}>&nbsp;</td>
                 <td class="text-center">{$page->getTotalSubquestions()}</td>
                 <td class="text-center">{$page->getTotalCorrectSubquestions()}</td>
-                <td class="text-center {if $page->getTotalCorrectSubquestionsPercentages()>=50}correct{else}wrong{/if}">{$page->getTotalCorrectSubquestionsPercentages()} %</td>
+                <td class="text-center {if $page->getTotalCorrectSubquestionsPercents()>=50}correct{else}wrong{/if}">{$page->getTotalCorrectSubquestionsPercents()} %</td>
             </tr>
         {/foreach}
         </tbody>

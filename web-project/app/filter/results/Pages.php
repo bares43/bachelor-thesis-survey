@@ -14,6 +14,9 @@ use App\Base\Filter;
 class Pages extends Filter{
 
     const IDS_PAGES = "idspages";
+    const SUBQUESTIONS = "subquestions";
+    const CORRECT = "correct";
+    const PERCENTAGES = "percentages";
 
     /**
      * @param int[] $ids_pages
@@ -27,5 +30,47 @@ class Pages extends Filter{
      */
     public function getIdsPages() {
         return $this->get(self::IDS_PAGES);
+    }
+
+    /**
+     * @param int[] $subquestions
+     */
+    public function setSubquestions($subquestions) {
+        $this->set(self::SUBQUESTIONS, $subquestions);
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getSubquestions() {
+        return $this->get(self::SUBQUESTIONS);
+    }
+
+    /**
+     * @param int[] $correct
+     */
+    public function setCorrect($correct) {
+        $this->set(self::CORRECT, $correct);
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getCorrect() {
+        return $this->get(self::CORRECT);
+    }
+
+    /**
+     * @param int[] $percentages
+     */
+    public function setPercentages($percentages) {
+        return $this->set(self::PERCENTAGES, $percentages);
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getPercentages() {
+        return $this->get(self::PERCENTAGES);
     }
 }

@@ -138,7 +138,14 @@ class Database extends Nette\Object {
                     }
                 }
             }else{
-                $expressions[] = $query->expr()->in($column,$filter_arr);
+                if(in_array(null,$filter_arr,true)){
+                    $expressions[] = $query->expr()->orX(
+                        $query->expr()->isNull($column),
+                        $query->expr()->in($column,$filter_arr)
+                    );
+                }else{
+                    $expressions[] = $query->expr()->in($column,$filter_arr);
+                }
             }
 
             foreach($expressions as $expr){

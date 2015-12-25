@@ -106,7 +106,7 @@ class Subquestions extends FilterComponent{
             $this->filter->setTypes(Filter::createFilterArray($values->type));
         }
 
-        if($values->correct){
+        if($values->correct !== null){
             $this->filter->setCorrects(Filter::createFilterArray($values->correct));
         }
 
@@ -170,7 +170,7 @@ class Subquestions extends FilterComponent{
         $form->addText('seconds','Sekundy');
         $form->addText('visible','Viditelnost');
         $form->addCheckboxList('know','Zná?',array(
-           null=>"nevyplněno",
+           "null"=>"nevyplněno",
            RespondentWebsite::PERIOD_DONT_KNOW=>'neznám',
            RespondentWebsite::PERIOD_KNOW_THAT_EXISTS=>'vím, že existuje',
            RespondentWebsite::PERIOD_KNOW_AND_VISIT=>'znám a navštěvuji'
