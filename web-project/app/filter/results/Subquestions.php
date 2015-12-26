@@ -18,12 +18,11 @@ class Subquestions extends Filter{
     const IDS_QUESTIONS = "idsquestions";
     const WEBSITES = "websites";
     const PAGES = "pages";
-    const CORRECTS = "corrects";
+    const STATE = "state";
     const ANSWER = "answer";
     const REASON = "reason";
     const TYPES = "types";
     const KNOWNS = "knowns";
-    const VISIBILITY = "visibility";
 
     /**
      * @param int[] $id_respondents
@@ -124,17 +123,17 @@ class Subquestions extends Filter{
     }
 
     /**
-     * @param int[] $corrects
+     * @param int[] $state
      */
-    public function setCorrects($corrects) {
-        $this->set(self::CORRECTS, $corrects);
+    public function setState($state) {
+        $this->set(self::STATE, $state);
     }
 
     /**
      * @return int[]
      */
-    public function getCorrects() {
-        return $this->get(self::CORRECTS);
+    public function getState() {
+        return $this->get(self::STATE);
     }
 
     /**
@@ -191,19 +190,5 @@ class Subquestions extends Filter{
      */
     public function getKnowns() {
         return $this->get(self::KNOWNS);
-    }
-
-    /**
-     * @param bool $visibility
-     */
-    public function setVisibility($visibility) {
-        $this->set(self::VISIBILITY, $visibility);
-    }
-
-    /**
-     * @return bool
-     */
-    public function getVisibility() {
-        return $this->get(self::VISIBILITY);
     }
 }

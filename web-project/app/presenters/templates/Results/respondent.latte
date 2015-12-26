@@ -83,8 +83,16 @@
             <td class="correct text-right">{$respondent->getTotalCorrectSubquestions()}</td>
         </tr>
         <tr>
+            <td>téměř</td>
+            <td class="almost text-right">{$respondent->getTotalAlmostSubquestions()}</td>
+        </tr>
+        <tr>
             <td>špatně</td>
             <td class="wrong text-right">{$respondent->getTotalWrongSubquestions()}</td>
+        </tr>
+        <tr>
+            <td>nepočítat</td>
+            <td class="disqualified text-right">{$respondent->getTotalDisqualifiedSubquestions()}</td>
         </tr>
         <tr>
             <td>nevyhodnoceno</td>

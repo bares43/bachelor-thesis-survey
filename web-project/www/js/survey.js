@@ -116,7 +116,7 @@ $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();
 
 
-    $(document).on("click",".evaluate",function(e){
+    $(document).on("click",".change-state",function(e){
         e.preventDefault();
         e.stopImmediatePropagation();
         var link = $(this);
@@ -124,23 +124,7 @@ $(document).ready(function(){
             link.attr("href"),
             {
                 id_subquestion : link.data("id"),
-                correct : link.data("correct")
-            },
-            function(data){
-                link.parent().replaceWith(data);
-            }
-        );
-    });
-
-    $(document).on("click",".visibility",function(e){
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        var link = $(this);
-        $.get(
-            link.attr("href"),
-            {
-                id_subquestion : link.data("id"),
-                visibility : link.data("visibility")
+                state : link.data("state")
             },
             function(data){
                 link.parent().replaceWith(data);

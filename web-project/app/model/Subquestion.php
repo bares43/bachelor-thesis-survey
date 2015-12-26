@@ -21,9 +21,10 @@ class Subquestion extends BaseEntity {
     const QUESTION_TYPE_COLOR = 4;
     const QUESTION_TYPE_COLOR_SELECT = 5;
 
-    const CORRECT = 1;
-    const WRONG = 0;
-    const ALMOST = 2;
+    const STATE_CORRECT = 1;
+    const STATE_WRONG = 0;
+    const STATE_ALMOST = 2;
+    const STATE_DISQUALIFIED = 3;
 
     /**
      * @ORM\Id()
@@ -55,7 +56,7 @@ class Subquestion extends BaseEntity {
     /**
      * @ORM\Column(type="integer")
      */
-    public $correct;
+    public $state;
 
     /**
      * @ORM\Column(type="string")
@@ -77,8 +78,4 @@ class Subquestion extends BaseEntity {
      */
     public $id_page_related;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    public $visible;
 }

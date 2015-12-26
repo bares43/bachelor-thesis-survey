@@ -13,13 +13,12 @@ Počet položek: {$count}
         <th width="40" class="text-center">resp.</th>
         <th width="120" class="text-center">čas</th>
         <th width="160" class="text-center">web</th>
-        <th width="120" class="text-center">správně</th>
+        <th width="180" class="text-center">stav</th>
         <th width="160" class="text-center">odpověď</th>
         <th width="160" class="text-center">důvod</th>
         <th width="20" class="text-center">typ</th>
         <th width="110" class="text-center">zná?</th>
         <th width="120" class="text-center">sekundy</th>
-        <th width="60" class="text-center">viditelná</th>
     </tr>
     </thead>
     <tbody>
@@ -36,20 +35,12 @@ Počet položek: {$count}
             <td class="text-center" ><a href="{plink Results:respondent $subquestion->getRespondent()->id_respondent}" {if $subquestion->getRespondent()->nickname || $subquestion->getRespondent()->email} data-toggle="tooltip" data-placement="bottom" title="{$subquestion->getRespondent()->nickname} {$subquestion->getRespondent()->email}"{/if}>{$subquestion->getQuestion()->id_respondent}</a></td>
             <td class="text-center">{$subquestion->getSubquestion()->datetime|date:"d.m.y H:i"}</td>
             <td class="text-center">{$subquestion->getWebsite()->name}</td>
-            <td class="text-center">
-                <a class="evaluate{if $subquestion->getSubquestion()->correct == \App\Model\Subquestion::CORRECT} correct{/if}" href="{plink Results:evaluate}" data-id="{$subquestion->getSubquestion()->id_subquestion}" data-correct="{\App\Model\Subquestion::CORRECT}">ano</a>
-                <a class="evaluate{if $subquestion->getSubquestion()->correct == \App\Model\Subquestion::ALMOST} almost{/if}" href="{plink Results:evaluate}" data-id="{$subquestion->getSubquestion()->id_subquestion}" data-correct="{\App\Model\Subquestion::ALMOST}">téměř</a>
-                <a class="evaluate{if $subquestion->getSubquestion()->correct == \App\Model\Subquestion::WRONG} wrong{/if}" href="{plink Results:evaluate}" data-id="{$subquestion->getSubquestion()->id_subquestion}" data-correct="{\App\Model\Subquestion::WRONG}">ne</a>
-            </td>
+            {include "subquestions/state.latte" state => $subquestion->getSubquestion()->state, id_subquestion => $subquestion->getSubquestion()->id_subquestion}
             <td class="text-center">{$subquestion->getSubquestion()->answer}</td>
             <td class="text-center">{$subquestion->getSubquestion()->reason}</td>
             <td class="text-center">{$subquestion->getSubquestion()->question_type}</td>
             <td class="text-center">{if $subquestion->getRespondentWebsite() !== null}{$subquestion->getRespondentWebsite()->period|respondentWebsitePeriod}{/if}</td>
             <td class="text-right">{$subquestion->getSubquestion()->seconds|time}</td>
-            <td class="text-center">
-                <a class="visibility{if $subquestion->getSubquestion()->visible} correct{/if}" href="{plink Results:visibility}" data-id="{$subquestion->getSubquestion()->id_subquestion}" data-visibility="true">ano</a>
-                <a class="visibility{if !$subquestion->getSubquestion()->visible && $subquestion->getSubquestion()->visible !== null} wrong{/if}" href="{plink Results:visibility}" data-id="{$subquestion->getSubquestion()->id_subquestion}" data-visibility="false">ne</a>
-            </td>
         </tr>
     {/foreach}
     </tbody>

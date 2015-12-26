@@ -36,6 +36,12 @@ class Base implements IMapper{
         if(isset($result["total_wrong_subquestions"])){
             $holder->setTotalWrongSubquestions((int)$result["total_wrong_subquestions"]);
         }
+        if(isset($result["total_disqualified_subquestions"])){
+            $holder->setTotalDisqualifiedSubquestions((int)$result["total_disqualified_subquestions"]);
+        }
+        if(isset($result["total_almost_subquestions"])){
+            $holder->setTotalAlmostSubquestions((int)$result["total_almost_subquestions"]);
+        }
         if(isset($result["total_unknown_subquestions"])){
             $holder->setTotalUnknownSubquestions((int)$result["total_unknown_subquestions"]);
         }
@@ -44,6 +50,9 @@ class Base implements IMapper{
         }
         if(isset($result["avg_seconds"])){
             $holder->setAvgSeconds((float)$result["avg_seconds"]);
+        }
+        if(isset($result["total_correct_subquestions_percents"])){
+            $holder->setTotalCorrectSubquestionsPercents((float)$result["total_correct_subquestions_percents"]);
         }
 
         return $holder;

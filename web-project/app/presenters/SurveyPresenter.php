@@ -277,10 +277,10 @@ class SurveyPresenter extends Presenter {
         $total_not_evaluated = 0;
 
         foreach($subquestions as $subquestion){
-            if($subquestion->getSubquestion()->correct === \App\Model\Subquestion::CORRECT){
+            if($subquestion->getSubquestion()->state === \App\Model\Subquestion::STATE_CORRECT){
                 $total_correct++;
             }
-            elseif($subquestion->getSubquestion()->correct === null){
+            elseif($subquestion->getSubquestion()->state === null){
                 $total_not_evaluated++;
             }else{
                 $total_wrong++;
@@ -402,7 +402,7 @@ class SurveyPresenter extends Presenter {
 
         $values = $form->getValues();
 
-        $subquestion->correct = $values->id_pages === (int)$id_page ? \App\Model\Subquestion::CORRECT : \App\Model\Subquestion::WRONG;
+        $subquestion->state = $values->id_pages === (int)$id_page ? \App\Model\Subquestion::STATE_CORRECT : \App\Model\Subquestion::STATE_WRONG;
         $subquestion->answer = $values->id_pages;
 
         $this->subquestion_service->save($subquestion);
@@ -451,7 +451,7 @@ class SurveyPresenter extends Presenter {
 
         $values = $form->getValues();
 
-        $subquestion->correct = $values->id_pages === (int)$id_page ? \App\Model\Subquestion::CORRECT : \App\Model\Subquestion::WRONG;
+        $subquestion->state = $values->id_pages === (int)$id_page ? \App\Model\Subquestion::STATE_CORRECT : \App\Model\Subquestion::STATE_WRONG;
         $subquestion->answer = $values->id_pages;
 
         $this->subquestion_service->save($subquestion);
@@ -520,7 +520,7 @@ class SurveyPresenter extends Presenter {
 
         $values = $form->getValues();
 
-        $subquestion->correct = $values->id_pages === (int)$id_page ? \App\Model\Subquestion::CORRECT : \App\Model\Subquestion::WRONG;
+        $subquestion->state = $values->id_pages === (int)$id_page ? \App\Model\Subquestion::STATE_CORRECT : \App\Model\Subquestion::STATE_WRONG;
         $subquestion->answer = $values->id_pages;
 
         $this->subquestion_service->save($subquestion);

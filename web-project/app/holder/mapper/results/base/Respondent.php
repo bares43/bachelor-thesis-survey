@@ -45,6 +45,9 @@ class Respondent implements IMapper{
         if(isset($result["total_unknown_subquestions"])){
             $holder->setTotalUnknownSubquestions((int)$result["total_unknown_subquestions"]);
         }
+        if(isset($result["total_disqualified_subquestions"])){
+            $holder->setTotalDisqualifiedSubquestions((int)$result["total_disqualified_subquestions"]);
+        }
 
         if(isset($result["total_correct_subquestions_percents"])){
             $holder->setTotalCorrectSubquestionsPercents((float)$result["total_correct_subquestions_percents"]);

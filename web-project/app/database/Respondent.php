@@ -63,8 +63,8 @@ class Respondent extends Database {
         $query->select("respondent");
         $query->addSelect("max(subquestion.datetime) as date");
         $query->addSelect("count(subquestion.id_subquestion) as count_questions");
-        $query->addSelect("countif('correct','=','1') as count_correct");
-        $query->addSelect("(countif('correct','=','1') * (1+(countif('correct','=','1')/count(subquestion.id_subquestion)))) as score");
+        $query->addSelect("countif('state','=','1') as count_correct");
+        $query->addSelect("(countif('state','=','1') * (1+(countif('state','=','1')/count(subquestion.id_subquestion)))) as score");
 
 
         $query->from(Model\Respondent::getClassName(),"respondent");
@@ -101,11 +101,13 @@ class Respondent extends Database {
         // total subquestions
         $query->addSelect("count(distinct subquestion.id_subquestion) as total_subquestions");
         // total correct subquestions
-        $query->addSelect("countif('correct','=','1') as total_correct_subquestions");
+        $query->addSelect("countif('state','=','1') as total_correct_subquestions");
         // total wrong subquestions
-        $query->addSelect("countif('correct','=','0') as total_wrong_subquestions");
+        $query->addSelect("countif('state','=','0') as total_wrong_subquestions");
         // total almost subquestions
-        $query->addSelect("countif('correct','=','2') as total_almost_subquestions");
+        $query->addSelect("countif('state','=','2') as total_almost_subquestions");
+        // total disqualified subquestions
+        $query->addSelect("countif('state','=','3') as total_disqualified_subquestions");
         // avg seconds
         $query->addSelect("avg(subquestion.seconds) as avg_seconds");
         // total male
@@ -199,11 +201,12 @@ class Respondent extends Database {
         $query->select("respondent");
         $query->addSelect("count(distinct question.id_question) as total_questions");
         $query->addSelect("count(distinct subquestion.id_subquestion) as total_subquestions");
-        $query->addSelect("countif('correct','=','1') as total_correct_subquestions");
-        $query->addSelect("countif('correct','=','0') as total_wrong_subquestions");
-        $query->addSelect("countif('correct','=','2') as total_almost_subquestions");
-        $query->addSelect("countif('correct','is','null') as total_unknown_subquestions");
-        $query->addSelect("round((countif('correct','=','1') / count(distinct subquestion.id_subquestion))*100,2) as total_correct_subquestions_percents");
+        $query->addSelect("countif('state','=','1') as total_correct_subquestions");
+        $query->addSelect("countif('state','=','0') as total_wrong_subquestions");
+        $query->addSelect("countif('state','=','2') as total_almost_subquestions");
+        $query->addSelect("countif('state','=','3') as total_disqualified_subquestions");
+        $query->addSelect("countif('state','is','null') as total_unknown_subquestions");
+        $query->addSelect("round((countif('state','=','1') / (countif('state','=','0') + countif('state','=','1') + countif('state','=','2')))*100,2) as total_correct_subquestions_percents");
 
 
         $query->from(Model\Respondent::getClassName(),"respondent");
@@ -213,13 +216,14 @@ class Respondent extends Database {
 
         if($filter !== null){
             $this->createNumberCondition($filter->getRespondents(), $query, "respondent.id_respondent");
-            $this->createNumberCondition($filter->getPercentages(), $query, "round((countif('correct','=','1') / count(distinct subquestion.id_subquestion))*100,2)", true);
+            $this->createNumberCondition($filter->getPercentages(), $query, "round((countif('state','=','1') / (countif('state','=','0') + countif('state','=','1') + countif('state','=','2')))*100,2)", true);
             $this->createNumberCondition($filter->getQuestions(), $query, "count(distinct question.id_question)", true);
             $this->createNumberCondition($filter->getSubquestions(), $query, "count(distinct subquestion.id_subquestion)", true);
-            $this->createNumberCondition($filter->getCorrects(), $query, "countif('correct','=','1')", true);
-            $this->createNumberCondition($filter->getWrongs(), $query, "countif('correct','=','0')", true);
-            $this->createNumberCondition($filter->getAlmosts(), $query, "countif('correct','=','2')", true);
-            $this->createNumberCondition($filter->getUnknowns(), $query, "countif('correct','is','null')", true);
+            $this->createNumberCondition($filter->getCorrects(), $query, "countif('state','=','1')", true);
+            $this->createNumberCondition($filter->getWrongs(), $query, "countif('state','=','0')", true);
+            $this->createNumberCondition($filter->getAlmosts(), $query, "countif('state','=','2')", true);
+            $this->createNumberCondition($filter->getDisqualified(), $query, "countif('state','=','3')", true);
+            $this->createNumberCondition($filter->getUnknowns(), $query, "countif('state','is','null')", true);
 
             $this->createNumberCondition($filter->getDatetimes(), $query, "date(respondent.datetime)");
             $this->createNumberCondition($filter->getAges(), $query, "respondent.age");
@@ -275,9 +279,12 @@ class Respondent extends Database {
         $query->select("respondent");
         $query->addSelect("count(distinct question.id_question) as total_questions");
         $query->addSelect("count(distinct subquestion.id_subquestion) as total_subquestions");
-        $query->addSelect("countif('correct','=','1') as total_correct_subquestions");
-        $query->addSelect("countif('correct','=','0') as total_wrong_subquestions");
-        $query->addSelect("countif('correct','is','null') as total_unknown_subquestions");
+        $query->addSelect("countif('state','=','1') as total_correct_subquestions");
+        $query->addSelect("countif('state','=','0') as total_wrong_subquestions");
+        $query->addSelect("countif('state','=','2') as total_almost_subquestions");
+        $query->addSelect("countif('state','=','3') as total_disqualified_subquestions");
+        $query->addSelect("countif('state','is','null') as total_unknown_subquestions");
+        $query->addSelect("round((countif('state','=','1') / (countif('state','=','0') + countif('state','=','1') + countif('state','=','2')))*100,2) as total_correct_subquestions_percents");
         $query->addSelect("avg(subquestion.seconds) avg_seconds");
         $query->addSelect("sum(subquestion.seconds) total_seconds");
 

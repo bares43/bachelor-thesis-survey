@@ -1,0 +1,6 @@
+<td class="text-center">
+    <a class="change-state{if $state === \App\Model\Subquestion::STATE_CORRECT} correct{/if}" n:href="changeState! $id_subquestion, \App\Model\Subquestion::STATE_CORRECT" data-id="{$id_subquestion}" data-state="{\App\Model\Subquestion::STATE_CORRECT}">OK</a>
+    <a class="change-state{if $state === \App\Model\Subquestion::STATE_ALMOST} almost{/if}" n:href="changeState! $id_subquestion, \App\Model\Subquestion::STATE_ALMOST" data-id="{$id_subquestion}" data-state="{\App\Model\Subquestion::STATE_ALMOST}">téměř</a>
+    <a class="change-state{if $state === \App\Model\Subquestion::STATE_WRONG} wrong{/if}" n:href="changeState! $id_subquestion, \App\Model\Subquestion::STATE_WRONG" data-id="{$id_subquestion}" data-state="{\App\Model\Subquestion::STATE_WRONG}">NE</a>
+    <a class="change-state{if $state === \App\Model\Subquestion::STATE_DISQUALIFIED} disqualified{/if}" n:href="changeState! $id_subquestion, \App\Model\Subquestion::STATE_DISQUALIFIED" data-id="{$id_subquestion}" data-state="{\App\Model\Subquestion::STATE_DISQUALIFIED}">nepočítat</a>
+</td>

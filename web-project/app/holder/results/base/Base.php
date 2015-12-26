@@ -48,6 +48,11 @@ class Base implements IHolder{
      */
     private $total_almost_subquestions;
 
+    /**
+     * @var int
+     */
+    private $total_disqualified_subquestions;
+
     /** @var  int */
     private $total_null_subquestions;
 
@@ -218,6 +223,20 @@ class Base implements IHolder{
      */
     public function setTotalAlmostSubquestions($total_almost_subquestions) {
         $this->total_almost_subquestions = $total_almost_subquestions;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalDisqualifiedSubquestions() {
+        return $this->total_disqualified_subquestions;
+    }
+
+    /**
+     * @param int $total_disqualified_subquestions
+     */
+    public function setTotalDisqualifiedSubquestions($total_disqualified_subquestions) {
+        $this->total_disqualified_subquestions = $total_disqualified_subquestions;
     }
 
 }

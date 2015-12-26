@@ -234,16 +234,19 @@ table tr.data {
   table tr.data.highlighted {
     background-color: #3397C7 !important;
     color: white; }
-    table tr.data.highlighted a:not(.correct):not(.wrong):not(.almost) {
-      color: black; }
+    table tr.data.highlighted a:not(.correct):not(.wrong):not(.almost):not(.disqualified) {
+      color: white;
+      text-decoration: underline; }
   table tr.data a {
     color: #3397C7; }
   table tr.data .correct {
-    color: #90e00d; }
+    color: #7ACF6B; }
   table tr.data .wrong {
     color: #e0310d; }
   table tr.data .almost {
     color: #e0a10d; }
+  table tr.data .disqualified {
+    color: #A3491C; }
   table tr.data:hover {
     background-color: #dfdfdf; }
 

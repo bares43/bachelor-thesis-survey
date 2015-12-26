@@ -90,6 +90,10 @@ class Respondents extends FilterComponent {
             $this->filter->setUnknowns(Filter::createFilterArray($values->unknown));
         }
 
+        if ($values->disqualified) {
+            $this->filter->setDisqualified(Filter::createFilterArray($values->disqualified));
+        }
+
         if ($values->websites) {
             $this->filter->setWebsites($values->websites);
         }
@@ -187,6 +191,7 @@ class Respondents extends FilterComponent {
         $form->addText('correct', 'Správně');
         $form->addText('wrong', 'Špatně');
         $form->addText('almost', 'Téměř');
+        $form->addText('disqualified', 'Nepočítané');
         $form->addText('unknown', 'Nevyhodnoceno');
         $form->addText('percentages', 'Procenta');
 
@@ -198,6 +203,7 @@ class Respondents extends FilterComponent {
             'total_correct_subquestions' => 'správně',
             'total_wrong_subquestions' => 'špatně',
             'total_almost_subquestions' => 'téměř',
+            'total_disqualified_subquestions' => 'nepočítané',
             'total_unknown_subquestions' => 'nevyhodnoceno',
             'total_correct_subquestions_percents' => 'úspěšnost'
         ));

@@ -40,6 +40,16 @@ class Page implements IHolder{
     private $total_almost_subquestions;
 
     /**
+     * @var int
+     */
+    private $total_wrong_subquestions;
+
+    /**
+     * @var int
+     */
+    private $total_disqualified_subquestions;
+
+    /**
      * @var float
      */
     private $total_correct_subquestions_percents;
@@ -104,7 +114,7 @@ class Page implements IHolder{
      * @return float
      */
     public function getTotalCorrectSubquestionsPercents() {
-        return $this->total_correct_subquestions_percents;
+        return $this->total_correct_subquestions_percents !== null ? $this->total_correct_subquestions_percents : 0;
     }
 
     /**
@@ -126,6 +136,34 @@ class Page implements IHolder{
      */
     public function setTotalAlmostSubquestions($total_almost_subquestions) {
         $this->total_almost_subquestions = $total_almost_subquestions;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalWrongSubquestions() {
+        return $this->total_wrong_subquestions;
+    }
+
+    /**
+     * @param int $total_wrong_subquestions
+     */
+    public function setTotalWrongSubquestions($total_wrong_subquestions) {
+        $this->total_wrong_subquestions = $total_wrong_subquestions;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalDisqualifiedSubquestions() {
+        return $this->total_disqualified_subquestions;
+    }
+
+    /**
+     * @param int $total_disqualified_subquestions
+     */
+    public function setTotalDisqualifiedSubquestions($total_disqualified_subquestions) {
+        $this->total_disqualified_subquestions = $total_disqualified_subquestions;
     }
 
 }

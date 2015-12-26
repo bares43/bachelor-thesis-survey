@@ -69,6 +69,11 @@ class Respondent implements IHolder{
     private $total_unknown_subquestions;
 
     /**
+     * @var int
+     */
+    private $total_disqualified_subquestions;
+
+    /**
      * @var float
      */
     private $total_correct_subquestions_percents;
@@ -185,7 +190,7 @@ class Respondent implements IHolder{
      * @return float
      */
     public function getTotalCorrectSubquestionsPercents() {
-        return $this->total_correct_subquestions_percents;
+        return $this->total_correct_subquestions_percents !== null ? $this->total_correct_subquestions_percents : 0;
     }
 
     /**
@@ -200,5 +205,19 @@ class Respondent implements IHolder{
      */
     public function setTotalAlmostSubquestions($total_almost_subquestions) {
         $this->total_almost_subquestions = $total_almost_subquestions;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalDisqualifiedSubquestions() {
+        return $this->total_disqualified_subquestions;
+    }
+
+    /**
+     * @param int $total_disqualified_subquestions
+     */
+    public function setTotalDisqualifiedSubquestions($total_disqualified_subquestions) {
+        $this->total_disqualified_subquestions = $total_disqualified_subquestions;
     }
 }

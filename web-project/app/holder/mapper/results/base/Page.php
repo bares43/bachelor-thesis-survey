@@ -42,6 +42,14 @@ class Page implements IMapper{
             $holder->setTotalAlmostSubquestions((int)$result["total_almost_subquestions"]);
         }
 
+        if(isset($result["total_disqualified_subquestions"])){
+            $holder->setTotalDisqualifiedSubquestions((int)$result["total_disqualified_subquestions"]);
+        }
+
+        if(isset($result["total_wrong_subquestions"])){
+            $holder->setTotalWrongSubquestions((int)$result["total_wrong_subquestions"]);
+        }
+
         if(isset($result["total_correct_subquestions_percents"])){
             $holder->setTotalCorrectSubquestionsPercents((float)$result["total_correct_subquestions_percents"]);
         }

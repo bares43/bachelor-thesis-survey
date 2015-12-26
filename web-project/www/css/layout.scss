@@ -340,21 +340,25 @@ table {
     &.highlighted {
         background-color: $primary-color !important;
         color: white;
-        a:not(.correct):not(.wrong):not(.almost) {
-          color: black;
+        a:not(.correct):not(.wrong):not(.almost):not(.disqualified) {
+          color: white;
+          text-decoration: underline;
         }
       }
     a {
         color: $primary-color;
       }
     .correct {
-        color: #90e00d;
+      color: #7ACF6B;
       }
     .wrong {
         color: #e0310d;
       }
     .almost {
         color: #e0a10d;
+    }
+    .disqualified {
+        color: #A3491C;
     }
     &:hover {
         background-color: #dfdfdf;

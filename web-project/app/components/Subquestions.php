@@ -13,6 +13,7 @@ use App\Base\Component;
 use App\Model\RespondentWebsite;
 use App\Service\Page;
 use App\Service\Question;
+use App\Service\Subquestion;
 use App\Service\Website;
 use App\Utils\Filter;
 use Nette\Application\UI\Form;
@@ -34,6 +35,9 @@ class Subquestions extends FilterComponent{
     /** @var Page */
     private $page_service;
 
+    /** @var  Subquestion */
+    private $subquestion_service;
+
     /**
      * @var \App\Filter\Results\Subquestions
      */
@@ -49,8 +53,9 @@ class Subquestions extends FilterComponent{
      * @param Question $question_service
      * @param Website $website_service
      * @param Page $page_service
+     * @param Subquestion $subquestion_service
      */
-    public function __construct(Question $question_service, Website $website_service, Page $page_service) {
+    public function __construct(Question $question_service, Website $website_service, Page $page_service, Subquestion $subquestion_service) {
         parent::__construct();
 
         $this->filter = new \App\Filter\Results\Subquestions();
@@ -58,6 +63,7 @@ class Subquestions extends FilterComponent{
         $this->website_service = $website_service;
         $this->question_service = $question_service;
         $this->page_service = $page_service;
+        $this->subquestion_service = $subquestion_service;
     }
 
     /**
@@ -119,8 +125,8 @@ class Subquestions extends FilterComponent{
             $this->filter->setTypes(Filter::createFilterArray($values->type));
         }
 
-        if($values->correct !== null){
-            $this->filter->setCorrects(Filter::createFilterArray($values->correct));
+        if($values->state !== null){
+            $this->filter->setState(Filter::createFilterArray($values->state));
         }
 
         if($values->answer){
@@ -133,12 +139,6 @@ class Subquestions extends FilterComponent{
 
         if($values->know){
             $this->filter->setKnowns(Filter::createFilterArray($values->know));
-        }
-
-        if($values->visible === "1"){
-            $this->filter->setVisibility(true);
-        }elseif($values->visible === "0"){
-            $this->filter->setVisibility(false);
         }
 
         if($values->order){
@@ -156,6 +156,27 @@ class Subquestions extends FilterComponent{
 
         $this->redrawControl();
     }
+
+    public function handleChangeState($id_subquestion, $state) {
+        if($id_subquestion !== null && in_array((int)$state,array(\App\Model\Subquestion::STATE_CORRECT,\App\Model\Subquestion::STATE_ALMOST,\App\Model\Subquestion::STATE_WRONG,\App\Model\Subquestion::STATE_DISQUALIFIED))){
+            $subquestion = $this->subquestion_service->get($id_subquestion);
+            if($subquestion !== null){
+                $subquestion->state = (int)$state;
+                $this->subquestion_service->save($subquestion);
+
+                $template = $this->createTemplate();
+                $template->setFile(__DIR__."/subquestions/state.latte");
+
+                $template->state = $subquestion->state;
+                $template->id_subquestion = $subquestion->id_subquestion;
+
+                echo $template->render();
+            }
+        }
+
+        exit;
+    }
+
 
     protected function createComponentFilterForm(){
         $websites_arr = array();
@@ -179,12 +200,16 @@ class Subquestions extends FilterComponent{
             $input_respondent->setDefaultValue($this->id_respondent);
         }
         $form->addText('datetime','Čas');
-        $form->addText('correct','Správně');
+        $form->addCheckboxList('state','Stav',array(
+            \App\Model\Subquestion::STATE_CORRECT => "OK",
+            \App\Model\Subquestion::STATE_ALMOST => "téměř",
+            \App\Model\Subquestion::STATE_WRONG => "NE",
+            \App\Model\Subquestion::STATE_DISQUALIFIED => "nepočítat",
+        ));
         $form->addText('answer','Odpověď');
         $form->addText('reason','Důvod');
         $form->addText('type','Typ');
         $form->addText('seconds','Sekundy');
-        $form->addText('visible','Viditelnost');
         $form->addCheckboxList('know','Zná?',array(
            "null"=>"nevyplněno",
            RespondentWebsite::PERIOD_DONT_KNOW=>'neznám',

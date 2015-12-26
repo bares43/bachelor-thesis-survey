@@ -67,52 +67,8 @@ class ResultsPresenter extends Presenter {
         )));
     }
 
-    public function actionEvaluate($id_subquestion, $correct) {
-        if($id_subquestion !== null && in_array((int)$correct,array(\App\Model\Subquestion::CORRECT,\App\Model\Subquestion::ALMOST,\App\Model\Subquestion::WRONG))){
-            $subquestion = $this->subquestion_service->get($id_subquestion);
-            if($subquestion !== null){
-                $subquestion->correct = (int)$correct;
-                $this->subquestion_service->save($subquestion);
-
-                $this->setView("subquestioncorrect");
-                $this->template->correct = $subquestion->correct;
-                $this->template->id_subquestion = $subquestion->id_subquestion;
-
-            }else{
-
-                $this->terminate();
-            }
-        }else{
-
-            $this->terminate();
-        }
-
-    }
-
-    public function actionVisibility($id_subquestion, $visibility) {
-        if($id_subquestion !== null && ($visibility === "true" || $visibility === "false")){
-            $subquestion = $this->subquestion_service->get($id_subquestion);
-            if($subquestion !== null){
-                $subquestion->visible = $visibility === "true";
-                $this->subquestion_service->save($subquestion);
-
-                $this->setView("subquestionvisibility");
-                $this->template->visibility = $subquestion->visible;
-                $this->template->id_subquestion = $subquestion->id_subquestion;
-
-            }else{
-
-                $this->terminate();
-            }
-        }else{
-
-            $this->terminate();
-        }
-
-    }
-
     public function createComponentSubquestions() {
-        $subquestions = new \App\Components\Subquestions($this->question_service, $this->website_service, $this->page_service);
+        $subquestions = new \App\Components\Subquestions($this->question_service, $this->website_service, $this->page_service, $this->subquestion_service);
         return $subquestions;
     }
 

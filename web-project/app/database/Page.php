@@ -179,9 +179,11 @@ class Page extends Database {
 
         $query->select("page");
         $query->addSelect("count(distinct subquestion.id_subquestion) as total_subquestions");
-        $query->addSelect("countif('correct','=','1') as total_correct_subquestions");
-        $query->addSelect("countif('correct','=','2') as total_almost_subquestions");
-        $query->addSelect("round((countif('correct','=','1') / count(distinct subquestion.id_subquestion))*100,2) as total_correct_subquestions_percents");
+        $query->addSelect("countif('state','=','1') as total_correct_subquestions");
+        $query->addSelect("countif('state','=','2') as total_almost_subquestions");
+        $query->addSelect("countif('state','=','0') as total_wrong_subquestions");
+        $query->addSelect("countif('state','=','3') as total_disqualified_subquestions");
+        $query->addSelect("round((countif('state','=','1') / (countif('state','=','0') + countif('state','=','1') + countif('state','=','2')))*100,2) as total_correct_subquestions_percents");
 
         $query->from(Model\Page::getClassName(),"page");
 
@@ -195,9 +197,11 @@ class Page extends Database {
         if($filter !== null){
             $this->createNumberCondition($filter->getIdsPages(), $query, "page.id_page");
             $this->createNumberCondition($filter->getSubquestions(), $query, "count(distinct subquestion.id_subquestion)",true);
-            $this->createNumberCondition($filter->getCorrect(), $query, "countif('correct','=','1')",true);
-            $this->createNumberCondition($filter->getAlmost(), $query, "countif('correct','=','2')",true);
-            $this->createNumberCondition($filter->getPercentages(), $query, "round((countif('correct','=','1') / count(distinct subquestion.id_subquestion))*100,2)",true);
+            $this->createNumberCondition($filter->getCorrect(), $query, "countif('state','=','1')",true);
+            $this->createNumberCondition($filter->getAlmost(), $query, "countif('state','=','2')",true);
+            $this->createNumberCondition($filter->getWrong(), $query, "countif('state','=','0')",true);
+            $this->createNumberCondition($filter->getDisqualified(), $query, "countif('state','=','3')",true);
+            $this->createNumberCondition($filter->getPercentages(), $query, "round((countif('state','=','1') / (countif('state','=','0') + countif('state','=','1') + countif('state','=','2')))*100,2)",true);
 
             if(is_array($filter->getOrderBy()) && count($filter->getOrderBy()) > 0){
                 $this->createOrders($filter->getOrderBy(), $query);

@@ -13,9 +13,7 @@
             <th width="250" class="text-center">stránka</th>
             <th width="70" class="text-center">prioritní</th>
             <th width="60" class="text-center">barva</th>
-            <th width="150" class="text-center">počet otázek</th>
-            <th width="75" class="text-center">správně</th>
-            <th width="75" class="text-center">téměř</th>
+            <th width="300" class="text-center">počet otázek</th>
             <th width="150" class="text-center">úspěšnost</th>
         </tr>
         </thead>
@@ -34,9 +32,13 @@
                 <td class="text-center">{$page->getPage()->name}</td>
                 <td class="text-center {if $page->getPage()->priority}correct{/if}">{$page->getPage()->priority|bool2string}</td>
                 <td{if $page->getPage()->dominant_color !== null && strlen(trim($page->getPage()->dominant_color))>0} style="background-color: #{$page->getPage()->dominant_color};"{/if}>&nbsp;</td>
-                <td class="text-center">{$page->getTotalSubquestions()}</td>
-                <td class="text-center">{$page->getTotalCorrectSubquestions()}</td>
-                <td class="text-center">{$page->getTotalAlmostSubquestions()}</td>
+                <td class="text-center">
+                    <span data-toggle="tooltip" data-placement="bottom" title="celkem">{$page->getTotalSubquestions()}</span> |
+                    <span data-toggle="tooltip" data-placement="bottom" title="správně" class="correct">{$page->getTotalCorrectSubquestions()}</span> /
+                    <span data-toggle="tooltip" data-placement="bottom" title="téměř" class="almost">{$page->getTotalAlmostSubquestions()}</span> /
+                    <span data-toggle="tooltip" data-placement="bottom" title="špatně" class="wrong">{$page->getTotalWrongSubquestions()}</span> |
+                    <span data-toggle="tooltip" data-placement="bottom" title="nepočítané" class="disqualified">{$page->getTotalDisqualifiedSubquestions()}</span>
+                </td>
                 <td class="text-center {if $page->getTotalCorrectSubquestionsPercents()>=50}correct{else}wrong{/if}">{$page->getTotalCorrectSubquestionsPercents()} %</td>
             </tr>
         {/foreach}

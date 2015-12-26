@@ -17,6 +17,8 @@ class Pages extends Filter{
     const SUBQUESTIONS = "subquestions";
     const CORRECT = "correct";
     const ALMOST = "almost";
+    const WRONG = "wrong";
+    const DISQUALIFIED = "disqualified";
     const PERCENTAGES = "percentages";
 
     /**
@@ -73,6 +75,34 @@ class Pages extends Filter{
      */
     public function getAlmost() {
         return $this->get(self::ALMOST);
+    }
+
+    /**
+     * @param int[] $wrong
+     */
+    public function setWrong($wrong) {
+        $this->set(self::WRONG, $wrong);
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getWrong() {
+        return $this->get(self::WRONG);
+    }
+
+    /**
+     * @param int[] $disqualified
+     */
+    public function setDisqualified($disqualified) {
+        $this->set(self::DISQUALIFIED, $disqualified);
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getDisqualified() {
+        return $this->get(self::DISQUALIFIED);
     }
 
     /**

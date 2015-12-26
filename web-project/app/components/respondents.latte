@@ -18,7 +18,7 @@ Počet položek: {$count}
         <th width="90" class="text-center">nejčastější</th>
         <th width="265" class="text-center">navštěvované stránky</th>
         <th width="100" class="text-center">otázek/vč. podotázek</th>
-        <th width="120" class="text-center">výsledky<br />(1/2/0/null)</th>
+        <th width="120" class="text-center">výsledky<br />(1/2/0|3/null)</th>
         <th width="25" class="text-center">%</th>
     </tr>
     </thead>
@@ -35,7 +35,12 @@ Počet položek: {$count}
             <td class="text-center">{$respondent->getRespondent()->device_most|upper}</td>
             <td class="text-center">{$respondent->getRespondent()->sites}</td>
             <td class="text-center">{$respondent->getTotalQuestions()} / {$respondent->getTotalSubquestions()}</td>
-            <td class="text-center"><span class="correct">{$respondent->getTotalCorrectSubquestions()}</span> / <span class="almost">{$respondent->getTotalAlmostSubquestions()}</span> / <span class="wrong">{$respondent->getTotalWrongSubquestions()}</span> / {$respondent->getTotalUnknownSubquestions()}</td>
+            <td class="text-center">
+                <span data-toggle="tooltip" data-placement="bottom" title="správně" class="correct">{$respondent->getTotalCorrectSubquestions()}</span> /
+                <span data-toggle="tooltip" data-placement="bottom" title="téměř" class="almost">{$respondent->getTotalAlmostSubquestions()}</span> /
+                <span data-toggle="tooltip" data-placement="bottom" title="špatně" class="wrong">{$respondent->getTotalWrongSubquestions()}</span> |
+                <span data-toggle="tooltip" data-placement="bottom" title="nepočítané" class="disqualified">{$respondent->getTotalDisqualifiedSubquestions()}</span> /
+                {$respondent->getTotalUnknownSubquestions()}</td>
             <td class="text-right">{$respondent->getTotalCorrectSubquestionsPercents()}</td>
         </tr>
     {/foreach}

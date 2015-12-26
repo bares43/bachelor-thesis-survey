@@ -42,6 +42,16 @@ class Base implements IHolder{
     /**
      * @var int
      */
+    private $total_almost_subquestions;
+
+    /**
+     * @var int
+     */
+    private $total_disqualified_subquestions;
+
+    /**
+     * @var int
+     */
     private $total_unknown_subquestions;
 
     /**
@@ -53,6 +63,11 @@ class Base implements IHolder{
      * @var int
      */
     private $total_seconds;
+
+    /**
+     * @var float
+     */
+    private $total_correct_subquestions_percents;
 
     /**
      * @return Respondent
@@ -167,12 +182,45 @@ class Base implements IHolder{
     }
 
     /**
+     * @return int
+     */
+    public function getTotalAlmostSubquestions() {
+        return $this->total_almost_subquestions;
+    }
+
+    /**
+     * @param int $total_almost_subquestions
+     */
+    public function setTotalAlmostSubquestions($total_almost_subquestions) {
+        $this->total_almost_subquestions = $total_almost_subquestions;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalDisqualifiedSubquestions() {
+        return $this->total_disqualified_subquestions;
+    }
+
+    /**
+     * @param int $total_disqualified_subquestions
+     */
+    public function setTotalDisqualifiedSubquestions($total_disqualified_subquestions) {
+        $this->total_disqualified_subquestions = $total_disqualified_subquestions;
+    }
+
+    /**
      * @return float
      */
     public function getTotalCorrectSubquestionsPercents() {
-        if($this->getTotalSubquestions() === 0) return 0;
+        return $this->total_correct_subquestions_percents !== null ? $this->total_correct_subquestions_percents : 0;
+    }
 
-        return round(($this->getTotalCorrectSubquestions() / $this->getTotalSubquestions())*100,2);
+    /**
+     * @param float $total_correct_subquestions_percents
+     */
+    public function setTotalCorrectSubquestionsPercents($total_correct_subquestions_percents) {
+        $this->total_correct_subquestions_percents = $total_correct_subquestions_percents;
     }
 
 

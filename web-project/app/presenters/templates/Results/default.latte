@@ -15,13 +15,14 @@
             <td class="text-right">{$base->getTotalQuestions()}</td>
         </tr>
         <tr class="data">
-            <td>Celkem zobrazeno podotázek (c/1/2/0/null)</td>
+            <td>Celkem zobrazeno podotázek (c/1/2/0/3/null)</td>
             <td class="text-right">
-                {$base->getTotalSubquestions()} /
-                <span class="correct">{$base->getTotalCorrectSubeustions()}</span> /
-                <span class="almost">{$base->getTotalAlmostSubquestions()}</span> /
-                <span class="wrong">{$base->getTotalWrongSubquestions()}</span> /
-                {$base->getTotalSubquestions() - $base->getTotalCorrectSubeustions() - $base->getTotalAlmostSubquestions() - $base->getTotalWrongSubquestions()}
+                <span data-toggle="tooltip" data-placement="bottom" title="celkem">{$base->getTotalSubquestions()}</span> /
+                <span data-toggle="tooltip" data-placement="bottom" title="správně" class="correct">{$base->getTotalCorrectSubeustions()}</span> /
+                <span data-toggle="tooltip" data-placement="bottom" title="téměř" class="almost">{$base->getTotalAlmostSubquestions()}</span> /
+                <span data-toggle="tooltip" data-placement="bottom" title="špatně" class="wrong">{$base->getTotalWrongSubquestions()}</span> /
+                <span data-toggle="tooltip" data-placement="bottom" title="nepočítané" class="disqualified">{$base->getTotalDisqualifiedSubquestions()}</span> /
+                <span data-toggle="tooltip" data-placement="bottom" title="nevyhodnoceno">{$base->getTotalSubquestions() - $base->getTotalCorrectSubeustions() - $base->getTotalAlmostSubquestions() - $base->getTotalWrongSubquestions() - $base->getTotalDisqualifiedSubquestions()}</span>
             </td>
         </tr>
         <tr class="data">

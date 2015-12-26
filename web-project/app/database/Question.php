@@ -124,7 +124,7 @@ class Question extends Database {
             $this->createNumberCondition($filter->getIdRespondents(), $query, "respondent.id_respondent");
             $this->createNumberCondition($filter->getSeconds(), $query, "subquestion.seconds");
             $this->createNumberCondition($filter->getTypes(), $query, "subquestion.question_type");
-            $this->createNumberCondition($filter->getCorrects(), $query, "subquestion.correct");
+            $this->createNumberCondition($filter->getState(), $query, "subquestion.state");
             $this->createNumberCondition($filter->getKnowns(), $query, "respondentwebsite.period");
             $this->createNumberCondition($filter->getPages(), $query, "page.id_page");
             $this->createNumberCondition($filter->getWebsites(), $query, "website.id_website");
@@ -134,11 +134,6 @@ class Question extends Database {
 
             $this->createStringCondition($filter->getAnswer(), $query, "subquestion.answer", "subquestion.answer");
             $this->createStringCondition($filter->getReason(), $query, "subquestion.reason", "subquestion.answer");
-
-            if($filter->getVisibility() !== null){
-                $query->andWhere($query->expr()->eq($filter->getVisibility() ? 1 : 0,"subquestion.visible"));
-            }
-
         }
 
         if(is_array($filter->getOrderBy()) && count($filter->getOrderBy()) > 0){

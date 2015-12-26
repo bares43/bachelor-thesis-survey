@@ -29,6 +29,7 @@ class Respondents extends Filter{
     const WRONGS = "wrongs";
     const ALMOSTS = "almosts";
     const UNKNOWNS = "unknowns";
+    const DISQUALIFIED = "disqualified";
     const PERCENTAGES = "percentages";
 
     /**
@@ -244,6 +245,20 @@ class Respondents extends Filter{
      */
     public function getAlmosts() {
         return $this->get(self::ALMOSTS);
+    }
+
+    /**
+     * @param int[] $disqualified
+     */
+    public function setDisqualified($disqualified) {
+        $this->set(self::DISQUALIFIED, $disqualified);
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getDisqualified() {
+        return $this->get(self::DISQUALIFIED);
     }
 
     /**
