@@ -139,7 +139,15 @@ $(document).ready(function(){
     });
 
     $(document).on("click","#page-results tr", function(){
-       $(this).toggleClass("highlighted");
+        var tr = $(this);
+        tr.toggleClass("highlighted");
+        var table = tr.closest("table");
+        table.prev(".selected-count").remove();
+        var count = table.find("tr.highlighted").length;
+        if(count > 0){
+            var selected_count = $("<span></span>").text("Vybráno položek: "+count).addClass("selected-count").css("display","block");
+            table.before(selected_count);
+        }
     });
 });
 
