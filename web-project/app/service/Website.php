@@ -46,4 +46,14 @@ class Website extends Service {
         $this->database->save($website);
     }
 
+    /**
+     * @param \App\Filter\Results\Websites $filter
+     * @return \App\Holder\Results\Base\Website
+     */
+    public function getResultsWebsites($filter = null) {
+        return $this->database->getResultsWebsites($filter);
+    }
+
+
+
 }

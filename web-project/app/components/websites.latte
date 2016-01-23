@@ -1,0 +1,34 @@
+{snippet}
+    <h3>Weby</h3>
+
+{control filterForm}
+
+    Počet položek: {$count}
+    <table>
+        <thead>
+        <tr>
+            <th width="40" class="text-center">id</th>
+            <th width="390" class="text-center">web</th>
+            <th width="440" class="text-center">počet otázek</th>
+            <th width="290" class="text-center">úspěšnost</th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $websites as $website}
+            <tr class="data">
+                <td class="text-center">{$website->getWebsite()->id_website}</td>
+                <td class="text-center">{$website->getWebsite()->name}</td>
+                <td class="text-center">
+                    <span data-toggle="tooltip" data-placement="bottom" title="celkem">{$website->getTotalSubquestions()}</span> |
+                    <span data-toggle="tooltip" data-placement="bottom" title="správně" class="correct">{$website->getTotalCorrectSubquestions()}</span> /
+                    <span data-toggle="tooltip" data-placement="bottom" title="téměř" class="almost">{$website->getTotalAlmostSubquestions()}</span> /
+                    <span data-toggle="tooltip" data-placement="bottom" title="špatně" class="wrong">{$website->getTotalWrongSubquestions()}</span> |
+                    <span data-toggle="tooltip" data-placement="bottom" title="nepočítané" class="disqualified">{$website->getTotalDisqualifiedSubquestions()}</span>
+                </td>
+                <td class="text-center {if $website->getTotalCorrectSubquestionsPercents()>=50}correct{else}wrong{/if}">{$website->getTotalCorrectSubquestionsPercents()} %</td>
+            </tr>
+        {/foreach}
+        </tbody>
+    </table>
+
+{/snippet}

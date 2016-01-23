@@ -82,5 +82,10 @@ class ResultsPresenter extends Presenter {
         return $pages;
     }
 
+    public function createComponentWebsites() {
+        $websites = new \App\Components\Websites($this->website_service);
+        return $websites;
+    }
+
 
 }
