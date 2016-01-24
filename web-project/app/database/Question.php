@@ -122,6 +122,7 @@ class Question extends Database {
         if($filter !== null){
 
             $this->createNumberCondition($filter->getIdRespondents(), $query, "respondent.id_respondent");
+            $this->createNumberCondition($filter->getIdWireframe(), $query, "subquestion.id_wireframe");
             $this->createNumberCondition($filter->getSeconds(), $query, "subquestion.seconds");
             $this->createNumberCondition($filter->getTypes(), $query, "subquestion.question_type");
             $this->createNumberCondition($filter->getState(), $query, "subquestion.state");

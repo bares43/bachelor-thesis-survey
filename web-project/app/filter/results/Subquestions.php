@@ -23,6 +23,7 @@ class Subquestions extends Filter{
     const REASON = "reason";
     const TYPES = "types";
     const KNOWNS = "knowns";
+    CONST ID_WIREFRAMES = "idwireframe";
 
     /**
      * @param int[] $id_respondents
@@ -190,5 +191,19 @@ class Subquestions extends Filter{
      */
     public function getKnowns() {
         return $this->get(self::KNOWNS);
+    }
+
+    /**
+     * @param int[] $id_wireframe
+     */
+    public function setIdWireframe($id_wireframe) {
+        $this->set(self::ID_WIREFRAMES, $id_wireframe);
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getIdWireframe() {
+        return $this->get(self::ID_WIREFRAMES);
     }
 }

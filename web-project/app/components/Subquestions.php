@@ -97,6 +97,10 @@ class Subquestions extends FilterComponent{
             $this->filter->setIdRespondents(Filter::createFilterArray($values->id_respondent));
         }
 
+        if($values->wireframe){
+            $this->filter->setIdWireframe(Filter::createFilterArray($values->wireframe));
+        }
+
         if($values->seconds){
             $this->filter->setSeconds(Filter::createFilterArray($values->seconds));
         }
@@ -199,6 +203,7 @@ class Subquestions extends FilterComponent{
         if($this->id_respondent !== null){
             $input_respondent->setDefaultValue($this->id_respondent);
         }
+        $form->addText('wireframe','Wireframe');
         $form->addText('datetime','Čas');
         $form->addCheckboxList('state','Stav',array(
             \App\Model\Subquestion::STATE_CORRECT => "OK",
