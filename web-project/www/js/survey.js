@@ -205,18 +205,29 @@ $(document).ready(function(){
                 "margin-left":"7px",
                 "margin-right":"7px"
             }));
+
+            $.each(groups, function(i,group){
+                if(group.count > 0){
+                    table.before($("<span></span>").addClass("selected-count group").text(group.count).css({
+                        display: "inline-block",
+                        backgroundColor: group.color,
+                        color : "white",
+                        width: "20px",
+                        textAlign : "center"
+                    }));
+                }
+            });
+
+            table.before(
+                $("<span></span>").text("zrušit vše").addClass("selected-count remove").css({
+                    "margin-left":"7px",
+                    "cursor" : "pointer"
+                }).click(function(){
+                    table.find("tr.highlighted").removeClass("highlighted").removeAttr("data-group").css("background-color","white");
+                    table.closest("div").find(".selected-count").remove();
+                })
+            );
         }
-        $.each(groups, function(i,group){
-            if(group.count > 0){
-                table.before($("<span></span>").addClass("selected-count group").text(group.count).css({
-                    display: "inline-block",
-                    backgroundColor: group.color,
-                    color : "white",
-                    width: "20px",
-                    textAlign : "center"
-                }));
-            }
-        });
     });
 });
 
