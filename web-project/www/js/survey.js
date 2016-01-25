@@ -146,7 +146,7 @@ $(document).ready(function(){
                 name : 1
             },
             {
-                color : "#00ff33",
+                color : "#009133",
                 count : 0,
                 name : 2
             },
