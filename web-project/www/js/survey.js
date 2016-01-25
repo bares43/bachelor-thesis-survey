@@ -138,16 +138,85 @@ $(document).ready(function(){
         }
     });
 
-    $(document).on("click","#page-results tr", function(){
+    $(document).on("click","#page-results tr.data", function(){
+        var groups = [
+            {
+                color : "#3397C7",
+                count : 0,
+                name : 1
+            },
+            {
+                color : "#00ff33",
+                count : 0,
+                name : 2
+            },
+            {
+                color : "#666699",
+                count : 0,
+                name : 3
+            },
+            {
+                color : "#993399",
+                count : 0,
+                name : 4
+            },
+            {
+                color : "#cccc00",
+                count : 0,
+                name : 5
+            }
+        ]
         var tr = $(this);
-        tr.toggleClass("highlighted");
-        var table = tr.closest("table");
-        table.prev(".selected-count").remove();
-        var count = table.find("tr.highlighted").length;
-        if(count > 0){
-            var selected_count = $("<span></span>").text("Vybráno položek: "+count).addClass("selected-count").css("display","block");
-            table.before(selected_count);
+        if(tr.is(".highlighted")){
+            var current_group_name = tr.data("group");
+            var next = false;
+            tr.removeClass("highlighted");
+            tr.removeAttr("data-group");
+            tr.css("background-color","white");
+            $.each(groups, function(i,group){
+                if(next){
+                    tr.data("group", group.name);
+                    tr.css("background-color", group.color);
+                    tr.addClass("highlighted");
+                    next = false;
+                }
+                if(group.name === current_group_name) next = true;
+            });
+        }else{
+            tr.addClass("highlighted");
+            var color = groups[0];
+            tr.data("group",color.name);
+            tr.css("background-color",color.color);
         }
+        var table = tr.closest("table");
+        table.closest("div").find(".selected-count").remove();
+        var total_count = 0;
+        table.find("tr.highlighted").each(function(i,row){
+           total_count++;
+            var group_name = $(row).data("group");
+            $.each(groups, function(i,group){
+               if(group.name === group_name){
+                   group.count++;
+               }
+            });
+        });
+        if(total_count > 0){
+            table.before($("<span></span>").text("Vybráno položek: "+total_count).addClass("selected-count total").css({
+                "margin-left":"7px",
+                "margin-right":"7px"
+            }));
+        }
+        $.each(groups, function(i,group){
+            if(group.count > 0){
+                table.before($("<span></span>").addClass("selected-count group").text(group.count).css({
+                    display: "inline-block",
+                    backgroundColor: group.color,
+                    color : "white",
+                    width: "20px",
+                    textAlign : "center"
+                }));
+            }
+        });
     });
 });
 
