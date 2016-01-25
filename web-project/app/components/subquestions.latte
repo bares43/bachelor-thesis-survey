@@ -37,6 +37,8 @@ Počet položek: {$count}
             <td class="text-center">
                 {if $subquestion->getSubquestion()->question_type === \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME || $subquestion->getSubquestion()->question_type === \App\Model\Subquestion::QUESTION_TYPE_WIREFRAME_SELECT}
                     <a href="{$basePath}/files/wireframes/{$subquestion->getSubquestion()->id_wireframe}.png" target="_blank">{$subquestion->getSubquestion()->id_wireframe}</a>
+                {elseif $subquestion->getSubquestion()->question_type === \App\Model\Subquestion::QUESTION_TYPE_COLOR || $subquestion->getSubquestion()->question_type === \App\Model\Subquestion::QUESTION_TYPE_COLOR_SELECT}
+                    <span style="display: block;  width: 30px; height: 20px; background-color: #{$subquestion->getPage()->dominant_color};">&nbsp;</span>
                 {else}&nbsp;
                 {/if}
             </td>
