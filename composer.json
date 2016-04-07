@@ -1,5 +1,5 @@
 {
-	"name": "nette/web-project",
+	"name": "nette/bachelor-thesis-survey",
 	"description": "Nette: Standard Web Project",
 	"type": "project",
 	"license": ["MIT", "BSD-3-Clause", "GPL-2.0", "GPL-3.0"],

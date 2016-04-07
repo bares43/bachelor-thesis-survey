@@ -56,6 +56,7 @@ crashlytics-build.properties
 !/log/.htaccess
 /temp/*
 !/temp/.htaccess
+app/config/config.local.neon
 
 
 ### Composer ###

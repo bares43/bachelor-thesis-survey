@@ -13,6 +13,7 @@ use App\Auth\Authenticator;
 use App\Base\Presenter;
 use App\Forms\SignForm;
 use App\Service\User;
+use Nette\Security\Passwords;
 
 class SignPresenter extends Presenter{
 
@@ -30,7 +31,7 @@ class SignPresenter extends Presenter{
     public function createComponentSignForm() {
 
         $authenticator = new Authenticator($this->user_service);
-
+        
         $this->getUser()->setAuthenticator($authenticator);
 
         $form = (new SignForm($this->getUser()))->create();
